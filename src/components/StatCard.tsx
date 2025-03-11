@@ -2,7 +2,8 @@
 import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Link2 } from "lucide-react";
+import { Link2, LineChart, EyeOff } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface StatCardProps {
   title: string;
@@ -16,6 +17,7 @@ interface StatCardProps {
   sourceUrl?: string;
   variant?: "default" | "highlight" | "outlined";
   gradient?: string;
+  hasChart?: boolean;
 }
 
 const StatCard = ({ 
@@ -29,11 +31,13 @@ const StatCard = ({
   icon,
   sourceUrl,
   variant = "default",
-  gradient
+  gradient,
+  hasChart = false
 }: StatCardProps) => {
   const [displayValue, setDisplayValue] = useState(title);
   const animationRef = useRef<number | null>(null);
   const startTimeRef = useRef<number | null>(null);
+  const [showChart, setShowChart] = useState(false);
   
   useEffect(() => {
     // Only run animation if animate is true and we have a numeric final value
@@ -101,7 +105,7 @@ const StatCard = ({
   };
 
   const getCardClasses = () => {
-    const baseClasses = "p-6 flex flex-col h-full transition-all duration-300 border";
+    const baseClasses = "p-6 flex flex-col h-full transition-all duration-300 border relative";
     
     switch (variant) {
       case "highlight":
@@ -112,15 +116,62 @@ const StatCard = ({
         return cn(baseClasses, "border-gray-200 bg-white hover:border-teal-200", className);
     }
   };
+
+  const renderChart = () => {
+    if (!hasChart || !showChart) return null;
+
+    // Sample data for growth visualization
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    
+    return (
+      <div className="absolute inset-0 opacity-15 pointer-events-none overflow-hidden">
+        <svg 
+          viewBox="0 0 320 200" 
+          className="w-full h-full"
+          preserveAspectRatio="none"
+        >
+          {/* Growth curve - using a simple exponential growth shape */}
+          <path
+            d="M0,200 C80,180 160,120 320,20"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="text-teal-500"
+          />
+          
+          {/* Small circles for data points */}
+          <circle cx="0" cy="200" r="2" className="fill-teal-500" />
+          <circle cx="80" cy="180" r="2" className="fill-teal-500" />
+          <circle cx="160" cy="120" r="2" className="fill-teal-500" />
+          <circle cx="240" cy="60" r="2" className="fill-teal-500" />
+          <circle cx="320" cy="20" r="2" className="fill-teal-500" />
+        </svg>
+      </div>
+    );
+  };
   
   return (
     <Card className={getCardClasses()}>
-      <div className="flex-1">
+      {renderChart()}
+      <div className="flex-1 z-10">
         {icon && <div className="text-teal-600 mb-3">{icon}</div>}
         <h3 className="text-xl font-normal text-gray-800 mb-2">{displayValue}</h3>
         <p className="text-sm text-gray-500 mb-4">{description}</p>
       </div>
-      {renderSource()}
+      <div className="flex justify-between items-center z-10">
+        {renderSource()}
+        {hasChart && (
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-7 px-2 text-gray-400 hover:text-teal-600" 
+            onClick={() => setShowChart(!showChart)}
+            title={showChart ? "Hide chart" : "Show chart"}
+          >
+            {showChart ? <EyeOff className="h-4 w-4" /> : <LineChart className="h-4 w-4" />}
+          </Button>
+        )}
+      </div>
     </Card>
   );
 };
