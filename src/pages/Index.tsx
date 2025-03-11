@@ -149,7 +149,7 @@ const Index = () => {
     { 
       name: "Boston Consulting Group", 
       url: "https://www.linkedin.com/company/boston-consulting-group/",
-      logo: "/lovable-uploads/32db730d-6e83-4e67-bdef-ffe3d48e54b3.png"
+      logo: "/lovable-uploads/65baf527-81c0-43b5-862c-0b50ba7c1549.png"
     },
     { 
       name: "Société Générale CIB", 
