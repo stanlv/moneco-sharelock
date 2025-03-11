@@ -7,8 +7,11 @@ const Navbar = () => {
     <header className="border-b border-gray-200 bg-white">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center max-w-6xl">
         <div className="flex items-center space-x-2">
-          <div className="h-8 w-8 bg-teal-500 rounded-md"></div>
-          <span className="text-2xl font-bold">moneco</span>
+          <img 
+            src="https://moneco.app/wp-content/uploads/2023/02/Logo_Moneco_400px.png" 
+            alt="Moneco Logo" 
+            className="h-8 w-auto"
+          />
         </div>
         
         <div className="flex items-center space-x-4">

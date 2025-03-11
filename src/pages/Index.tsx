@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -67,19 +66,19 @@ const Index = () => {
       title: "Pitch Deck",
       size: "1.5 MB",
       icon: <FileText className="h-5 w-5 text-teal-500" />,
-      type: "request"
+      type: "request" as const
     },
     {
       title: "Sales Pitch",
       size: "1.3 MB",
       icon: <FileText className="h-5 w-5 text-teal-500" />,
-      type: "download"
+      type: "download" as const
     },
     {
       title: "Regulator Licence",
       size: "1.3 MB",
       icon: <FileText className="h-5 w-5 text-teal-500" />,
-      type: "request"
+      type: "request" as const
     }
   ];
 
@@ -223,3 +222,4 @@ const Index = () => {
 };
 
 export default Index;
+
