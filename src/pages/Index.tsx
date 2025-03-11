@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -26,17 +26,22 @@ const Index = () => {
     {
       title: "$ 83 Billions",
       description: "Yearly financial transfers (Remittances) from Europe to Africa",
-      source: "world bank"
+      source: "world bank",
+      animate: false
     },
     {
       title: "$15",
       description: "Moneco customers save on average $15.35 on a $200 transfer, paying just $9.25 in fees.",
-      source: "Moneco Website - Pricing"
+      source: "Moneco Website - Pricing",
+      animate: false
     },
     {
       title: "24'000",
       description: "Accounts opened since 2023",
-      source: "Mixpanel"
+      source: "Mixpanel",
+      animate: true,
+      finalValue: 24357,
+      animationDuration: 20000 // 20 seconds
     }
   ];
 
@@ -222,6 +227,9 @@ const Index = () => {
                 title={stat.title} 
                 description={stat.description} 
                 source={stat.source} 
+                animate={stat.animate}
+                finalValue={stat.finalValue}
+                animationDuration={stat.animationDuration}
               />
             ))}
           </div>
