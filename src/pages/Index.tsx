@@ -164,7 +164,7 @@ const Index = () => {
     { 
       name: "ABB", 
       url: "https://www.linkedin.com/company/abb/",
-      logo: "/lovable-uploads/410b7fba-9bdf-4c2e-8d8c-1b5eaa71c55a.png"
+      logo: "/lovable-uploads/1165f161-e7ab-47bb-b1c3-75dcd09e8485.png"
     },
     { 
       name: "Lombard Odier", 
