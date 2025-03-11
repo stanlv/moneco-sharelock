@@ -61,7 +61,7 @@ const Index = () => {
       icon: <Banknote className="h-5 w-5" />,
       sourceUrl: "https://www.worldbank.org/en/topic/migrationremittancesdiasporaissues/brief/migration-remittances-data",
       variant: "highlight" as const,
-      hasChart: false
+      hasGraph: false
     },
     {
       title: "Save $15",
@@ -71,7 +71,7 @@ const Index = () => {
       icon: <BadgeDollarSign className="h-5 w-5" />,
       sourceUrl: "https://moneco.app/pricing",
       variant: "default" as const,
-      hasChart: false
+      hasGraph: false
     },
     {
       title: "24'000",
@@ -83,7 +83,7 @@ const Index = () => {
       icon: <UserPlus className="h-5 w-5" />,
       sourceUrl: "https://mixpanel.com",
       variant: "outlined" as const,
-      hasChart: true
+      hasGraph: true
     }
   ];
 
@@ -346,7 +346,7 @@ const Index = () => {
                 icon={stat.icon}
                 sourceUrl={stat.sourceUrl}
                 variant={stat.variant}
-                hasChart={stat.hasChart}
+                hasGraph={stat.hasGraph}
               />
             ))}
           </div>

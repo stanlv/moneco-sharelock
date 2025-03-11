@@ -2,8 +2,9 @@
 import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { Link2, LineChart, EyeOff } from "lucide-react";
+import { Link2, LineChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface StatCardProps {
   title: string;
@@ -17,7 +18,7 @@ interface StatCardProps {
   sourceUrl?: string;
   variant?: "default" | "highlight" | "outlined";
   gradient?: string;
-  hasChart?: boolean;
+  hasGraph?: boolean;
 }
 
 const StatCard = ({ 
@@ -32,12 +33,12 @@ const StatCard = ({
   sourceUrl,
   variant = "default",
   gradient,
-  hasChart = false
+  hasGraph = false
 }: StatCardProps) => {
   const [displayValue, setDisplayValue] = useState(title);
   const animationRef = useRef<number | null>(null);
   const startTimeRef = useRef<number | null>(null);
-  const [showChart, setShowChart] = useState(false);
+  const [showGraphDialog, setShowGraphDialog] = useState(false);
   
   useEffect(() => {
     // Only run animation if animate is true and we have a numeric final value
@@ -105,7 +106,7 @@ const StatCard = ({
   };
 
   const getCardClasses = () => {
-    const baseClasses = "p-6 flex flex-col h-full transition-all duration-300 border relative";
+    const baseClasses = "p-6 flex flex-col h-full transition-all duration-300 border";
     
     switch (variant) {
       case "highlight":
@@ -116,63 +117,184 @@ const StatCard = ({
         return cn(baseClasses, "border-gray-200 bg-white hover:border-teal-200", className);
     }
   };
-
-  const renderChart = () => {
-    if (!hasChart || !showChart) return null;
-
-    // Sample data for growth visualization
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  
+  const generateGrowthData = () => {
+    // Generate data from January 2023 to current month
+    const startDate = new Date(2023, 0, 1); // January 2023
+    const currentDate = new Date();
+    const months = [];
+    const values = [];
+    
+    // Calculate the number of months between Jan 2023 and now
+    const totalMonths = 
+      (currentDate.getFullYear() - startDate.getFullYear()) * 12 + 
+      (currentDate.getMonth() - startDate.getMonth()) + 1;
+    
+    for (let i = 0; i < totalMonths; i++) {
+      const date = new Date(2023, i, 1);
+      const monthName = date.toLocaleString('default', { month: 'short' });
+      const year = date.getFullYear();
+      months.push(`${monthName} ${year}`);
+      
+      // Create an exponential growth curve that starts slow and accelerates
+      // This formula creates a gradual acceleration that reaches the final value
+      const progress = i / (totalMonths - 1);
+      // Using an exponential function with a slow start
+      const value = Math.round(Math.pow(progress, 2) * (finalValue || 24000));
+      values.push(value);
+    }
+    
+    return { months, values };
+  };
+  
+  const renderGrowthChart = () => {
+    const { months, values } = generateGrowthData();
+    const maxValue = Math.max(...values);
+    
+    // Chart dimensions
+    const height = 300;
+    const width = 600;
+    const padding = 40;
+    
+    // Calculate positions for points
+    const points = months.map((month, i) => {
+      const x = padding + (i / (months.length - 1)) * (width - 2 * padding);
+      const y = height - padding - ((values[i] / maxValue) * (height - 2 * padding));
+      return { x, y, value: values[i], label: month };
+    });
+    
+    // Create SVG path data string for the line
+    const pathData = points.map((point, i) => 
+      (i === 0 ? `M ${point.x},${point.y}` : `L ${point.x},${point.y}`)
+    ).join(' ');
     
     return (
-      <div className="absolute inset-0 opacity-15 pointer-events-none overflow-hidden">
-        <svg 
-          viewBox="0 0 320 200" 
-          className="w-full h-full"
-          preserveAspectRatio="none"
-        >
-          {/* Growth curve - using a simple exponential growth shape */}
-          <path
-            d="M0,200 C80,180 160,120 320,20"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            className="text-teal-500"
-          />
-          
-          {/* Small circles for data points */}
-          <circle cx="0" cy="200" r="2" className="fill-teal-500" />
-          <circle cx="80" cy="180" r="2" className="fill-teal-500" />
-          <circle cx="160" cy="120" r="2" className="fill-teal-500" />
-          <circle cx="240" cy="60" r="2" className="fill-teal-500" />
-          <circle cx="320" cy="20" r="2" className="fill-teal-500" />
-        </svg>
+      <div className="w-full overflow-x-auto">
+        <div className="min-w-[600px]">
+          <h3 className="text-center text-gray-700 mb-6">Account Growth Since January 2023</h3>
+          <svg
+            viewBox={`0 0 ${width} ${height}`}
+            width={width} 
+            height={height}
+            className="mx-auto"
+          >
+            {/* X and Y axes */}
+            <line 
+              x1={padding} 
+              y1={height - padding} 
+              x2={width - padding} 
+              y2={height - padding} 
+              stroke="#ccc" 
+              strokeWidth="1"
+            />
+            <line 
+              x1={padding} 
+              y1={padding} 
+              x2={padding} 
+              y2={height - padding} 
+              stroke="#ccc" 
+              strokeWidth="1"
+            />
+            
+            {/* Growth curve */}
+            <path 
+              d={pathData} 
+              fill="none" 
+              stroke="#0d9488" 
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            
+            {/* Data points */}
+            {points.map((point, i) => (
+              <circle 
+                key={i}
+                cx={point.x} 
+                cy={point.y} 
+                r="4" 
+                fill="#0d9488"
+              />
+            ))}
+            
+            {/* X-axis labels (months) - show every 3rd month to avoid crowding */}
+            {points.filter((_, i) => i % 3 === 0).map((point, i) => (
+              <text 
+                key={i}
+                x={point.x} 
+                y={height - padding + 20} 
+                textAnchor="middle" 
+                fontSize="12"
+                fill="#666"
+              >
+                {point.label}
+              </text>
+            ))}
+            
+            {/* Y-axis labels */}
+            {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => {
+              const value = Math.round(maxValue * ratio);
+              const y = height - padding - (ratio * (height - 2 * padding));
+              return (
+                <text 
+                  key={i}
+                  x={padding - 10} 
+                  y={y + 5} 
+                  textAnchor="end" 
+                  fontSize="12"
+                  fill="#666"
+                >
+                  {value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'")}
+                </text>
+              );
+            })}
+          </svg>
+        </div>
       </div>
     );
   };
   
   return (
-    <Card className={getCardClasses()}>
-      {renderChart()}
-      <div className="flex-1 z-10">
-        {icon && <div className="text-teal-600 mb-3">{icon}</div>}
-        <h3 className="text-xl font-normal text-gray-800 mb-2">{displayValue}</h3>
-        <p className="text-sm text-gray-500 mb-4">{description}</p>
-      </div>
-      <div className="flex justify-between items-center z-10">
-        {renderSource()}
-        {hasChart && (
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="h-7 px-2 text-gray-400 hover:text-teal-600" 
-            onClick={() => setShowChart(!showChart)}
-            title={showChart ? "Hide chart" : "Show chart"}
-          >
-            {showChart ? <EyeOff className="h-4 w-4" /> : <LineChart className="h-4 w-4" />}
-          </Button>
-        )}
-      </div>
-    </Card>
+    <>
+      <Card className={getCardClasses()}>
+        <div className="flex-1">
+          {icon && <div className="text-teal-600 mb-3">{icon}</div>}
+          <h3 className="text-xl font-normal text-gray-800 mb-2">{displayValue}</h3>
+          <p className="text-sm text-gray-500 mb-4">{description}</p>
+        </div>
+        <div className="flex justify-between items-center">
+          {renderSource()}
+          {hasGraph && (
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-7 px-2 text-gray-400 hover:text-teal-600" 
+              onClick={() => setShowGraphDialog(true)}
+              title="Show growth chart"
+            >
+              <LineChart className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+      </Card>
+      
+      {hasGraph && (
+        <Dialog open={showGraphDialog} onOpenChange={setShowGraphDialog}>
+          <DialogContent className="max-w-3xl p-6">
+            <DialogHeader>
+              <DialogTitle className="text-xl font-semibold flex items-center gap-2">
+                <LineChart className="h-5 w-5 text-teal-600" />
+                {title} - Growth Chart
+              </DialogTitle>
+            </DialogHeader>
+            
+            <div className="py-4">
+              {renderGrowthChart()}
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
+    </>
   );
 };
 
