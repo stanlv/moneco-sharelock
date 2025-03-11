@@ -39,7 +39,7 @@ const Index = () => {
       animate: false,
       icon: <Banknote className="h-5 w-5" />,
       sourceUrl: "https://www.worldbank.org/en/topic/migrationremittancesdiasporaissues/brief/migration-remittances-data",
-      variant: "default" as const
+      variant: "highlight" as const
     },
     {
       title: "Save $15",
@@ -59,7 +59,7 @@ const Index = () => {
       animationDuration: 20000,
       icon: <UserPlus className="h-5 w-5" />,
       sourceUrl: "https://mixpanel.com",
-      variant: "default" as const
+      variant: "outlined" as const
     }
   ];
 
@@ -318,7 +318,7 @@ const Index = () => {
             </p>
             <Button 
               variant="link" 
-              className="text-gray-600 p-0 mt-2 h-auto flex items-center text-sm"
+              className="text-teal-600 p-0 mt-2 h-auto flex items-center text-sm"
               onClick={() => setShowReadMoreDialog(true)}
             >
               Read more <ChevronRight className="h-3 w-3 ml-1" />
@@ -530,7 +530,7 @@ const Index = () => {
               <h3 className="text-xl font-semibold text-gray-800">Want access to founders updates?</h3>
               <Button 
                 onClick={handleFounderUpdates}
-                className="bg-teal-600 hover:bg-teal-700 shadow-sm"
+                variant="moneco"
               >
                 Subscribe
               </Button>
@@ -662,4 +662,3 @@ const Index = () => {
 };
 
 export default Index;
-

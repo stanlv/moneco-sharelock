@@ -1,3 +1,4 @@
+
 import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -88,7 +89,7 @@ const StatCard = ({
           href={sourceUrl} 
           target="_blank" 
           rel="noopener noreferrer"
-          className="flex items-center gap-1 text-gray-400 text-xs hover:text-gray-500 transition-colors"
+          className="flex items-center gap-1 text-gray-400 text-xs hover:text-teal-500 transition-colors"
         >
           <span>{source}</span>
           <Link2 className="h-3 w-3" />
@@ -104,18 +105,18 @@ const StatCard = ({
     
     switch (variant) {
       case "highlight":
-        return cn(baseClasses, "border-gray-200 bg-white", className);
+        return cn(baseClasses, "border-teal-500 bg-white", className);
       case "outlined":
         return cn(baseClasses, "border-gray-200 bg-white", className);
       default:
-        return cn(baseClasses, "border-gray-200 bg-white", className);
+        return cn(baseClasses, "border-gray-200 bg-white hover:border-teal-200", className);
     }
   };
   
   return (
     <Card className={getCardClasses()}>
       <div className="flex-1">
-        {icon && <div className="text-gray-600 mb-3">{icon}</div>}
+        {icon && <div className="text-teal-600 mb-3">{icon}</div>}
         <h3 className="text-xl font-normal text-gray-800 mb-2">{displayValue}</h3>
         <p className="text-sm text-gray-500 mb-4">{description}</p>
       </div>

@@ -20,6 +20,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
         gradient: "bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 text-white shadow-sm hover:shadow",
+        moneco: "bg-teal-600 hover:bg-teal-700 text-white shadow-sm hover:shadow", 
       },
       size: {
         default: "h-10 px-4 py-2",
