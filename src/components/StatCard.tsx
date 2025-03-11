@@ -14,6 +14,8 @@ interface StatCardProps {
   finalValue?: number;
   icon?: React.ReactNode;
   sourceUrl?: string;
+  variant?: "default" | "highlight" | "outlined";
+  gradient?: string;
 }
 
 const StatCard = ({ 
@@ -25,7 +27,9 @@ const StatCard = ({
   animationDuration = 2000,
   finalValue,
   icon,
-  sourceUrl
+  sourceUrl,
+  variant = "default",
+  gradient
 }: StatCardProps) => {
   const [displayValue, setDisplayValue] = useState(title);
   const animationRef = useRef<number | null>(null);
@@ -95,15 +99,49 @@ const StatCard = ({
     
     return <div className="text-gray-500 text-sm text-center mt-auto">{source}</div>;
   };
+
+  const getCardClasses = () => {
+    const baseClasses = "p-6 flex flex-col h-full transition-all duration-300";
+    
+    if (gradient) {
+      return cn(baseClasses, "border-0 text-white shadow-md hover:shadow-lg", className);
+    }
+    
+    switch (variant) {
+      case "highlight":
+        return cn(baseClasses, "border-teal-500 border-2 bg-teal-50/50 shadow-md hover:shadow-lg", className);
+      case "outlined":
+        return cn(baseClasses, "border-2 border-gray-200 hover:border-gray-300 shadow-sm hover:shadow", className);
+      default:
+        return cn(baseClasses, className);
+    }
+  };
+
+  const getIconClass = () => {
+    if (gradient) return "text-white";
+    return variant === "highlight" ? "text-teal-600" : "text-teal-600";
+  };
+
+  const getTitleClass = () => {
+    if (gradient) return "text-white font-bold";
+    return "font-bold";
+  };
+
+  const getDescriptionClass = () => {
+    if (gradient) return "text-white/90";
+    return "text-gray-600";
+  };
+  
+  const cardStyle = gradient ? { background: gradient } : {};
   
   return (
-    <Card className={cn("p-6 flex flex-col h-full", className)}>
+    <Card className={getCardClasses()} style={cardStyle}>
       <div className="flex-1">
         <div className="flex items-center justify-center mb-4">
-          {icon && <div className="text-teal-600 mr-2">{icon}</div>}
-          <h3 className="text-2xl md:text-3xl font-bold text-center">{displayValue}</h3>
+          {icon && <div className={cn("mr-2", getIconClass())}>{icon}</div>}
+          <h3 className={cn("text-2xl md:text-3xl text-center", getTitleClass())}>{displayValue}</h3>
         </div>
-        <p className="text-gray-600 text-center mb-6">{description}</p>
+        <p className={cn("text-center mb-6", getDescriptionClass())}>{description}</p>
       </div>
       {renderSource()}
     </Card>

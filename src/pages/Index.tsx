@@ -38,7 +38,9 @@ const Index = () => {
       source: "world bank",
       animate: false,
       icon: <Banknote className="h-6 w-6" />,
-      sourceUrl: "https://www.worldbank.org/en/topic/migrationremittancesdiasporaissues/brief/migration-remittances-data"
+      sourceUrl: "https://www.worldbank.org/en/topic/migrationremittancesdiasporaissues/brief/migration-remittances-data",
+      variant: "default" as const,
+      gradient: "linear-gradient(90deg, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%)"
     },
     {
       title: "Save $15",
@@ -46,7 +48,8 @@ const Index = () => {
       source: "Moneco Website - Pricing",
       animate: false,
       icon: <BadgeDollarSign className="h-6 w-6" />,
-      sourceUrl: "https://moneco.app/pricing"
+      sourceUrl: "https://moneco.app/pricing",
+      variant: "highlight" as const
     },
     {
       title: "24'000",
@@ -56,7 +59,8 @@ const Index = () => {
       finalValue: 24357,
       animationDuration: 20000,
       icon: <UserPlus className="h-6 w-6" />,
-      sourceUrl: "https://mixpanel.com"
+      sourceUrl: "https://mixpanel.com",
+      variant: "outlined" as const
     }
   ];
 
@@ -303,6 +307,8 @@ const Index = () => {
                 animationDuration={stat.animationDuration}
                 icon={stat.icon}
                 sourceUrl={stat.sourceUrl}
+                variant={stat.variant}
+                gradient={stat.gradient}
               />
             ))}
           </div>
