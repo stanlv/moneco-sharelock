@@ -53,7 +53,7 @@ const Index = () => {
     {
       name: "Bilal Dahlab",
       role: "Co-Founder",
-      image: "/lovable-uploads/410b7fba-9bdf-4c2e-8d8c-1b5eaa71c55a.png"
+      image: "/lovable-uploads/dafeaeae-e1af-4bfe-90d0-728fa23ae389.png"
     }
   ];
 
