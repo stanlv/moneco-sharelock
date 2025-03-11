@@ -163,12 +163,12 @@ const Index = () => {
     { 
       name: "ABB", 
       url: "https://www.linkedin.com/company/abb/",
-      logo: "/lovable-uploads/c269b875-fb61-422e-92cd-05be8e3323ce.png"
+      logo: "/lovable-uploads/410b7fba-9bdf-4c2e-8d8c-1b5eaa71c55a.png"
     },
     { 
       name: "Lombard Odier", 
       url: "https://www.linkedin.com/company/lombard-odier/",
-      logo: "/lovable-uploads/b60a2d60-74a0-4ae3-9520-603f9cd996ab.png"
+      logo: "/lovable-uploads/695ce3db-86cd-45a3-bcae-de9befb351b4.png"
     }
   ];
 
