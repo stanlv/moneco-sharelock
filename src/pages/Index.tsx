@@ -531,12 +531,12 @@ const Index = () => {
           
           <div className="bg-gradient-to-r from-teal-500/10 to-emerald-500/10 p-6 rounded-b-xl">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
-              <h3 className="text-xl font-semibold text-gray-800">Unlock Moneco leadership updates.</h3>
+              <h3 className="text-xl font-semibold text-gray-800">Connect with Moneco's Leadership</h3>
               <Button 
                 onClick={handleFounderUpdates}
                 variant="moneco"
               >
-                Subscribe
+                Subscribe for Direct Updates
               </Button>
             </div>
             {showSubscriptionMessage && (
