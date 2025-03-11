@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase, GraduationCap, Banknote, BadgeDollarSign, UserPlus, Quote } from "lucide-react";
+import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase, GraduationCap, Banknote, BadgeDollarSign, UserPlus, Quote, Globe, Languages } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import StatCard from "@/components/StatCard";
 import LeadershipCard from "@/components/LeadershipCard";
@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { cn } from "@/lib/utils";
 import CompanyCard from "@/components/CompanyCard";
 import { SubscriptionDialog } from "@/components/SubscriptionDialog";
+import LanguageSelector from "@/components/LanguageSelector";
 
 const Index = () => {
   const [showSubscriptionMessage, setShowSubscriptionMessage] = useState(false);
@@ -30,6 +31,26 @@ const Index = () => {
   const [showRequestAccessDialog, setShowRequestAccessDialog] = useState(false);
   const [showFounderUpdatesDialog, setShowFounderUpdatesDialog] = useState(false);
   const [currentDocument, setCurrentDocument] = useState<string | null>(null);
+  const [currentLanguage, setCurrentLanguage] = useState<string>("en");
+
+  const translations = {
+    en: {
+      tagline: "The financial application for the African diaspora",
+      subtitle: "#technology #emergingmarkets #impact"
+    },
+    fr: {
+      tagline: "L'application financière pour la diaspora africaine",
+      subtitle: "#technologie #marchésémergents #impact"
+    },
+    it: {
+      tagline: "L'applicazione finanziaria per la diaspora africana",
+      subtitle: "#tecnologia #mercatiemergenti #impatto"
+    },
+    de: {
+      tagline: "Die Finanzanwendung für die afrikanische Diaspora",
+      subtitle: "#technologie #schwellenmärkte #wirkung"
+    }
+  };
 
   const stats = [
     {
@@ -261,6 +282,10 @@ const Index = () => {
     setShowRequestAccessDialog(true);
   };
 
+  const handleLanguageChange = (language: string) => {
+    setCurrentLanguage(language);
+  };
+
   const FeedbackButton = ({ 
     type, 
     label, 
@@ -294,8 +319,16 @@ const Index = () => {
       
       <main className="container mx-auto px-4 py-8 max-w-5xl flex-grow">
         <section className="mb-10">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-1">The financial application for the African diaspora</h1>
-          <p className="text-gray-500 mb-6">#technology #emergingmarkets #impact</p>
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-900 mb-1">{translations[currentLanguage as keyof typeof translations].tagline}</h1>
+              <p className="text-gray-500">{translations[currentLanguage as keyof typeof translations].subtitle}</p>
+            </div>
+            <LanguageSelector 
+              currentLanguage={currentLanguage} 
+              onLanguageChange={handleLanguageChange} 
+            />
+          </div>
           
           <div className="grid md:grid-cols-3 gap-6 mb-10">
             {stats.map((stat, index) => (
