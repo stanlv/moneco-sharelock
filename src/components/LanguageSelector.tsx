@@ -16,6 +16,8 @@ interface LanguageSelectorProps {
 }
 
 const LanguageSelector = ({ currentLanguage, onLanguageChange }: LanguageSelectorProps) => {
+  const [isChanging, setIsChanging] = useState(false);
+  
   const languages = [
     { code: "en", label: "English", flag: "🇬🇧" },
     { code: "fr", label: "Français", flag: "🇫🇷" },
@@ -24,6 +26,16 @@ const LanguageSelector = ({ currentLanguage, onLanguageChange }: LanguageSelecto
   ];
 
   const currentLanguageData = languages.find(lang => lang.code === currentLanguage) || languages[0];
+
+  const handleLanguageChange = (language: string) => {
+    if (language === currentLanguage) return;
+    
+    setIsChanging(true);
+    setTimeout(() => {
+      onLanguageChange(language);
+      setTimeout(() => setIsChanging(false), 50);
+    }, 300);
+  };
 
   return (
     <DropdownMenu>
@@ -46,7 +58,7 @@ const LanguageSelector = ({ currentLanguage, onLanguageChange }: LanguageSelecto
               "flex items-center gap-2 cursor-pointer", 
               currentLanguage === language.code && "bg-gray-100"
             )}
-            onClick={() => onLanguageChange(language.code)}
+            onClick={() => handleLanguageChange(language.code)}
           >
             <span className="text-base mr-1">{language.flag}</span>
             <span>{language.label}</span>
