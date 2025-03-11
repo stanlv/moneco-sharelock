@@ -1,19 +1,19 @@
-
-import { useState } from "react";
-import { Banknote, BadgeDollarSign, UserPlus, FileText, Quote } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase, GraduationCap, Banknote, BadgeDollarSign, UserPlus, Quote, Globe, Languages } from "lucide-react";
 import Navbar from "@/components/Navbar";
+import StatCard from "@/components/StatCard";
+import LeadershipCard from "@/components/LeadershipCard";
+import TestimonialCard from "@/components/TestimonialCard";
+import DocumentCard from "@/components/DocumentCard";
 import Footer from "@/components/Footer";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
+import CompanyCard from "@/components/CompanyCard";
 import { SubscriptionDialog } from "@/components/SubscriptionDialog";
-import { Language, translations } from "@/utils/translations";
-import PageHeader from "@/components/PageHeader";
-import StatsSection from "@/components/StatsSection";
-import BriefSection from "@/components/BriefSection";
-import CompaniesSection from "@/components/CompaniesSection";
-import LeadershipSection from "@/components/LeadershipSection";
-import TestimonialsSection from "@/components/TestimonialsSection";
-import DocumentsSection from "@/components/DocumentsSection";
-import AboutDialog from "@/components/AboutDialog";
-import TestimonialsDialog from "@/components/TestimonialsDialog";
+import LanguageSelector from "@/components/LanguageSelector";
 
 const Index = () => {
   const [showSubscriptionMessage, setShowSubscriptionMessage] = useState(false);
@@ -31,7 +31,26 @@ const Index = () => {
   const [showRequestAccessDialog, setShowRequestAccessDialog] = useState(false);
   const [showFounderUpdatesDialog, setShowFounderUpdatesDialog] = useState(false);
   const [currentDocument, setCurrentDocument] = useState<string | null>(null);
-  const [currentLanguage, setCurrentLanguage] = useState<Language>("en");
+  const [currentLanguage, setCurrentLanguage] = useState<string>("en");
+
+  const translations = {
+    en: {
+      tagline: "The financial application for the African diaspora",
+      subtitle: "#technology #emergingmarkets #impact"
+    },
+    fr: {
+      tagline: "L'application financière pour la diaspora africaine",
+      subtitle: "#technologie #marchésémergents #impact"
+    },
+    it: {
+      tagline: "L'applicazione finanziaria per la diaspora africana",
+      subtitle: "#tecnologia #mercatiemergenti #impatto"
+    },
+    de: {
+      tagline: "Die Finanzanwendung für die afrikanische Diaspora",
+      subtitle: "#technologie #schwellenmärkte #wirkung"
+    }
+  };
 
   const stats = [
     {
@@ -264,10 +283,35 @@ const Index = () => {
   };
 
   const handleLanguageChange = (language: string) => {
-    setCurrentLanguage(language as Language);
+    setCurrentLanguage(language);
   };
 
-  const t = translations[currentLanguage];
+  const FeedbackButton = ({ 
+    type, 
+    label, 
+    icon, 
+    selected, 
+    onSelect 
+  }: { 
+    type: string, 
+    label: string, 
+    icon: React.ReactNode, 
+    selected: boolean, 
+    onSelect: () => void 
+  }) => (
+    <button
+      onClick={onSelect}
+      className={cn(
+        "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors",
+        selected 
+          ? "bg-teal-100 text-teal-800 border border-teal-300" 
+          : "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-transparent"
+      )}
+    >
+      {icon}
+      {label}
+    </button>
+  );
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -275,112 +319,380 @@ const Index = () => {
       
       <main className="container mx-auto px-4 py-8 max-w-5xl flex-grow">
         <section className="mb-10">
-          <PageHeader 
-            tagline={t.tagline}
-            subtitle={t.subtitle}
-            currentLanguage={currentLanguage}
-            onLanguageChange={handleLanguageChange}
-          />
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-900 mb-1">{translations[currentLanguage as keyof typeof translations].tagline}</h1>
+              <p className="text-gray-500">{translations[currentLanguage as keyof typeof translations].subtitle}</p>
+            </div>
+            <LanguageSelector 
+              currentLanguage={currentLanguage} 
+              onLanguageChange={handleLanguageChange} 
+            />
+          </div>
           
-          <StatsSection stats={stats} />
+          <div className="grid md:grid-cols-3 gap-6 mb-10">
+            {stats.map((stat, index) => (
+              <StatCard 
+                key={index} 
+                title={stat.title} 
+                description={stat.description} 
+                source={stat.source} 
+                animate={stat.animate}
+                finalValue={stat.finalValue}
+                animationDuration={stat.animationDuration}
+                icon={stat.icon}
+                sourceUrl={stat.sourceUrl}
+                variant={stat.variant}
+              />
+            ))}
+          </div>
           
-          <BriefSection 
-            inBrief={t.inBrief}
-            inBriefText={t.inBriefText}
-            readMore={t.readMore}
-            onReadMoreClick={() => setShowReadMoreDialog(true)}
-          />
+          <Card className="p-5 bg-gray-50 border-0 shadow-none">
+            <h2 className="font-medium text-lg mb-2">In brief</h2>
+            <p className="text-gray-600 text-sm">
+              Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad.
+            </p>
+            <Button 
+              variant="link" 
+              className="text-teal-600 p-0 mt-2 h-auto flex items-center text-sm"
+              onClick={() => setShowReadMoreDialog(true)}
+            >
+              Read more <ChevronRight className="h-3 w-3 ml-1" />
+            </Button>
+          </Card>
         </section>
         
-        <CompaniesSection 
-          title={t.theyWorkWithUs}
-          companies={companies}
-        />
+        <Dialog open={showReadMoreDialog} onOpenChange={setShowReadMoreDialog}>
+          <DialogContent className="max-w-3xl p-8 max-h-[90vh] overflow-y-auto">
+            <DialogHeader className="mb-6">
+              <DialogTitle className="text-2xl font-bold">About Moneco</DialogTitle>
+            </DialogHeader>
+            
+            <div className="space-y-8 py-4">
+              <div>
+                <h3 className="text-xl font-semibold mb-4">In Brief</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad. For more detailed information on their services and features.
+                </p>
+                <div className="mt-4 flex gap-2">
+                  <FeedbackButton 
+                    type="support" 
+                    label="Support" 
+                    icon={<Heart className="h-3 w-3" />} 
+                    selected={briefFeedback === "support"} 
+                    onSelect={() => setBriefFeedback("support")} 
+                  />
+                  <FeedbackButton 
+                    type="insightful" 
+                    label="Insightful" 
+                    icon={<ThumbsUp className="h-3 w-3" />} 
+                    selected={briefFeedback === "insightful"} 
+                    onSelect={() => setBriefFeedback("insightful")} 
+                  />
+                  <FeedbackButton 
+                    type="celebrate" 
+                    label="Celebrate" 
+                    icon={<Trophy className="h-3 w-3" />} 
+                    selected={briefFeedback === "celebrate"} 
+                    onSelect={() => setBriefFeedback("celebrate")} 
+                  />
+                </div>
+              </div>
+              
+              <Separator className="my-6" />
+              
+              <div>
+                <h3 className="text-xl font-semibold mb-4">How Moneco Started</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Moneco was founded in 2022 by a team of African professionals with experience in fintech and banking who recognized the challenges faced by the African diaspora in accessing affordable financial services. The founders, having personally experienced the high costs and limitations of traditional banking systems for cross-border transactions, set out to create a solution that would specifically address these pain points. Starting with remittance services, Moneco has since expanded to offer a comprehensive suite of financial tools tailored to the unique needs of Africans living abroad.
+                </p>
+                <div className="mt-4 flex gap-2">
+                  <FeedbackButton 
+                    type="support" 
+                    label="Support" 
+                    icon={<Heart className="h-3 w-3" />} 
+                    selected={startedFeedback === "support"} 
+                    onSelect={() => setStartedFeedback("support")} 
+                  />
+                  <FeedbackButton 
+                    type="insightful" 
+                    label="Insightful" 
+                    icon={<ThumbsUp className="h-3 w-3" />} 
+                    selected={startedFeedback === "insightful"} 
+                    onSelect={() => setStartedFeedback("insightful")} 
+                  />
+                  <FeedbackButton 
+                    type="celebrate" 
+                    label="Celebrate" 
+                    icon={<Trophy className="h-3 w-3" />} 
+                    selected={startedFeedback === "celebrate"} 
+                    onSelect={() => setStartedFeedback("celebrate")} 
+                  />
+                </div>
+              </div>
+              
+              <Separator className="my-6" />
+              
+              <div>
+                <h3 className="text-xl font-semibold mb-4">Moneco Mission and Long-term Vision</h3>
+                <p className="text-gray-700 leading-relaxed">
+                  Moneco's mission is to empower the African diaspora with accessible, affordable, and inclusive financial services that bridge the gap between their host countries and home countries. By leveraging technology, Moneco aims to reduce the cost of remittances, provide transparent banking services, and create economic opportunities for Africans worldwide.
+                </p>
+                <p className="text-gray-700 leading-relaxed mt-4">
+                  The long-term vision of Moneco is to become the leading financial platform for the global African community, facilitating not just money transfers but also investments, business financing, and wealth creation opportunities that contribute to the development of African economies while improving the financial well-being of the diaspora.
+                </p>
+                <div className="mt-4 flex gap-2">
+                  <FeedbackButton 
+                    type="support" 
+                    label="Support" 
+                    icon={<Heart className="h-3 w-3" />} 
+                    selected={visionFeedback === "support"} 
+                    onSelect={() => setVisionFeedback("support")} 
+                  />
+                  <FeedbackButton 
+                    type="insightful" 
+                    label="Insightful" 
+                    icon={<ThumbsUp className="h-3 w-3" />} 
+                    selected={visionFeedback === "insightful"} 
+                    onSelect={() => setVisionFeedback("insightful")} 
+                  />
+                  <FeedbackButton 
+                    type="celebrate" 
+                    label="Celebrate" 
+                    icon={<Trophy className="h-3 w-3" />} 
+                    selected={visionFeedback === "celebrate"} 
+                    onSelect={() => setVisionFeedback("celebrate")} 
+                  />
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
         
-        <LeadershipSection 
-          title={t.leadershipTeam}
-          subtitle={t.leadershipSubtitle}
-          leaders={leaders}
-          educationTitle={t.education}
-          educationInstitutions={educationInstitutions}
-          previousCompaniesTitle={t.previousCompanies}
-          previousCompanies={previousCompanies}
-          connectText={t.connectWithLeadership}
-          subscribeText={t.subscribeForUpdates}
-          onSubscribe={handleSubscribe}
-          onFounderUpdates={handleFounderUpdates}
-          selectedLeaderId={selectedLeaderId}
-          setSelectedLeaderId={setSelectedLeaderId}
-        />
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">They work with us</h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+            {Object.values(companies).flat().map((company, idx) => (
+              <CompanyCard 
+                key={`company-${idx}`} 
+                name={company.name} 
+                logo={company.logo} 
+                type={company.type}
+                website={(company as any).website}
+              />
+            ))}
+          </div>
+        </section>
         
-        <TestimonialsSection 
-          title={t.customerVerbatim}
-          readOtherTestimonials={t.readOtherTestimonials}
-          testimonials={allTestimonials}
-          onReadMoreClick={() => setShowTestimonialsDialog(true)}
-        />
+        <section className="mb-12 overflow-hidden rounded-xl shadow-sm">
+          <div className="bg-gradient-to-br from-teal-50 to-green-50 py-12 px-6">
+            <h2 className="text-2xl font-bold mb-2 text-gray-800 text-center">Leadership Team</h2>
+            <p className="text-center text-gray-600 mb-10">Meet the brilliant minds behind Moneco</p>
+            
+            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+              {leaders.map((leader, index) => (
+                <LeadershipCard 
+                  key={index} 
+                  name={leader.name} 
+                  role={leader.role} 
+                  image={leader.image}
+                  gradientVariant={leader.gradientVariant}
+                  isSelected={selectedLeaderId === index}
+                  onSelect={() => setSelectedLeaderId(index)}
+                  onSubscribe={handleFounderUpdates}
+                />
+              ))}
+            </div>
+          </div>
+          
+          <div className="bg-gray-100/70 p-6">
+            <h2 className="text-lg font-medium mb-4 text-gray-700">Education</h2>
+            <div className="flex flex-wrap gap-3 justify-center">
+              {educationInstitutions.map((institution, i) => (
+                <a 
+                  key={i} 
+                  href={institution.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-white/70 p-2 rounded-lg shadow-sm flex items-center space-x-2 hover:bg-gray-50 transition-colors border border-gray-200/50"
+                >
+                  <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                    {institution.logo ? (
+                      <img 
+                        src={institution.logo} 
+                        alt={institution.name} 
+                        className="h-full w-full object-cover opacity-80"
+                      />
+                    ) : (
+                      <GraduationCap className="h-4 w-4 text-gray-500" />
+                    )}
+                  </div>
+                  <span className="font-medium text-gray-600 text-xs">{institution.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+          
+          <div className="bg-gray-100/40 p-6">
+            <h2 className="text-lg font-medium mb-4 text-gray-700">Previous Companies</h2>
+            <div className="flex flex-wrap gap-3 justify-center">
+              {previousCompanies.map((company, i) => (
+                <a 
+                  key={i} 
+                  href={company.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-white/70 p-2 rounded-lg shadow-sm flex items-center space-x-2 hover:bg-gray-50 transition-colors border border-gray-200/50"
+                >
+                  <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
+                    {company.logo ? (
+                      <img 
+                        src={company.logo} 
+                        alt={company.name} 
+                        className="h-full w-full object-cover opacity-80"
+                      />
+                    ) : (
+                      <Briefcase className="h-4 w-4 text-gray-500" />
+                    )}
+                  </div>
+                  <span className="font-medium text-gray-600 text-xs">{company.name}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-teal-500/10 to-emerald-500/10 p-6 rounded-b-xl">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+              <h3 className="text-xl font-semibold text-gray-800">Connect with Moneco's Leadership</h3>
+              <Button 
+                onClick={handleFounderUpdates}
+                variant="moneco"
+              >
+                Subscribe for Direct Updates
+              </Button>
+            </div>
+            {showSubscriptionMessage && (
+              <div className="mt-4 p-3 bg-green-100 text-green-800 rounded-lg flex items-center">
+                <span className="h-2 w-2 bg-green-500 rounded-full mr-2"></span>
+                Thank you for subscribing to our updates!
+              </div>
+            )}
+          </div>
+        </section>
         
-        <DocumentsSection 
-          title={t.investorDocuments}
-          documents={documents}
-          onRequestAccess={handleRequestAccess}
-        />
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Customer Verbatim</h2>
+          
+          <div className="space-y-6 mb-6">
+            {allTestimonials.slice(0, 2).map((testimonial, index) => (
+              <TestimonialCard 
+                key={index} 
+                quote={testimonial.quote} 
+                author={testimonial.author} 
+                source={testimonial.source} 
+              />
+            ))}
+          </div>
+          
+          <div className="text-center">
+            <Button 
+              variant="outline" 
+              className="border-gray-300 hover:bg-gray-100"
+              onClick={() => setShowTestimonialsDialog(true)}
+            >
+              Read 10 other customer testimonials
+            </Button>
+          </div>
+        </section>
+        
+        <Dialog open={showTestimonialsDialog} onOpenChange={setShowTestimonialsDialog}>
+          <DialogContent className="max-w-3xl p-8 max-h-[90vh] overflow-y-auto">
+            <DialogHeader className="mb-6">
+              <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+                <Quote className="h-5 w-5 text-teal-600" />
+                Customer Testimonials
+              </DialogTitle>
+            </DialogHeader>
+            
+            <div className="space-y-8 py-4">
+              {allTestimonials.slice(2).map((testimonial, index) => (
+                <div key={index} className="border-b border-gray-100 pb-6 last:border-b-0">
+                  <TestimonialCard 
+                    quote={testimonial.quote} 
+                    author={testimonial.author} 
+                    source={testimonial.source} 
+                  />
+                </div>
+              ))}
+              
+              <div className="mt-8 pt-4 border-t border-gray-100">
+                <h3 className="text-lg font-medium mb-3">What do you think about our customers' feedback?</h3>
+                <div className="flex gap-2">
+                  <FeedbackButton 
+                    type="support" 
+                    label="Support" 
+                    icon={<Heart className="h-3 w-3" />} 
+                    selected={testimonialsFeedback === "support"} 
+                    onSelect={() => setTestimonialsFeedback("support")} 
+                  />
+                  <FeedbackButton 
+                    type="insightful" 
+                    label="Insightful" 
+                    icon={<ThumbsUp className="h-3 w-3" />} 
+                    selected={testimonialsFeedback === "insightful"} 
+                    onSelect={() => setTestimonialsFeedback("insightful")} 
+                  />
+                  <FeedbackButton 
+                    type="celebrate" 
+                    label="Celebrate" 
+                    icon={<Trophy className="h-3 w-3" />} 
+                    selected={testimonialsFeedback === "celebrate"} 
+                    onSelect={() => setTestimonialsFeedback("celebrate")} 
+                  />
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+        
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">Investors Documents</h2>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {documents.map((doc, index) => (
+              <DocumentCard 
+                key={index} 
+                title={doc.title} 
+                size={doc.size} 
+                icon={doc.icon} 
+                type={doc.type}
+                onRequestAccess={() => handleRequestAccess(doc.title)}
+              />
+            ))}
+          </div>
+        </section>
       </main>
-      
+
       <Footer />
-      
-      {/* Dialogs */}
-      <AboutDialog 
-        open={showReadMoreDialog}
-        onOpenChange={setShowReadMoreDialog}
-        aboutTitle={t.aboutMoneco}
-        inBriefTitle={t.inBrief}
-        inBriefFullText={t.inBriefFullText}
-        howStartedTitle={t.howMonecoStarted}
-        startedText={t.startedText}
-        missionTitle={t.mission}
-        missionText={t.missionText}
-        visionText={t.vision}
-        supportLabel={t.support}
-        insightfulLabel={t.insightful}
-        celebrateLabel={t.celebrate}
-        briefFeedback={briefFeedback}
-        startedFeedback={startedFeedback}
-        visionFeedback={visionFeedback}
-        onBriefFeedback={setBriefFeedback}
-        onStartedFeedback={setStartedFeedback}
-        onVisionFeedback={setVisionFeedback}
-      />
-      
-      <TestimonialsDialog 
-        open={showTestimonialsDialog}
-        onOpenChange={setShowTestimonialsDialog}
-        title={t.customerTestimonials}
-        whatDoYouThinkText={t.whatDoYouThink}
-        supportLabel={t.support}
-        insightfulLabel={t.insightful}
-        celebrateLabel={t.celebrate}
-        testimonials={allTestimonials}
-        testimonialsFeedback={testimonialsFeedback}
-        onTestimonialsFeedback={setTestimonialsFeedback}
-      />
-      
-      <SubscriptionDialog 
-        open={showSubscribeDialog} 
-        onOpenChange={setShowSubscribeDialog} 
-      />
-      
+
       <SubscriptionDialog
-        open={showFounderUpdatesDialog}
-        onOpenChange={setShowFounderUpdatesDialog}
-        variant="founder"
+        open={showSubscribeDialog}
+        onOpenChange={setShowSubscribeDialog}
+        type="subscribe"
       />
-      
+
       <SubscriptionDialog
         open={showRequestAccessDialog}
         onOpenChange={setShowRequestAccessDialog}
-        variant="request"
-        documentTitle={currentDocument}
+        type="requestAccess"
+        documentTitle={currentDocument || undefined}
+      />
+
+      <SubscriptionDialog
+        open={showFounderUpdatesDialog}
+        onOpenChange={setShowFounderUpdatesDialog}
+        type="founderUpdates"
       />
     </div>
   );

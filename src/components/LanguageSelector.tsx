@@ -21,7 +21,6 @@ const LanguageSelector = ({ currentLanguage, onLanguageChange }: LanguageSelecto
     { code: "fr", label: "Français", flag: "🇫🇷" },
     { code: "it", label: "Italiano", flag: "🇮🇹" },
     { code: "de", label: "Deutsch", flag: "🇩🇪" },
-    { code: "es", label: "Español", flag: "🇪🇸" },
   ];
 
   const currentLanguageData = languages.find(lang => lang.code === currentLanguage) || languages[0];
