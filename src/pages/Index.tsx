@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -132,6 +131,44 @@ const Index = () => {
       name: "University of St. Gallen", 
       logo: "/lovable-uploads/9ddc31e9-81d6-4a88-b941-79a24156f398.png",
       url: "https://www.linkedin.com/school/university-of-st-gallen/" 
+    }
+  ];
+
+  const previousCompanies = [
+    { 
+      name: "Paystack", 
+      url: "https://www.linkedin.com/company/paystack/",
+      logo: "https://media.licdn.com/dms/image/C4E0BAQHULRDgGs_pjQ/company-logo_200_200/0/1630572129817/paystack_logo?e=1719705600&v=beta&t=rUj6OzZw7QOJ4OfWGxCkTbv-YnOINg7KgOSS7gk9Tr8" 
+    },
+    { 
+      name: "CoinAfrique", 
+      url: "https://www.linkedin.com/company/coinafrique/",
+      logo: "https://media.licdn.com/dms/image/C4D0BAQFDGvYe-xKa4A/company-logo_200_200/0/1630570299509/coinafrique_logo?e=1719705600&v=beta&t=J7x69g-fCQ52ffE-Eyt8XEpSxsxv0vfkBLu46M0o-UE" 
+    },
+    { 
+      name: "Boston Consulting Group", 
+      url: "https://www.linkedin.com/company/boston-consulting-group/",
+      logo: "https://media.licdn.com/dms/image/C4D0BAQFGe9yzWZ8mVQ/company-logo_200_200/0/1630536914848/boston_consulting_group_logo?e=1719705600&v=beta&t=aPlzNpH0vfC9vFQDw9EMxEXpAhk0Rfd_4JkT5_pRjmk" 
+    },
+    { 
+      name: "Société Générale CIB", 
+      url: "https://www.linkedin.com/company/societegenerale-corporate-and-investment-banking/",
+      logo: "https://media.licdn.com/dms/image/C4D0BAQEFBqRMKfFdFw/company-logo_200_200/0/1677595892957/societegenerale_logo?e=1719705600&v=beta&t=rO-qKY7ybTnhqDDrFBVbO9BvVIeVGCjmZ2V4hW3AwJQ" 
+    },
+    { 
+      name: "Proparco", 
+      url: "https://www.linkedin.com/company/proparco/",
+      logo: "https://media.licdn.com/dms/image/C4D0BAQFdwgUUE_i7Yg/company-logo_200_200/0/1631337379818?e=1719705600&v=beta&t=qFURiPSKoK9-oC8uZUPCR-ySuIcJJVz5QxrB0a0zJCo" 
+    },
+    { 
+      name: "ABB", 
+      url: "https://www.linkedin.com/company/abb/",
+      logo: "https://media.licdn.com/dms/image/C4D0BAQEVdSEgYuGfFw/company-logo_200_200/0/1656681489601/abb_logo?e=1719705600&v=beta&t=0SQgUDxpEwQD0BEP22-O8_wDc_9mVUaRG07fk0Zv-Ts" 
+    },
+    { 
+      name: "Lombard Odier", 
+      url: "https://www.linkedin.com/company/lombard-odier/",
+      logo: "https://media.licdn.com/dms/image/C4D0BAQF9k_vefEEA9g/company-logo_200_200/0/1631313662155?e=1719705600&v=beta&t=p62gBqjsX1v1CsZvwVJ1Q7L3t0i0SfuJ1SsM5vDN8Ec" 
     }
   ];
 
@@ -378,13 +415,31 @@ const Index = () => {
           <div className="bg-gray-50 p-8">
             <h2 className="text-xl font-bold mb-6 text-gray-800">Previous Companies</h2>
             <div className="flex flex-wrap gap-4 justify-center">
-              {[...Array(8)].map((_, i) => (
-                <div key={i} className="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-2">
-                  <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                    <Users className="h-5 w-5 text-teal-500" />
+              {previousCompanies.map((company, i) => (
+                <a 
+                  key={i} 
+                  href={company.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-2 hover:bg-gray-50 transition-colors"
+                >
+                  <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                    {company.logo ? (
+                      <img 
+                        src={company.logo} 
+                        alt={company.name} 
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "https://via.placeholder.com/150?text=Logo";
+                        }}
+                      />
+                    ) : (
+                      <Briefcase className="h-5 w-5 text-teal-500" />
+                    )}
                   </div>
-                  <span className="font-medium text-gray-700">Company {i+1}</span>
-                </div>
+                  <span className="font-medium text-gray-700">{company.name}</span>
+                </a>
               ))}
             </div>
           </div>
