@@ -2,15 +2,17 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Download, FileText, Users, Award } from "lucide-react";
+import { Download, FileText, Users, Award, ChevronRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import StatCard from "@/components/StatCard";
 import LeadershipCard from "@/components/LeadershipCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import DocumentCard from "@/components/DocumentCard";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const Index = () => {
   const [showSubscriptionMessage, setShowSubscriptionMessage] = useState(false);
+  const [showReadMoreDialog, setShowReadMoreDialog] = useState(false);
 
   const stats = [
     {
@@ -112,10 +114,55 @@ const Index = () => {
           <Card className="p-6 bg-gray-100">
             <h2 className="font-semibold text-xl mb-2">In brief</h2>
             <p className="text-gray-700">
-              Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad. For more detailed information on their services and features.
+              Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad.
             </p>
+            <Button 
+              variant="link" 
+              className="text-teal-600 p-0 mt-2 h-auto flex items-center"
+              onClick={() => setShowReadMoreDialog(true)}
+            >
+              Read more <ChevronRight className="h-4 w-4 ml-1" />
+            </Button>
           </Card>
         </section>
+        
+        <Dialog open={showReadMoreDialog} onOpenChange={setShowReadMoreDialog}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle className="text-2xl font-bold">About Moneco</DialogTitle>
+            </DialogHeader>
+            
+            <div className="space-y-6 py-4">
+              <div>
+                <h3 className="text-lg font-semibold mb-2">In Brief</h3>
+                <p className="text-gray-700">
+                  Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad. For more detailed information on their services and features.
+                </p>
+              </div>
+              
+              <Separator />
+              
+              <div>
+                <h3 className="text-lg font-semibold mb-2">How Moneco Started</h3>
+                <p className="text-gray-700">
+                  Moneco was founded in 2022 by a team of African professionals with experience in fintech and banking who recognized the challenges faced by the African diaspora in accessing affordable financial services. The founders, having personally experienced the high costs and limitations of traditional banking systems for cross-border transactions, set out to create a solution that would specifically address these pain points. Starting with remittance services, Moneco has since expanded to offer a comprehensive suite of financial tools tailored to the unique needs of Africans living abroad.
+                </p>
+              </div>
+              
+              <Separator />
+              
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Moneco Mission and Long-term Vision</h3>
+                <p className="text-gray-700">
+                  Moneco's mission is to empower the African diaspora with accessible, affordable, and inclusive financial services that bridge the gap between their host countries and home countries. By leveraging technology, Moneco aims to reduce the cost of remittances, provide transparent banking services, and create economic opportunities for Africans worldwide.
+                </p>
+                <p className="text-gray-700 mt-2">
+                  The long-term vision of Moneco is to become the leading financial platform for the global African community, facilitating not just money transfers but also investments, business financing, and wealth creation opportunities that contribute to the development of African economies while improving the financial well-being of the diaspora.
+                </p>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
         
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">They work with us</h2>
@@ -131,10 +178,10 @@ const Index = () => {
           </div>
         </section>
         
-        <section className="mb-12 bg-gray-100 p-6 rounded-lg">
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Leadership</h2>
-            <div className="grid md:grid-cols-3 gap-6">
+        <section className="mb-12 rounded-lg overflow-hidden">
+          <div className="bg-teal-50 p-8 rounded-t-lg">
+            <h2 className="text-2xl font-bold mb-8 text-gray-800 text-center">Our Leadership Team</h2>
+            <div className="grid md:grid-cols-3 gap-8">
               {leaders.map((leader, index) => (
                 <LeadershipCard 
                   key={index} 
@@ -146,38 +193,50 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Education</h2>
-            <div className="flex flex-wrap gap-3">
+          <div className="bg-teal-100/50 p-8">
+            <h2 className="text-xl font-bold mb-6 text-gray-800">Education</h2>
+            <div className="flex flex-wrap gap-4 justify-center">
               {[...Array(6)].map((_, i) => (
-                <div key={i} className="h-12 w-12 rounded-full bg-gray-200"></div>
+                <div key={i} className="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-2">
+                  <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                    <Award className="h-5 w-5 text-teal-500" />
+                  </div>
+                  <span className="font-medium text-gray-700">Top University {i+1}</span>
+                </div>
               ))}
             </div>
           </div>
           
-          <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-6 text-gray-800">Previous companies</h2>
-            <div className="flex flex-wrap gap-3">
+          <div className="bg-teal-50 p-8 rounded-b-lg">
+            <h2 className="text-xl font-bold mb-6 text-gray-800">Previous Companies</h2>
+            <div className="flex flex-wrap gap-4 justify-center">
               {[...Array(8)].map((_, i) => (
-                <div key={i} className="h-12 w-12 rounded-full bg-gray-200"></div>
+                <div key={i} className="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-2">
+                  <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
+                    <Users className="h-5 w-5 text-teal-500" />
+                  </div>
+                  <span className="font-medium text-gray-700">Company {i+1}</span>
+                </div>
               ))}
             </div>
           </div>
           
-          <div className="flex justify-between items-center mt-8">
-            <h3 className="text-xl font-semibold">Do you want access to founders updates?</h3>
-            <Button 
-              onClick={handleSubscribe}
-              className="bg-gray-600 hover:bg-gray-700"
-            >
-              Yes
-            </Button>
-          </div>
-          {showSubscriptionMessage && (
-            <div className="mt-4 p-2 bg-green-100 text-green-800 rounded">
-              Thank you for subscribing to our updates!
+          <div className="bg-gray-100 p-6 rounded-b-lg">
+            <div className="flex justify-between items-center">
+              <h3 className="text-xl font-semibold">Do you want access to founders updates?</h3>
+              <Button 
+                onClick={handleSubscribe}
+                className="bg-teal-600 hover:bg-teal-700"
+              >
+                Yes
+              </Button>
             </div>
-          )}
+            {showSubscriptionMessage && (
+              <div className="mt-4 p-2 bg-green-100 text-green-800 rounded">
+                Thank you for subscribing to our updates!
+              </div>
+            )}
+          </div>
         </section>
         
         <section className="mb-12">
@@ -222,4 +281,3 @@ const Index = () => {
 };
 
 export default Index;
-
