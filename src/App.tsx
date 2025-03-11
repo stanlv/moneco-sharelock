@@ -34,10 +34,7 @@ const App = () => {
         <div className={`transition-opacity duration-300 ease-in-out ${isChangingLanguage ? 'opacity-0' : 'opacity-100'}`}>
           <BrowserRouter>
             <Routes>
-              <Route path="/" element={<Index 
-                onLanguageChangeStart={() => setIsChangingLanguage(true)} 
-                onLanguageChangeEnd={() => setIsChangingLanguage(false)} 
-              />} />
+              <Route path="/" element={<Index onLanguageChangeStart={() => setIsChangingLanguage(true)} onLanguageChangeEnd={() => setIsChangingLanguage(false)} />} />
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
               <Route path="*" element={<NotFound />} />
             </Routes>
