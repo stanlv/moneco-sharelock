@@ -24,11 +24,11 @@ const LeadershipCard = ({
   gradientVariant = 'green'
 }: LeadershipCardProps) => {
   
-  // Gradient background variants with animations
+  // Gradient background variants with subtle variations and internal animations
   const gradients = {
-    green: "bg-gradient-to-br from-teal-500/95 to-emerald-600/95 animate-gradient-slow",
-    blue: "bg-gradient-to-br from-sky-500/95 to-indigo-600/95 animate-gradient-pulse",
-    purple: "bg-gradient-to-br from-purple-500/95 to-pink-600/95 animate-gradient-shift"
+    green: "bg-gradient-to-br from-teal-600/90 to-teal-700/90",
+    blue: "bg-gradient-to-br from-teal-600/90 to-teal-700/85",
+    purple: "bg-gradient-to-br from-teal-500/90 to-teal-600/90"
   };
   
   return (
@@ -43,11 +43,19 @@ const LeadershipCard = ({
     >
       <div className="h-full">
         <div className="relative">
-          {/* Background gradient with animation */}
+          {/* Background gradient */}
           <div className={cn(
             "absolute inset-0 opacity-90",
             gradients[gradientVariant]
           )}></div>
+          
+          {/* Animated elements inside the card */}
+          <div className="absolute inset-0 overflow-hidden">
+            {/* Subtle floating circles animation */}
+            <div className="absolute w-32 h-32 rounded-full bg-white/5 animate-float-slow top-0 -left-10"></div>
+            <div className="absolute w-24 h-24 rounded-full bg-white/5 animate-float-medium -top-6 right-10"></div>
+            <div className="absolute w-16 h-16 rounded-full bg-white/5 animate-float-fast bottom-6 -right-6"></div>
+          </div>
           
           {/* Profile image */}
           <div className="relative pt-10 pb-6 px-6 flex justify-center">
