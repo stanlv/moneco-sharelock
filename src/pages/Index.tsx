@@ -168,7 +168,7 @@ const Index = () => {
     { 
       name: "Lombard Odier", 
       url: "https://www.linkedin.com/company/lombard-odier/",
-      logo: "/lovable-uploads/695ce3db-86cd-45a3-bcae-de9befb351b4.png"
+      logo: "/lovable-uploads/3eba50ec-a606-4c16-8628-b9f0b54b5720.png"
     }
   ];
 
