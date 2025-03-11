@@ -1,8 +1,7 @@
 
 import { Card } from "@/components/ui/card";
-import { BriefcaseIcon, LinkedinIcon, MailIcon, MessageCircleIcon } from "lucide-react";
+import { BriefcaseIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 
 interface LeadershipCardProps {
   name: string;
@@ -61,19 +60,6 @@ const LeadershipCard = ({
               <BriefcaseIcon className="h-4 w-4 mr-1.5" />
               <p className="font-medium text-sm">{role}</p>
             </div>
-          </div>
-          
-          {/* Social links */}
-          <div className="flex justify-center gap-2 mt-4">
-            <Button size="icon" variant="ghost" className="rounded-full h-8 w-8 bg-gray-100 hover:bg-teal-100 hover:text-teal-600">
-              <MailIcon className="h-4 w-4" />
-            </Button>
-            <Button size="icon" variant="ghost" className="rounded-full h-8 w-8 bg-gray-100 hover:bg-teal-100 hover:text-teal-600">
-              <LinkedinIcon className="h-4 w-4" />
-            </Button>
-            <Button size="icon" variant="ghost" className="rounded-full h-8 w-8 bg-gray-100 hover:bg-teal-100 hover:text-teal-600">
-              <MessageCircleIcon className="h-4 w-4" />
-            </Button>
           </div>
           
           {/* Selected indicator */}
