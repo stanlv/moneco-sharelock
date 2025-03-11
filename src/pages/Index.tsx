@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase } from "lucide-react";
+import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase, GraduationCap } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import StatCard from "@/components/StatCard";
 import LeadershipCard from "@/components/LeadershipCard";
@@ -105,6 +105,34 @@ const Index = () => {
       { name: "ACPR", logo: "/lovable-uploads/06e65e90-337c-414d-a709-379d102e3861.png", type: "Regulator" },
     ]
   };
+
+  const educationInstitutions = [
+    { 
+      name: "ESSEC Business School", 
+      logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png",
+      url: "https://www.linkedin.com/school/essec-business-school/" 
+    },
+    { 
+      name: "Y Combinator", 
+      logo: "/lovable-uploads/4f5c927e-4a2e-4a61-99f5-6185a67da702.png",
+      url: "https://www.linkedin.com/school/y-combinator/" 
+    },
+    { 
+      name: "Université Cheikh Anta Diop de Dakar", 
+      logo: "/lovable-uploads/b8b691e3-1cf2-49bd-ad98-97ca0397cbfe.png",
+      url: "https://www.linkedin.com/school/universit%C3%A9-cheikh-anta-diop-de-dakar/" 
+    },
+    { 
+      name: "ESCP Business School", 
+      logo: "/lovable-uploads/410b7fba-9bdf-4c2e-8d8c-1b5eaa71c55a.png",
+      url: "https://www.linkedin.com/school/escp-business-school/" 
+    },
+    { 
+      name: "University of St. Gallen", 
+      logo: "/lovable-uploads/4f5c927e-4a2e-4a61-99f5-6185a67da702.png",
+      url: "https://www.linkedin.com/school/university-of-st-gallen/" 
+    }
+  ];
 
   const handleSubscribe = () => {
     setShowSubscriptionMessage(true);
@@ -321,13 +349,27 @@ const Index = () => {
           <div className="bg-white p-8">
             <h2 className="text-xl font-bold mb-6 text-gray-800">Education</h2>
             <div className="flex flex-wrap gap-4 justify-center">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-2">
-                  <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center">
-                    <Award className="h-5 w-5 text-teal-500" />
+              {educationInstitutions.map((institution, i) => (
+                <a 
+                  key={i} 
+                  href={institution.url} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-2 hover:bg-gray-50 transition-colors"
+                >
+                  <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                    {institution.logo ? (
+                      <img 
+                        src={institution.logo} 
+                        alt={institution.name} 
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <GraduationCap className="h-5 w-5 text-teal-500" />
+                    )}
                   </div>
-                  <span className="font-medium text-gray-700">Top University {i+1}</span>
-                </div>
+                  <span className="font-medium text-gray-700">{institution.name}</span>
+                </a>
               ))}
             </div>
           </div>
@@ -407,4 +449,3 @@ const Index = () => {
 };
 
 export default Index;
-
