@@ -129,7 +129,7 @@ const Index = () => {
     },
     { 
       name: "University of St. Gallen", 
-      logo: "/lovable-uploads/4f5c927e-4a2e-4a61-99f5-6185a67da702.png",
+      logo: "/lovable-uploads/b8b691e3-1cf2-49bd-ad98-97ca0397cbfe.png",
       url: "https://www.linkedin.com/school/university-of-st-gallen/" 
     }
   ];
