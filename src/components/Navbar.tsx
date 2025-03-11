@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -8,13 +7,9 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center max-w-6xl">
         <div className="flex items-center space-x-2">
           <img 
-            src="/placeholder.svg"
+            src="/lovable-uploads/b8b691e3-1cf2-49bd-ad98-97ca0397cbfe.png"
             alt="Moneco Logo" 
             className="h-8 w-auto"
-            onError={(e) => {
-              e.currentTarget.src = "/placeholder.svg";
-              e.currentTarget.onerror = null;
-            }}
           />
         </div>
         
