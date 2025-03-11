@@ -291,6 +291,21 @@ const Index = () => {
           </DialogContent>
         </Dialog>
         
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">They work with us</h2>
+          
+          <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
+            {Object.values(companies).flat().map((company, idx) => (
+              <CompanyCard 
+                key={`company-${idx}`} 
+                name={company.name} 
+                logo={company.logo} 
+                type={company.type}
+              />
+            ))}
+          </div>
+        </section>
+        
         <section className="mb-12 overflow-hidden rounded-xl shadow-sm">
           <div className="bg-gradient-to-br from-teal-50 to-green-50 py-12 px-6">
             <h2 className="text-2xl font-bold mb-2 text-gray-800 text-center">Leadership Team</h2>
@@ -355,21 +370,6 @@ const Index = () => {
                 Thank you for subscribing to our updates!
               </div>
             )}
-          </div>
-        </section>
-        
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">They work with us</h2>
-          
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
-            {Object.values(companies).flat().map((company, idx) => (
-              <CompanyCard 
-                key={`company-${idx}`} 
-                name={company.name} 
-                logo={company.logo} 
-                type={company.type}
-              />
-            ))}
           </div>
         </section>
         
