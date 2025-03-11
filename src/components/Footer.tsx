@@ -1,14 +1,11 @@
 
-import { Link, Link2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { Link2 } from "lucide-react";
+import { format, subHours } from "date-fns";
 
-interface FooterProps {
-  lastUpdated?: string;
-}
-
-const Footer = ({ lastUpdated }: FooterProps) => {
-  // Calculate current year for copyright
-  const currentYear = new Date().getFullYear();
+const Footer = () => {
+  // Get current date/time and subtract 2 hours
+  const lastUpdatedDate = subHours(new Date(), 2);
+  const formattedDate = format(lastUpdatedDate, "MMMM d, yyyy 'at' h:mm a");
   
   return (
     <footer className="bg-gray-100 border-t border-gray-200 py-8 mt-16">
@@ -34,31 +31,9 @@ const Footer = ({ lastUpdated }: FooterProps) => {
               <Link2 className="h-4 w-4" />
             </a>
             
-            {lastUpdated && (
-              <p className="text-xs text-gray-500 italic">
-                <span className="underline">Last updated:</span> {lastUpdated}
-              </p>
-            )}
-          </div>
-        </div>
-        
-        <div className="mt-6 pt-6 border-t border-gray-200">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-gray-500 mb-4 md:mb-0">
-              © {currentYear} Moneco. All rights reserved.
+            <p className="text-xs text-gray-500 italic">
+              <span className="underline">Last updated:</span> {formattedDate}
             </p>
-            
-            <div className="flex space-x-6">
-              <a href="#" className="text-gray-500 hover:text-teal-600 text-sm transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-gray-500 hover:text-teal-600 text-sm transition-colors">
-                Terms of Service
-              </a>
-              <a href="#" className="text-gray-500 hover:text-teal-600 text-sm transition-colors">
-                Contact
-              </a>
-            </div>
           </div>
         </div>
       </div>
