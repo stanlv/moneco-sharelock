@@ -281,6 +281,7 @@ const Index = () => {
                   image={leader.image}
                   isSelected={selectedLeaderId === index}
                   onSelect={() => setSelectedLeaderId(index)}
+                  onSubscribe={handleSubscribe}
                 />
               ))}
             </div>

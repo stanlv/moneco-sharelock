@@ -2,6 +2,7 @@
 import { Card } from "@/components/ui/card";
 import { BriefcaseIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface LeadershipCardProps {
   name: string;
@@ -9,6 +10,7 @@ interface LeadershipCardProps {
   image: string;
   isSelected?: boolean;
   onSelect?: () => void;
+  onSubscribe?: () => void;
 }
 
 const LeadershipCard = ({ 
@@ -16,7 +18,8 @@ const LeadershipCard = ({
   role, 
   image, 
   isSelected = false,
-  onSelect
+  onSelect,
+  onSubscribe
 }: LeadershipCardProps) => {
   return (
     <Card 
@@ -64,11 +67,24 @@ const LeadershipCard = ({
           
           {/* Selected indicator */}
           {isSelected && (
-            <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-center text-green-600 font-medium">
-              <div className="px-3 py-1 bg-green-50 rounded-full text-xs flex items-center">
-                <span className="h-1.5 w-1.5 bg-green-500 rounded-full mr-1.5"></span>
-                Selected for contact
+            <div className="mt-4 space-y-4">
+              <div className="pt-3 border-t border-gray-100 flex items-center justify-center text-green-600 font-medium">
+                <div className="px-3 py-1 bg-green-50 rounded-full text-xs flex items-center">
+                  <span className="h-1.5 w-1.5 bg-green-500 rounded-full mr-1.5"></span>
+                  Selected for contact
+                </div>
               </div>
+              
+              {/* Subscribe button - mirrors the one at the bottom of the page */}
+              <Button 
+                onClick={(e) => {
+                  e.stopPropagation(); // Prevent triggering the card's onClick
+                  onSubscribe && onSubscribe();
+                }}
+                className="w-full bg-teal-600 hover:bg-teal-700 shadow-sm text-xs"
+              >
+                Subscribe to founder updates
+              </Button>
             </div>
           )}
         </div>
