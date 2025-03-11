@@ -7,7 +7,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogD
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Check, Linkedin } from "lucide-react";
+import { Check, Linkedin, UserCheck } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Only using the LinkedIn schema now
@@ -191,126 +191,145 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>{getTitle()}</DialogTitle>
-          <DialogDescription>
-            {type === "requestAccess" 
-              ? "Please authenticate with your LinkedIn account to request access."
-              : "Connect with us using your LinkedIn account."}
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="sm:max-w-[425px] rounded-xl p-0 overflow-hidden border-none shadow-xl animate-scale-in">
+        {/* Header with gradient background */}
+        <div className="bg-gradient-to-r from-teal-600 to-emerald-600 p-6 text-white">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-bold">{getTitle()}</DialogTitle>
+            <DialogDescription className="text-teal-50 mt-2">
+              {type === "requestAccess" 
+                ? "Please authenticate with your LinkedIn account to request access."
+                : "Connect with us using your LinkedIn account."}
+            </DialogDescription>
+          </DialogHeader>
+        </div>
         
-        {isSuccess ? (
-          <div className="py-6 flex flex-col items-center justify-center">
-            <div className="rounded-full bg-green-100 p-3 mb-4">
-              <Check className="h-6 w-6 text-green-600" />
+        <div className="p-6">
+          {isSuccess ? (
+            <div className="py-6 flex flex-col items-center justify-center animate-fade-in">
+              <div className="rounded-full bg-gradient-to-r from-teal-100 to-green-100 p-4 mb-5">
+                <Check className="h-8 w-8 text-teal-600" />
+              </div>
+              <h3 className="text-xl font-bold text-center text-gray-800">{getSuccessTitle()}</h3>
+              <p className="text-center text-gray-600 mt-3 max-w-xs">
+                {getSuccessDescription(linkedinForm.getValues())}
+              </p>
             </div>
-            <h3 className="text-lg font-medium text-center">{getSuccessTitle()}</h3>
-            <p className="text-center text-gray-500 mt-2">
-              {getSuccessDescription(linkedinForm.getValues())}
-            </p>
-          </div>
-        ) : (
-          <>
-            {linkedinAuthState === "initial" ? (
-              <div className="flex flex-col items-center py-6 space-y-4">
-                <p className="text-center text-gray-600 mb-2">
-                  {type === "requestAccess" 
-                    ? "Please sign in with LinkedIn to request access to this document."
-                    : "Connect your LinkedIn profile to continue."}
-                </p>
-                <Button 
-                  onClick={handleLinkedinAuth} 
-                  className="bg-[#0A66C2] hover:bg-[#084482] w-full max-w-xs"
-                  disabled={isSubmitting}
-                >
-                  <Linkedin className="mr-2 h-5 w-5" />
-                  Sign in with LinkedIn
-                </Button>
-              </div>
-            ) : linkedinAuthState === "authenticating" ? (
-              <div className="flex flex-col items-center justify-center py-8 space-y-4">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0A66C2]"></div>
-                <p className="text-center text-gray-600">Connecting to LinkedIn...</p>
-              </div>
-            ) : (
-              <Form {...linkedinForm}>
-                <form onSubmit={linkedinForm.handleSubmit(onSubmitLinkedin)} className="space-y-4">
-                  <div className="flex items-center space-x-4 py-2 mb-2 border-b">
-                    {linkedinProfile?.pictureUrl && (
-                      <img 
-                        src={linkedinProfile.pictureUrl} 
-                        alt="LinkedIn profile" 
-                        className="h-12 w-12 rounded-full border border-gray-200" 
-                      />
-                    )}
-                    <div>
-                      <p className="font-medium">{linkedinProfile?.name}</p>
-                      <p className="text-sm text-gray-500 flex items-center">
-                        <Linkedin className="h-3 w-3 mr-1 text-[#0A66C2]" />
-                        Connected
-                      </p>
-                    </div>
+          ) : (
+            <>
+              {linkedinAuthState === "initial" ? (
+                <div className="flex flex-col items-center py-8 space-y-6">
+                  <div className="text-center mb-2 max-w-xs">
+                    <p className="text-gray-700 mb-2">
+                      {type === "requestAccess" 
+                        ? "Sign in with LinkedIn to request access to this document."
+                        : "Connect your LinkedIn profile to continue."}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      We'll use your profile information to personalize your experience.
+                    </p>
                   </div>
                   
-                  <FormField
-                    control={linkedinForm.control}
-                    name="company"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Company</FormLabel>
-                        <FormControl>
-                          <input 
-                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                            placeholder="Your company" 
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={linkedinForm.control}
-                    name="role"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Investor Type</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <Button 
+                    onClick={handleLinkedinAuth} 
+                    className="bg-[#0A66C2] hover:bg-[#084482] transition-all w-full max-w-xs shadow-md hover:shadow-lg"
+                    disabled={isSubmitting}
+                  >
+                    <Linkedin className="mr-2 h-5 w-5" />
+                    Sign in with LinkedIn
+                  </Button>
+                </div>
+              ) : linkedinAuthState === "authenticating" ? (
+                <div className="flex flex-col items-center justify-center py-10 space-y-4">
+                  <div className="relative">
+                    <div className="w-14 h-14 rounded-full border-2 border-[#0A66C2] border-t-transparent animate-spin"></div>
+                    <Linkedin className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#0A66C2] h-6 w-6" />
+                  </div>
+                  <p className="text-center text-gray-600 animate-pulse">Connecting to LinkedIn...</p>
+                </div>
+              ) : (
+                <Form {...linkedinForm}>
+                  <form onSubmit={linkedinForm.handleSubmit(onSubmitLinkedin)} className="space-y-5">
+                    <div className="flex items-center space-x-4 py-3 px-4 bg-blue-50 rounded-lg border border-blue-100 mb-4">
+                      {linkedinProfile?.pictureUrl && (
+                        <img 
+                          src={linkedinProfile.pictureUrl} 
+                          alt="LinkedIn profile" 
+                          className="h-12 w-12 rounded-full border-2 border-white shadow-sm" 
+                        />
+                      )}
+                      <div>
+                        <p className="font-medium text-gray-800">{linkedinProfile?.name}</p>
+                        <p className="text-sm text-gray-600 flex items-center">
+                          <UserCheck className="h-3 w-3 mr-1 text-[#0A66C2]" />
+                          LinkedIn Connected
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <FormField
+                      control={linkedinForm.control}
+                      name="company"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-700">Company</FormLabel>
                           <FormControl>
-                            <SelectTrigger className="w-full bg-white">
-                              <SelectValue placeholder="Select your investor type" />
-                            </SelectTrigger>
+                            <input 
+                              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                              placeholder="Your company" 
+                              {...field} 
+                            />
                           </FormControl>
-                          <SelectContent className="bg-white">
-                            {investorTypes.map((type) => (
-                              <SelectItem key={type} value={type} className="cursor-pointer">
-                                {type}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <DialogFooter>
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-teal-600 hover:bg-teal-700"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? "Submitting..." : "Submit"}
-                    </Button>
-                  </DialogFooter>
-                </form>
-              </Form>
-            )}
-          </>
-        )}
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={linkedinForm.control}
+                      name="role"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-gray-700">Investor Type</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="w-full bg-white">
+                                <SelectValue placeholder="Select your investor type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent className="bg-white max-h-60">
+                              {investorTypes.map((type) => (
+                                <SelectItem key={type} value={type} className="cursor-pointer hover:bg-teal-50">
+                                  {type}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <DialogFooter className="mt-6 pt-4 flex flex-col gap-2">
+                      <Button 
+                        type="submit" 
+                        className="w-full bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-700 hover:to-emerald-700 transition-all shadow-md"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? (
+                          <span className="flex items-center">
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                            Submitting...
+                          </span>
+                        ) : "Submit"}
+                      </Button>
+                    </DialogFooter>
+                  </form>
+                </Form>
+              )}
+            </>
+          )}
+        </div>
       </DialogContent>
     </Dialog>
   );
