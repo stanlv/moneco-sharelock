@@ -94,9 +94,12 @@ const Index = () => {
 
   const companies = {
     investors: [
-      { name: "VC Capital Fund", logo: "https://via.placeholder.com/150?text=VC", type: "Investor" },
-      { name: "Seed Investors", logo: "https://via.placeholder.com/150?text=SI", type: "Investor" },
-      { name: "Angel Group", logo: "https://via.placeholder.com/150?text=AG", type: "Investor" },
+      { name: "Y Combinator", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
+      { name: "Kima Ventures", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
+      { name: "Soma Ventures", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
+      { name: "de/ce ventures", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
+      { name: "Bpifrance", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
+      { name: "Digital Africa", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
     ],
     partners: [
       { name: "Banking Tech", logo: "https://via.placeholder.com/150?text=BT", type: "Partner" },

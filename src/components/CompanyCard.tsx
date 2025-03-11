@@ -10,7 +10,7 @@ interface CompanyCardProps {
 const CompanyCard = ({ name, logo, type }: CompanyCardProps) => {
   return (
     <Card className="flex flex-col items-center p-4 bg-white hover:shadow-md transition-shadow cursor-pointer">
-      <div className="w-16 h-16 mb-3 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center">
+      <div className="w-24 h-16 mb-3 overflow-hidden flex items-center justify-center">
         <img 
           src={logo} 
           alt={`${name} logo`} 
