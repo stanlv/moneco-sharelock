@@ -21,3 +21,17 @@
     animation: logo-spin infinite 20s linear;
   }
 }
+
+/* Make sure the footer sticks to the bottom */
+html, body, #root {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+

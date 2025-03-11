@@ -8,6 +8,7 @@ import StatCard from "@/components/StatCard";
 import LeadershipCard from "@/components/LeadershipCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import DocumentCard from "@/components/DocumentCard";
+import Footer from "@/components/Footer";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import CompanyCard from "@/components/CompanyCard";
@@ -279,10 +280,10 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-8 max-w-6xl">
+      <main className="container mx-auto px-4 py-8 max-w-6xl flex-grow">
         <section className="mb-12">
           <h1 className="text-3xl font-bold text-gray-800 mb-1">The financial application for the African diaspora</h1>
           <p className="text-gray-600 mb-8">#technology #emergingmarkets #impact</p>
@@ -627,6 +628,8 @@ const Index = () => {
           </div>
         </section>
       </main>
+
+      <Footer lastUpdated="May 15, 2024" />
 
       <SubscriptionDialog
         open={showSubscribeDialog}
