@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -59,6 +59,13 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
   const [isSuccess, setIsSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState<"email" | "linkedin">("email");
   const { toast } = useToast();
+
+  // Force LinkedIn authentication for document access requests
+  useEffect(() => {
+    if (type === "requestAccess") {
+      setActiveTab("linkedin");
+    }
+  }, [type]);
 
   const emailForm = useForm<EmailFormData>({
     resolver: zodResolver(emailFormSchema),
@@ -174,7 +181,9 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
         <DialogHeader>
           <DialogTitle>{getTitle()}</DialogTitle>
           <DialogDescription>
-            Connect with us using your email or LinkedIn profile.
+            {type === "requestAccess" 
+              ? "Please authenticate with your LinkedIn profile to request access."
+              : "Connect with us using your email or LinkedIn profile."}
           </DialogDescription>
         </DialogHeader>
         
@@ -189,96 +198,104 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
             </p>
           </div>
         ) : (
-          <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "email" | "linkedin")} className="w-full">
-            <TabsList className="grid grid-cols-2 mb-4">
-              <TabsTrigger value="email">Email</TabsTrigger>
-              <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
-            </TabsList>
+          <Tabs 
+            value={activeTab} 
+            onValueChange={(value) => setActiveTab(value as "email" | "linkedin")} 
+            className="w-full"
+          >
+            {type !== "requestAccess" && (
+              <TabsList className="grid grid-cols-2 mb-4">
+                <TabsTrigger value="email">Email</TabsTrigger>
+                <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
+              </TabsList>
+            )}
             
-            <TabsContent value="email">
-              <Form {...emailForm}>
-                <form onSubmit={emailForm.handleSubmit(onSubmitEmail)} className="space-y-4">
-                  <FormField
-                    control={emailForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Full Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John Doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={emailForm.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="you@example.com" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={emailForm.control}
-                    name="company"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Company</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Your company" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={emailForm.control}
-                    name="role"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Investor Type</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+            {type !== "requestAccess" && (
+              <TabsContent value="email">
+                <Form {...emailForm}>
+                  <form onSubmit={emailForm.handleSubmit(onSubmitEmail)} className="space-y-4">
+                    <FormField
+                      control={emailForm.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Full Name</FormLabel>
                           <FormControl>
-                            <SelectTrigger className="w-full bg-white">
-                              <SelectValue placeholder="Select your investor type" />
-                            </SelectTrigger>
+                            <Input placeholder="John Doe" {...field} />
                           </FormControl>
-                          <SelectContent className="bg-white">
-                            {investorTypes.map((type) => (
-                              <SelectItem key={type} value={type} className="cursor-pointer">
-                                {type}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <DialogFooter>
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-teal-600 hover:bg-teal-700"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? "Submitting..." : "Submit"}
-                    </Button>
-                  </DialogFooter>
-                </form>
-              </Form>
-            </TabsContent>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={emailForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="you@example.com" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={emailForm.control}
+                      name="company"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Company</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Your company" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={emailForm.control}
+                      name="role"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Investor Type</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="w-full bg-white">
+                                <SelectValue placeholder="Select your investor type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent className="bg-white">
+                              {investorTypes.map((type) => (
+                                <SelectItem key={type} value={type} className="cursor-pointer">
+                                  {type}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <DialogFooter>
+                      <Button 
+                        type="submit" 
+                        className="w-full bg-teal-600 hover:bg-teal-700"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? "Submitting..." : "Submit"}
+                      </Button>
+                    </DialogFooter>
+                  </form>
+                </Form>
+              </TabsContent>
+            )}
             
-            <TabsContent value="linkedin">
+            <TabsContent value="linkedin" className={type === "requestAccess" ? "pt-2" : ""}>
               <Form {...linkedinForm}>
                 <form onSubmit={linkedinForm.handleSubmit(onSubmitLinkedin)} className="space-y-4">
                   <FormField
