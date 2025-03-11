@@ -10,9 +10,10 @@ interface DocumentCardProps {
   size: string;
   icon: ReactNode;
   type: "download" | "request";
+  onRequestAccess?: () => void;
 }
 
-const DocumentCard = ({ title, size, icon, type }: DocumentCardProps) => {
+const DocumentCard = ({ title, size, icon, type, onRequestAccess }: DocumentCardProps) => {
   const [requested, setRequested] = useState(false);
   const { toast } = useToast();
 
@@ -22,6 +23,8 @@ const DocumentCard = ({ title, size, icon, type }: DocumentCardProps) => {
         title: "Download started",
         description: `${title} (${size}) is downloading...`,
       });
+    } else if (onRequestAccess) {
+      onRequestAccess();
     } else {
       setRequested(true);
       toast({
@@ -46,14 +49,14 @@ const DocumentCard = ({ title, size, icon, type }: DocumentCardProps) => {
           onClick={handleAction}
           variant={type === "download" ? "outline" : "secondary"}
           className={type === "download" ? "border-gray-300" : "bg-gray-700 hover:bg-gray-800 text-white"}
-          disabled={type === "request" && requested}
+          disabled={type === "request" && requested && !onRequestAccess}
         >
           {type === "download" ? (
             <>
               <Download className="h-4 w-4 mr-2" />
               Download
             </>
-          ) : requested ? (
+          ) : requested && !onRequestAccess ? (
             "Requested"
           ) : (
             "Request access"

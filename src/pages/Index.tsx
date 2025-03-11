@@ -11,6 +11,7 @@ import DocumentCard from "@/components/DocumentCard";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import CompanyCard from "@/components/CompanyCard";
+import { SubscriptionDialog } from "@/components/SubscriptionDialog";
 
 const Index = () => {
   const [showSubscriptionMessage, setShowSubscriptionMessage] = useState(false);
@@ -23,6 +24,11 @@ const Index = () => {
   const [testimonialsFeedback, setTestimonialsFeedback] = useState<string | null>(null);
   
   const [selectedLeaderId, setSelectedLeaderId] = useState<number | null>(null);
+  
+  const [showSubscribeDialog, setShowSubscribeDialog] = useState(false);
+  const [showRequestAccessDialog, setShowRequestAccessDialog] = useState(false);
+  const [showFounderUpdatesDialog, setShowFounderUpdatesDialog] = useState(false);
+  const [currentDocument, setCurrentDocument] = useState<string | null>(null);
 
   const stats = [
     {
@@ -45,7 +51,7 @@ const Index = () => {
       source: "Mixpanel",
       animate: true,
       finalValue: 24357,
-      animationDuration: 20000, // 20 seconds
+      animationDuration: 20000,
       icon: <UserPlus className="h-6 w-6" />
     }
   ];
@@ -233,10 +239,16 @@ const Index = () => {
   ];
 
   const handleSubscribe = () => {
-    setShowSubscriptionMessage(true);
-    setTimeout(() => {
-      setShowSubscriptionMessage(false);
-    }, 3000);
+    setShowSubscribeDialog(true);
+  };
+
+  const handleFounderUpdates = () => {
+    setShowFounderUpdatesDialog(true);
+  };
+
+  const handleRequestAccess = (documentTitle: string) => {
+    setCurrentDocument(documentTitle);
+    setShowRequestAccessDialog(true);
   };
 
   const FeedbackButton = ({ 
@@ -508,7 +520,7 @@ const Index = () => {
             <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
               <h3 className="text-xl font-semibold text-gray-800">Want access to founders updates?</h3>
               <Button 
-                onClick={handleSubscribe}
+                onClick={handleFounderUpdates}
                 className="bg-teal-600 hover:bg-teal-700 shadow-sm"
               >
                 Subscribe
@@ -608,12 +620,32 @@ const Index = () => {
                 title={doc.title} 
                 size={doc.size} 
                 icon={doc.icon} 
-                type={doc.type} 
+                type={doc.type}
+                onRequestAccess={() => handleRequestAccess(doc.title)}
               />
             ))}
           </div>
         </section>
       </main>
+
+      <SubscriptionDialog
+        open={showSubscribeDialog}
+        onOpenChange={setShowSubscribeDialog}
+        type="subscribe"
+      />
+
+      <SubscriptionDialog
+        open={showRequestAccessDialog}
+        onOpenChange={setShowRequestAccessDialog}
+        type="requestAccess"
+        documentTitle={currentDocument || undefined}
+      />
+
+      <SubscriptionDialog
+        open={showFounderUpdatesDialog}
+        onOpenChange={setShowFounderUpdatesDialog}
+        type="founderUpdates"
+      />
     </div>
   );
 };
