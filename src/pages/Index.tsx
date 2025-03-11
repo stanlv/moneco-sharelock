@@ -138,37 +138,37 @@ const Index = () => {
     { 
       name: "Paystack", 
       url: "https://www.linkedin.com/company/paystack/",
-      logo: "https://media.licdn.com/dms/image/C4E0BAQHULRDgGs_pjQ/company-logo_200_200/0/1630572129817/paystack_logo?e=1719705600&v=beta&t=rUj6OzZw7QOJ4OfWGxCkTbv-YnOINg7KgOSS7gk9Tr8" 
+      logo: "/lovable-uploads/c269b875-fb61-422e-92cd-05be8e3323ce.png"
     },
     { 
       name: "CoinAfrique", 
       url: "https://www.linkedin.com/company/coinafrique/",
-      logo: "https://media.licdn.com/dms/image/C4D0BAQFDGvYe-xKa4A/company-logo_200_200/0/1630570299509/coinafrique_logo?e=1719705600&v=beta&t=J7x69g-fCQ52ffE-Eyt8XEpSxsxv0vfkBLu46M0o-UE" 
+      logo: "/lovable-uploads/97a0def4-cf1f-45bc-a2c0-93003dffebab.png"
     },
     { 
       name: "Boston Consulting Group", 
       url: "https://www.linkedin.com/company/boston-consulting-group/",
-      logo: "https://media.licdn.com/dms/image/C4D0BAQFGe9yzWZ8mVQ/company-logo_200_200/0/1630536914848/boston_consulting_group_logo?e=1719705600&v=beta&t=aPlzNpH0vfC9vFQDw9EMxEXpAhk0Rfd_4JkT5_pRjmk" 
+      logo: "/lovable-uploads/32db730d-6e83-4e67-bdef-ffe3d48e54b3.png"
     },
     { 
       name: "Société Générale CIB", 
       url: "https://www.linkedin.com/company/societegenerale-corporate-and-investment-banking/",
-      logo: "https://media.licdn.com/dms/image/C4D0BAQEFBqRMKfFdFw/company-logo_200_200/0/1677595892957/societegenerale_logo?e=1719705600&v=beta&t=rO-qKY7ybTnhqDDrFBVbO9BvVIeVGCjmZ2V4hW3AwJQ" 
+      logo: "/lovable-uploads/b55a3c94-1915-4a39-b13d-872a1c965018.png"
     },
     { 
       name: "Proparco", 
       url: "https://www.linkedin.com/company/proparco/",
-      logo: "https://media.licdn.com/dms/image/C4D0BAQFdwgUUE_i7Yg/company-logo_200_200/0/1631337379818?e=1719705600&v=beta&t=qFURiPSKoK9-oC8uZUPCR-ySuIcJJVz5QxrB0a0zJCo" 
+      logo: "/lovable-uploads/b60a2d60-74a0-4ae3-9520-603f9cd996ab.png"
     },
     { 
       name: "ABB", 
       url: "https://www.linkedin.com/company/abb/",
-      logo: "https://media.licdn.com/dms/image/C4D0BAQEVdSEgYuGfFw/company-logo_200_200/0/1656681489601/abb_logo?e=1719705600&v=beta&t=0SQgUDxpEwQD0BEP22-O8_wDc_9mVUaRG07fk0Zv-Ts" 
+      logo: "/lovable-uploads/c269b875-fb61-422e-92cd-05be8e3323ce.png"
     },
     { 
       name: "Lombard Odier", 
       url: "https://www.linkedin.com/company/lombard-odier/",
-      logo: "https://media.licdn.com/dms/image/C4D0BAQF9k_vefEEA9g/company-logo_200_200/0/1631313662155?e=1719705600&v=beta&t=p62gBqjsX1v1CsZvwVJ1Q7L3t0i0SfuJ1SsM5vDN8Ec" 
+      logo: "/lovable-uploads/b60a2d60-74a0-4ae3-9520-603f9cd996ab.png"
     }
   ];
 
