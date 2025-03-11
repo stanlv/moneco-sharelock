@@ -526,7 +526,7 @@ const Index = () => {
           <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Customer Verbatim</h2>
           
           <div className="space-y-6 mb-6">
-            {testimonials.map((testimonial, index) => (
+            {allTestimonials.slice(0, 2).map((testimonial, index) => (
               <TestimonialCard 
                 key={index} 
                 quote={testimonial.quote} 
