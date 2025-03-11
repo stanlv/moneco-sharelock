@@ -18,6 +18,8 @@ const Index = () => {
   const [briefFeedback, setBriefFeedback] = useState<string | null>(null);
   const [startedFeedback, setStartedFeedback] = useState<string | null>(null);
   const [visionFeedback, setVisionFeedback] = useState<string | null>(null);
+  
+  const [selectedLeaderId, setSelectedLeaderId] = useState<number | null>(null);
 
   const stats = [
     {
@@ -288,7 +290,9 @@ const Index = () => {
                   key={index} 
                   name={leader.name} 
                   role={leader.role} 
-                  image={leader.image} 
+                  image={leader.image}
+                  isSelected={selectedLeaderId === index}
+                  onSelect={() => setSelectedLeaderId(index)}
                 />
               ))}
             </div>
