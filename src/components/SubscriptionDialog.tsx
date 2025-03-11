@@ -1,255 +1,220 @@
 
-import * as React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Check } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Mail, Bell, Eye, Key, FileText } from "lucide-react";
 
-const subscriptionSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
+const formSchema = z.object({
+  name: z.string().min(2, { message: "Name is required" }),
+  email: z.string().email({ message: "Invalid email address" }),
+  company: z.string().optional(),
+  role: z.string().optional(),
 });
 
-const requestAccessSchema = z.object({
-  email: z.string().email({ message: "Please enter a valid email address" }),
-  name: z.string().min(2, { message: "Name must be at least 2 characters" }),
-  company: z.string().min(2, { message: "Company must be at least 2 characters" }),
-  reason: z.string().min(10, { message: "Please provide a brief reason for your request" }),
-});
-
-type DialogType = "subscribe" | "requestAccess" | "founderUpdates";
+type FormData = z.infer<typeof formSchema>;
 
 interface SubscriptionDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  type: DialogType;
+  type: "subscribe" | "requestAccess" | "founderUpdates";
   documentTitle?: string;
 }
 
-export function SubscriptionDialog({ 
-  open, 
-  onOpenChange, 
-  type, 
-  documentTitle 
-}: SubscriptionDialogProps) {
+const investorTypes = [
+  "Business Angel",
+  "Venture Capitalist",
+  "Private Equity",
+  "Family Office",
+  "Corporate Investor",
+  "Impact Investor",
+  "Institutional Investor",
+  "Seed Fund",
+  "Startup Advisor",
+  "Strategic Investor"
+];
+
+export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: SubscriptionDialogProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
   const { toast } = useToast();
-  const [submitted, setSubmitted] = React.useState(false);
-  
-  const subscribeForm = useForm<z.infer<typeof subscriptionSchema>>({
-    resolver: zodResolver(subscriptionSchema),
-    defaultValues: {
-      email: "",
-      name: "",
-    },
-  });
 
-  const requestAccessForm = useForm<z.infer<typeof requestAccessSchema>>({
-    resolver: zodResolver(requestAccessSchema),
+  const form = useForm<FormData>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
       name: "",
+      email: "",
       company: "",
-      reason: "",
+      role: "",
     },
   });
 
-  const getTitleAndDescription = () => {
+  const onSubmit = async (data: FormData) => {
+    setIsSubmitting(true);
+    
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    console.log("Form submitted:", data);
+    
+    setIsSubmitting(false);
+    setIsSuccess(true);
+    
+    toast({
+      title: getSuccessTitle(),
+      description: getSuccessDescription(data),
+    });
+    
+    // Reset after 2 seconds
+    setTimeout(() => {
+      setIsSuccess(false);
+      form.reset();
+      onOpenChange(false);
+    }, 2000);
+  };
+
+  const getTitle = () => {
     switch (type) {
       case "subscribe":
-        return {
-          title: "Subscribe to Updates",
-          description: "Stay up to date with the latest news and updates from Moneco",
-          icon: <Bell className="h-5 w-5 text-teal-600 mr-2" />,
-        };
+        return "Subscribe";
       case "requestAccess":
-        return {
-          title: `Request Access to ${documentTitle || "Document"}`,
-          description: "Fill out the form below to request access to this document",
-          icon: <Key className="h-5 w-5 text-teal-600 mr-2" />,
-        };
+        return `Request Access to ${documentTitle}`;
       case "founderUpdates":
-        return {
-          title: "Subscribe to Founder Updates",
-          description: "Get the latest news and insights directly from our founders",
-          icon: <Mail className="h-5 w-5 text-teal-600 mr-2" />,
-        };
+        return "Subscribe to Founder Updates";
+      default:
+        return "Subscribe";
     }
   };
 
-  const { title, description, icon } = getTitleAndDescription();
-
-  const onSubscribe = (data: z.infer<typeof subscriptionSchema>) => {
-    console.log("Subscription data:", data);
-    toast({
-      title: "Subscription successful",
-      description: "You've been subscribed to our updates",
-    });
-    setSubmitted(true);
-    setTimeout(() => {
-      onOpenChange(false);
-      setSubmitted(false);
-    }, 2000);
+  const getSuccessTitle = () => {
+    switch (type) {
+      case "subscribe":
+        return "Successfully subscribed";
+      case "requestAccess":
+        return "Access requested";
+      case "founderUpdates":
+        return "Subscribed to founder updates";
+      default:
+        return "Successfully submitted";
+    }
   };
 
-  const onRequestAccess = (data: z.infer<typeof requestAccessSchema>) => {
-    console.log("Request access data:", data);
-    toast({
-      title: "Request submitted",
-      description: "We'll review your request and get back to you soon",
-    });
-    setSubmitted(true);
-    setTimeout(() => {
-      onOpenChange(false);
-      setSubmitted(false);
-    }, 2000);
-  };
-
-  const renderForm = () => {
-    if (submitted) {
-      return (
-        <div className="flex flex-col items-center justify-center py-8">
-          <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center mb-4">
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              className="h-6 w-6 text-green-600" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M5 13l4 4L19 7" 
-              />
-            </svg>
-          </div>
-          <h3 className="text-xl font-medium text-gray-900 mb-1">
-            {type === "requestAccess" ? "Request Submitted" : "Subscription Successful"}
-          </h3>
-          <p className="text-sm text-gray-500">
-            {type === "requestAccess" 
-              ? "We'll review your request and get back to you soon." 
-              : "Thank you for subscribing to our updates."}
-          </p>
-        </div>
-      );
+  const getSuccessDescription = (data: FormData) => {
+    switch (type) {
+      case "subscribe":
+        return `Thank you for subscribing, ${data.name}!`;
+      case "requestAccess":
+        return `We'll review your request for ${documentTitle} and get back to you shortly.`;
+      case "founderUpdates":
+        return `You'll now receive updates from our founders.`;
+      default:
+        return "Thank you for your submission!";
     }
-
-    if (type === "subscribe" || type === "founderUpdates") {
-      return (
-        <form onSubmit={subscribeForm.handleSubmit(onSubscribe)} className="space-y-4 py-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Name</Label>
-            <Input 
-              id="name" 
-              placeholder="Your name" 
-              {...subscribeForm.register("name")} 
-            />
-            {subscribeForm.formState.errors.name && (
-              <p className="text-sm text-red-500">{subscribeForm.formState.errors.name.message}</p>
-            )}
-          </div>
-          
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input 
-              id="email" 
-              type="email" 
-              placeholder="your.email@example.com" 
-              {...subscribeForm.register("email")} 
-            />
-            {subscribeForm.formState.errors.email && (
-              <p className="text-sm text-red-500">{subscribeForm.formState.errors.email.message}</p>
-            )}
-          </div>
-
-          <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-700">
-            {type === "founderUpdates" ? "Subscribe to Founder Updates" : "Subscribe"}
-          </Button>
-        </form>
-      );
-    }
-
-    return (
-      <form onSubmit={requestAccessForm.handleSubmit(onRequestAccess)} className="space-y-4 py-4">
-        <div className="space-y-2">
-          <Label htmlFor="name">Name</Label>
-          <Input 
-            id="name" 
-            placeholder="Your name" 
-            {...requestAccessForm.register("name")} 
-          />
-          {requestAccessForm.formState.errors.name && (
-            <p className="text-sm text-red-500">{requestAccessForm.formState.errors.name.message}</p>
-          )}
-        </div>
-        
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input 
-            id="email" 
-            type="email" 
-            placeholder="your.email@example.com" 
-            {...requestAccessForm.register("email")} 
-          />
-          {requestAccessForm.formState.errors.email && (
-            <p className="text-sm text-red-500">{requestAccessForm.formState.errors.email.message}</p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="company">Company</Label>
-          <Input 
-            id="company" 
-            placeholder="Your company" 
-            {...requestAccessForm.register("company")} 
-          />
-          {requestAccessForm.formState.errors.company && (
-            <p className="text-sm text-red-500">{requestAccessForm.formState.errors.company.message}</p>
-          )}
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="reason">Reason for request</Label>
-          <Input 
-            id="reason" 
-            placeholder="Why do you need access to this document?"
-            {...requestAccessForm.register("reason")} 
-          />
-          {requestAccessForm.formState.errors.reason && (
-            <p className="text-sm text-red-500">{requestAccessForm.formState.errors.reason.message}</p>
-          )}
-        </div>
-
-        <div className="flex items-center gap-2 p-3 rounded-lg bg-gray-50 border border-gray-100">
-          <FileText className="h-5 w-5 text-teal-600" />
-          <span className="text-sm font-medium text-gray-700">{documentTitle || "Document"}</span>
-        </div>
-
-        <Button type="submit" className="w-full bg-teal-600 hover:bg-teal-700">
-          Request Access
-        </Button>
-      </form>
-    );
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="flex items-center">
-            {icon}
-            {title}
-          </DialogTitle>
-          <p className="text-sm text-gray-500 mt-1">{description}</p>
+          <DialogTitle>{getTitle()}</DialogTitle>
         </DialogHeader>
-        {renderForm()}
+        
+        {isSuccess ? (
+          <div className="py-6 flex flex-col items-center justify-center">
+            <div className="rounded-full bg-green-100 p-3 mb-4">
+              <Check className="h-6 w-6 text-green-600" />
+            </div>
+            <h3 className="text-lg font-medium text-center">{getSuccessTitle()}</h3>
+            <p className="text-center text-gray-500 mt-2">{getSuccessDescription(form.getValues())}</p>
+          </div>
+        ) : (
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="John Doe" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="you@example.com" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="company"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Company</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Your company" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Investor Type</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger className="w-full bg-white">
+                          <SelectValue placeholder="Select your investor type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent className="bg-white">
+                        {investorTypes.map((type) => (
+                          <SelectItem key={type} value={type} className="cursor-pointer">
+                            {type}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-teal-600 hover:bg-teal-700"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        )}
       </DialogContent>
     </Dialog>
   );
