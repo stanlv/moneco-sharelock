@@ -98,7 +98,7 @@ const Index = () => {
       { name: "Kima Ventures", logo: "/lovable-uploads/de02de06-e53e-4866-9e3c-952c8e369ac0.png", type: "Investor" },
       { name: "Soma Ventures", logo: "/lovable-uploads/536a7bfb-a16f-4f9e-be24-31f0af390667.png", type: "Investor" },
       { name: "de/ce ventures", logo: "/lovable-uploads/8e8ebfc7-a5ae-4493-b096-9baed4818ef0.png", type: "Investor" },
-      { name: "Bpifrance", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
+      { name: "Bpifrance", logo: "/lovable-uploads/c937a99f-56e5-44b0-8b6a-81c7e5cccd23.png", type: "Investor" },
       { name: "Digital Africa", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
     ],
     partners: [
