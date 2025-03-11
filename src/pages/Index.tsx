@@ -139,7 +139,7 @@ const Index = () => {
     { 
       name: "Paystack", 
       url: "https://www.linkedin.com/company/paystack/",
-      logo: "/lovable-uploads/c269b875-fb61-422e-92cd-05be8e3323ce.png"
+      logo: "/lovable-uploads/900a9b36-6a42-4402-bddc-c24cf2e63762.png"
     },
     { 
       name: "CoinAfrique", 
