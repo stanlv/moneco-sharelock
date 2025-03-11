@@ -94,7 +94,7 @@ const Index = () => {
 
   const companies = {
     investors: [
-      { name: "Y Combinator", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
+      { name: "Y Combinator", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor", website: "https://www.ycombinator.com/" },
       { name: "Kima Ventures", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
       { name: "Soma Ventures", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
       { name: "de/ce ventures", logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png", type: "Investor" },
@@ -305,6 +305,7 @@ const Index = () => {
                 name={company.name} 
                 logo={company.logo} 
                 type={company.type}
+                website={(company as any).website}
               />
             ))}
           </div>
@@ -419,3 +420,4 @@ const Index = () => {
 };
 
 export default Index;
+
