@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,235 @@ import { cn } from "@/lib/utils";
 import CompanyCard from "@/components/CompanyCard";
 import { SubscriptionDialog } from "@/components/SubscriptionDialog";
 import LanguageSelector from "@/components/LanguageSelector";
+
+// Define the mock data
+const stats = [
+  {
+    title: "$ 83 Billions",
+    description: "Yearly financial transfers (Remittances) from Europe to Africa",
+    source: "world bank",
+    animate: true,
+    finalValue: 83,
+    animationDuration: 2000,
+    icon: <Banknote className="h-5 w-5 text-red-500" />,
+    sourceUrl: "https://www.worldbank.org/",
+    variant: "red"
+  },
+  {
+    title: "Save $15",
+    description: "Moneco customers save on average $15 on a $200 transfer, paying only 25¢ in fees.",
+    source: "Moneco Website - Pricing",
+    animate: true,
+    finalValue: 15,
+    animationDuration: 1500,
+    icon: <BadgeDollarSign className="h-5 w-5 text-emerald-500" />,
+    sourceUrl: "#",
+    variant: "green"
+  },
+  {
+    title: "24'000",
+    description: "Accounts opened since 2023",
+    source: "Mixpanel",
+    animate: true,
+    finalValue: 24000,
+    animationDuration: 2500,
+    icon: <UserPlus className="h-5 w-5 text-blue-500" />,
+    sourceUrl: "#",
+    variant: "blue"
+  }
+];
+
+const testimonials = [
+  {
+    quote: "Moneco has transformed how I send money to my family in Ghana. The fees are so much lower, and the money arrives instantly. No more waiting for days!",
+    author: "Emmanuel Kwame",
+    source: "Moneco User since 2022"
+  },
+  {
+    quote: "I've tried many remittance services, but Moneco is by far the most user-friendly and cost-effective. Their customer service is also excellent.",
+    author: "Fatima Sy",
+    source: "Entrepreneur"
+  },
+  {
+    quote: "As someone who regularly sends money to multiple family members across Africa, Moneco's batch transfer feature has been a game-changer for me.",
+    author: "Jean-Pierre Mugabo",
+    source: "Doctor in Paris"
+  }
+];
+
+const leaders = [
+  {
+    name: "Abimbola Adedeji",
+    role: "CEO & Co-founder",
+    image: "/lovable-uploads/900a9b36-6a42-4402-bddc-c24cf2e63762.png",
+    gradientVariant: "blue"
+  },
+  {
+    name: "Makena Omondi",
+    role: "CTO & Co-founder",
+    image: "/lovable-uploads/8e8ebfc7-a5ae-4493-b096-9baed4818ef0.png",
+    gradientVariant: "purple"
+  },
+  {
+    name: "Tariq El-Amin",
+    role: "COO",
+    image: "/lovable-uploads/97a0def4-cf1f-45bc-a2c0-93003dffebab.png",
+    gradientVariant: "green"
+  }
+];
+
+const educationInstitutions = [
+  {
+    name: "Harvard Business School",
+    logo: "/lovable-uploads/1165f161-e7ab-47bb-b1c3-75dcd09e8485.png",
+    url: "https://www.hbs.edu/"
+  },
+  {
+    name: "MIT",
+    logo: "/lovable-uploads/205ace63-228b-45bb-a619-2ff7d56df767.png",
+    url: "https://www.mit.edu/"
+  },
+  {
+    name: "Stanford University",
+    logo: "/lovable-uploads/8511c5d7-9c93-4ca5-95ed-ebcf7be428b4.png",
+    url: "https://www.stanford.edu/"
+  },
+  {
+    name: "École Polytechnique",
+    logo: "/lovable-uploads/9ddc31e9-81d6-4a88-b941-79a24156f398.png",
+    url: "https://www.polytechnique.edu/"
+  }
+];
+
+const previousCompanies = [
+  {
+    name: "McKinsey",
+    logo: "/lovable-uploads/dafeaeae-e1af-4bfe-90d0-728fa23ae389.png",
+    url: "https://www.mckinsey.com/"
+  },
+  {
+    name: "Goldman Sachs",
+    logo: "/lovable-uploads/32db730d-6e83-4e67-bdef-ffe3d48e54b3.png",
+    url: "https://www.goldmansachs.com/"
+  },
+  {
+    name: "BCG",
+    logo: "/lovable-uploads/18aa2c18-0c27-42f0-8d40-fe30cf8c9a9c.png",
+    url: "https://www.bcg.com/"
+  },
+  {
+    name: "Stripe",
+    logo: "/lovable-uploads/c269b875-fb61-422e-92cd-05be8e3323ce.png",
+    url: "https://stripe.com/"
+  },
+  {
+    name: "Google",
+    logo: "/lovable-uploads/1b190ff0-6e3e-43d2-8171-b71db395b4a4.png",
+    url: "https://www.google.com/"
+  }
+];
+
+const documents = [
+  {
+    title: "2023 Annual Report",
+    size: "4.2 MB",
+    icon: <FileText className="h-5 w-5" />,
+    type: "download"
+  },
+  {
+    title: "Pitch Deck",
+    size: "8.5 MB",
+    icon: <FileText className="h-5 w-5" />,
+    type: "request"
+  },
+  {
+    title: "Financial Projections",
+    size: "1.8 MB",
+    icon: <FileText className="h-5 w-5" />,
+    type: "request"
+  },
+  {
+    title: "Investor FAQ",
+    size: "1.1 MB",
+    icon: <FileText className="h-5 w-5" />,
+    type: "download"
+  }
+];
+
+const companies = {
+  banks: [
+    {
+      name: "Credit Agricole",
+      logo: "/lovable-uploads/06e65e90-337c-414d-a709-379d102e3861.png",
+      type: "Bank",
+      website: "https://www.credit-agricole.com/"
+    },
+    {
+      name: "Société Générale",
+      logo: "/lovable-uploads/695ce3db-86cd-45a3-bcae-de9befb351b4.png",
+      type: "Bank",
+      website: "https://www.societegenerale.com/"
+    }
+  ],
+  investors: [
+    {
+      name: "Accel",
+      logo: "/lovable-uploads/0a98998d-e3d0-40ff-960a-6aa44287d64d.png",
+      type: "VC",
+      website: "https://www.accel.com/"
+    },
+    {
+      name: "Y Combinator",
+      logo: "/lovable-uploads/de02de06-e53e-4866-9e3c-952c8e369ac0.png",
+      type: "Accelerator",
+      website: "https://www.ycombinator.com/"
+    },
+    {
+      name: "Sequoia",
+      logo: "/lovable-uploads/fa9eff54-9889-44bf-9626-dca8265c06d5.png",
+      type: "VC",
+      website: "https://www.sequoiacap.com/"
+    }
+  ],
+  partners: [
+    {
+      name: "Mastercard",
+      logo: "/lovable-uploads/3eba50ec-a606-4c16-8628-b9f0b54b5720.png",
+      type: "Payment",
+      website: "https://www.mastercard.com/"
+    },
+    {
+      name: "Visa",
+      logo: "/lovable-uploads/4f5c927e-4a2e-4a61-99f5-6185a67da702.png",
+      type: "Payment",
+      website: "https://www.visa.com/"
+    },
+    {
+      name: "SWIFT",
+      logo: "/lovable-uploads/9f121106-7082-4599-8e55-b282061c34be.png",
+      type: "Banking",
+      website: "https://www.swift.com/"
+    },
+    {
+      name: "AWS",
+      logo: "/lovable-uploads/65baf527-81c0-43b5-862c-0b50ba7c1549.png",
+      type: "Tech",
+      website: "https://aws.amazon.com/"
+    },
+    {
+      name: "Plaid",
+      logo: "/lovable-uploads/536a7bfb-a16f-4f9e-be24-31f0af390667.png",
+      type: "FinTech",
+      website: "https://plaid.com/"
+    },
+    {
+      name: "WorldRemit",
+      logo: "/lovable-uploads/410b7fba-9bdf-4c2e-8d8c-1b5eaa71c55a.png",
+      type: "Remittance",
+      website: "https://www.worldremit.com/"
+    }
+  ]
+};
 
 interface IndexProps {
   onLanguageChangeStart?: () => void;
@@ -589,4 +819,135 @@ const Index = ({ onLanguageChangeStart, onLanguageChangeEnd }: IndexProps) => {
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">{translations[currentLanguage as keyof typeof translations].testimonialsTitle}</h2>
           
-          <div className="space-y-
+          <div className="space-y-8">
+            <div className="grid md:grid-cols-3 gap-6">
+              {testimonials.map((testimonial, index) => (
+                <TestimonialCard
+                  key={index}
+                  quote={testimonial.quote}
+                  author={testimonial.author}
+                  source={testimonial.source}
+                />
+              ))}
+            </div>
+            
+            <div className="flex justify-center">
+              <Button 
+                variant="outline" 
+                className="border-teal-200 hover:border-teal-300 hover:bg-teal-50"
+                onClick={() => setShowTestimonialsDialog(true)}
+              >
+                <Quote className="h-4 w-4 mr-2 text-teal-500" />
+                {translations[currentLanguage as keyof typeof translations].readMoreTestimonials}
+              </Button>
+            </div>
+          </div>
+        </section>
+        
+        <Dialog open={showTestimonialsDialog} onOpenChange={setShowTestimonialsDialog}>
+          <DialogContent className="max-w-4xl p-8 max-h-[90vh] overflow-y-auto">
+            <DialogHeader className="mb-6">
+              <DialogTitle className="text-2xl font-bold">{translations[currentLanguage as keyof typeof translations].testimonials.dialogTitle}</DialogTitle>
+            </DialogHeader>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {Array(6).fill(null).map((_, i) => {
+                const idx = i % testimonials.length;
+                return (
+                  <TestimonialCard
+                    key={`more-testimonial-${i}`}
+                    quote={testimonials[idx].quote}
+                    author={`${testimonials[idx].author} ${i+1}`}
+                    source={testimonials[idx].source}
+                  />
+                );
+              })}
+            </div>
+            
+            <div className="bg-gray-50 p-6 rounded-lg">
+              <h4 className="font-semibold text-lg mb-3">{translations[currentLanguage as keyof typeof translations].testimonials.feedbackQuestion}</h4>
+              <div className="flex flex-wrap gap-2">
+                <FeedbackButton 
+                  type="support" 
+                  label={translations[currentLanguage as keyof typeof translations].feedback.support} 
+                  icon={<Heart className="h-3 w-3" />} 
+                  selected={testimonialsFeedback === "support"} 
+                  onSelect={() => setTestimonialsFeedback("support")} 
+                />
+                <FeedbackButton 
+                  type="insightful" 
+                  label={translations[currentLanguage as keyof typeof translations].feedback.insightful} 
+                  icon={<ThumbsUp className="h-3 w-3" />} 
+                  selected={testimonialsFeedback === "insightful"} 
+                  onSelect={() => setTestimonialsFeedback("insightful")} 
+                />
+                <FeedbackButton 
+                  type="celebrate" 
+                  label={translations[currentLanguage as keyof typeof translations].feedback.celebrate} 
+                  icon={<Trophy className="h-3 w-3" />} 
+                  selected={testimonialsFeedback === "celebrate"} 
+                  onSelect={() => setTestimonialsFeedback("celebrate")} 
+                />
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+        
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">{translations[currentLanguage as keyof typeof translations].documentsTitle}</h2>
+          
+          <div className="max-w-3xl mx-auto space-y-4">
+            {documents.map((doc, index) => (
+              <DocumentCard
+                key={index}
+                title={doc.title}
+                size={doc.size}
+                icon={doc.icon}
+                type={doc.type}
+                onRequestAccess={doc.type === "request" ? () => handleRequestAccess(doc.title) : undefined}
+              />
+            ))}
+          </div>
+        </section>
+      </main>
+      
+      <Footer />
+      
+      <SubscriptionDialog 
+        open={showSubscribeDialog} 
+        onOpenChange={setShowSubscribeDialog}
+        onSubscribed={() => {
+          setShowSubscribeDialog(false);
+          setShowSubscriptionMessage(true);
+          setTimeout(() => setShowSubscriptionMessage(false), 5000);
+        }}
+      />
+      
+      <SubscriptionDialog 
+        open={showFounderUpdatesDialog} 
+        onOpenChange={setShowFounderUpdatesDialog}
+        title="Subscribe to Founder Updates"
+        description="Get exclusive insights and updates directly from our leadership team, sent directly to your inbox." 
+        type="founder"
+        onSubscribed={() => {
+          setShowFounderUpdatesDialog(false);
+          setShowSubscriptionMessage(true);
+          setTimeout(() => setShowSubscriptionMessage(false), 5000);
+        }}
+      />
+      
+      <SubscriptionDialog 
+        open={showRequestAccessDialog} 
+        onOpenChange={setShowRequestAccessDialog}
+        title={`Request access to ${currentDocument}`}
+        description="Fill out this form to request access to this document. We'll review your request and get back to you shortly."
+        type="document"
+        onSubscribed={() => {
+          setShowRequestAccessDialog(false);
+        }}
+      />
+    </div>
+  );
+};
+
+export default Index;
