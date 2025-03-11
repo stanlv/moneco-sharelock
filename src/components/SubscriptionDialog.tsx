@@ -5,32 +5,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Check, Linkedin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const emailFormSchema = z.object({
-  name: z.string().min(2, { message: "Name is required" }),
-  email: z.string().email({ message: "Invalid email address" }),
-  company: z.string().optional(),
-  role: z.string().optional(),
-});
-
-// Updated schema without linkedinUrl field - we'll get this from the OAuth flow
+// Only using the LinkedIn schema now
 const linkedinFormSchema = z.object({
-  name: z.string().min(2, { message: "Name is required" }),
   company: z.string().optional(),
-  role: z.string().optional(),
-  // We'll add these fields after LinkedIn auth
+  role: z.string().min(1, { message: "Please select your investor type" }),
+  // Fields for LinkedIn auth data
   profileId: z.string().optional(),
   profileUrl: z.string().optional(),
   profilePicture: z.string().optional(),
+  name: z.string().optional(),
 });
 
-type EmailFormData = z.infer<typeof emailFormSchema>;
 type LinkedinFormData = z.infer<typeof linkedinFormSchema>;
 
 interface SubscriptionDialogProps {
@@ -56,7 +46,6 @@ const investorTypes = [
 export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: SubscriptionDialogProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [activeTab, setActiveTab] = useState<"email" | "linkedin">("email");
   const [linkedinAuthState, setLinkedinAuthState] = useState<"initial" | "authenticating" | "authenticated">("initial");
   const [linkedinProfile, setLinkedinProfile] = useState<{
     id?: string;
@@ -68,32 +57,15 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
   } | null>(null);
   const { toast } = useToast();
 
-  // Force LinkedIn authentication for document access requests
-  useEffect(() => {
-    if (type === "requestAccess") {
-      setActiveTab("linkedin");
-    }
-  }, [type]);
-
-  const emailForm = useForm<EmailFormData>({
-    resolver: zodResolver(emailFormSchema),
-    defaultValues: {
-      name: "",
-      email: "",
-      company: "",
-      role: "",
-    },
-  });
-
   const linkedinForm = useForm<LinkedinFormData>({
     resolver: zodResolver(linkedinFormSchema),
     defaultValues: {
-      name: "",
       company: "",
       role: "",
       profileId: "",
       profileUrl: "",
       profilePicture: "",
+      name: "",
     },
   });
 
@@ -117,30 +89,6 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
       }
     }
   }, [linkedinProfile, linkedinAuthState, linkedinForm]);
-
-  const onSubmitEmail = async (data: EmailFormData) => {
-    setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    console.log("Email form submitted:", data);
-    
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    
-    toast({
-      title: getSuccessTitle(),
-      description: getSuccessDescription(data),
-    });
-    
-    // Reset after 2 seconds
-    setTimeout(() => {
-      setIsSuccess(false);
-      emailForm.reset();
-      onOpenChange(false);
-    }, 2000);
-  };
 
   const onSubmitLinkedin = async (data: LinkedinFormData) => {
     setIsSubmitting(true);
@@ -228,7 +176,7 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
   };
 
   const getSuccessDescription = (data: any) => {
-    const name = data.name;
+    const name = linkedinProfile?.name || data.name || "Investor";
     switch (type) {
       case "subscribe":
         return `Thank you for subscribing, ${name}!`;
@@ -249,7 +197,7 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
           <DialogDescription>
             {type === "requestAccess" 
               ? "Please authenticate with your LinkedIn account to request access."
-              : "Connect with us using your email or LinkedIn account."}
+              : "Connect with us using your LinkedIn account."}
           </DialogDescription>
         </DialogHeader>
         
@@ -260,202 +208,108 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
             </div>
             <h3 className="text-lg font-medium text-center">{getSuccessTitle()}</h3>
             <p className="text-center text-gray-500 mt-2">
-              {getSuccessDescription(activeTab === "email" ? emailForm.getValues() : linkedinForm.getValues())}
+              {getSuccessDescription(linkedinForm.getValues())}
             </p>
           </div>
         ) : (
-          <Tabs 
-            value={activeTab} 
-            onValueChange={(value) => setActiveTab(value as "email" | "linkedin")} 
-            className="w-full"
-          >
-            {type !== "requestAccess" && (
-              <TabsList className="grid grid-cols-2 mb-4">
-                <TabsTrigger value="email">Email</TabsTrigger>
-                <TabsTrigger value="linkedin">LinkedIn</TabsTrigger>
-              </TabsList>
-            )}
-            
-            {type !== "requestAccess" && (
-              <TabsContent value="email">
-                <Form {...emailForm}>
-                  <form onSubmit={emailForm.handleSubmit(onSubmitEmail)} className="space-y-4">
-                    <FormField
-                      control={emailForm.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Full Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="John Doe" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={emailForm.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input placeholder="you@example.com" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={emailForm.control}
-                      name="company"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Company</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Your company" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={emailForm.control}
-                      name="role"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Investor Type</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="w-full bg-white">
-                                <SelectValue placeholder="Select your investor type" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="bg-white">
-                              {investorTypes.map((type) => (
-                                <SelectItem key={type} value={type} className="cursor-pointer">
-                                  {type}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <DialogFooter>
-                      <Button 
-                        type="submit" 
-                        className="w-full bg-teal-600 hover:bg-teal-700"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "Submitting..." : "Submit"}
-                      </Button>
-                    </DialogFooter>
-                  </form>
-                </Form>
-              </TabsContent>
-            )}
-            
-            <TabsContent value="linkedin" className={type === "requestAccess" ? "pt-2" : ""}>
-              {linkedinAuthState === "initial" ? (
-                <div className="flex flex-col items-center py-6 space-y-4">
-                  <p className="text-center text-gray-600 mb-2">
-                    {type === "requestAccess" 
-                      ? "Please sign in with LinkedIn to request access to this document."
-                      : "Connect your LinkedIn profile to continue."}
-                  </p>
-                  <Button 
-                    onClick={handleLinkedinAuth} 
-                    className="bg-[#0A66C2] hover:bg-[#084482] w-full max-w-xs"
-                    disabled={isSubmitting}
-                  >
-                    <Linkedin className="mr-2 h-5 w-5" />
-                    Sign in with LinkedIn
-                  </Button>
-                </div>
-              ) : linkedinAuthState === "authenticating" ? (
-                <div className="flex flex-col items-center justify-center py-8 space-y-4">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0A66C2]"></div>
-                  <p className="text-center text-gray-600">Connecting to LinkedIn...</p>
-                </div>
-              ) : (
-                <Form {...linkedinForm}>
-                  <form onSubmit={linkedinForm.handleSubmit(onSubmitLinkedin)} className="space-y-4">
-                    <div className="flex items-center space-x-4 py-2 mb-2 border-b">
-                      {linkedinProfile?.pictureUrl && (
-                        <img 
-                          src={linkedinProfile.pictureUrl} 
-                          alt="LinkedIn profile" 
-                          className="h-12 w-12 rounded-full border border-gray-200" 
-                        />
-                      )}
-                      <div>
-                        <p className="font-medium">{linkedinProfile?.name}</p>
-                        <p className="text-sm text-gray-500 flex items-center">
-                          <Linkedin className="h-3 w-3 mr-1 text-[#0A66C2]" />
-                          Connected
-                        </p>
-                      </div>
+          <>
+            {linkedinAuthState === "initial" ? (
+              <div className="flex flex-col items-center py-6 space-y-4">
+                <p className="text-center text-gray-600 mb-2">
+                  {type === "requestAccess" 
+                    ? "Please sign in with LinkedIn to request access to this document."
+                    : "Connect your LinkedIn profile to continue."}
+                </p>
+                <Button 
+                  onClick={handleLinkedinAuth} 
+                  className="bg-[#0A66C2] hover:bg-[#084482] w-full max-w-xs"
+                  disabled={isSubmitting}
+                >
+                  <Linkedin className="mr-2 h-5 w-5" />
+                  Sign in with LinkedIn
+                </Button>
+              </div>
+            ) : linkedinAuthState === "authenticating" ? (
+              <div className="flex flex-col items-center justify-center py-8 space-y-4">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0A66C2]"></div>
+                <p className="text-center text-gray-600">Connecting to LinkedIn...</p>
+              </div>
+            ) : (
+              <Form {...linkedinForm}>
+                <form onSubmit={linkedinForm.handleSubmit(onSubmitLinkedin)} className="space-y-4">
+                  <div className="flex items-center space-x-4 py-2 mb-2 border-b">
+                    {linkedinProfile?.pictureUrl && (
+                      <img 
+                        src={linkedinProfile.pictureUrl} 
+                        alt="LinkedIn profile" 
+                        className="h-12 w-12 rounded-full border border-gray-200" 
+                      />
+                    )}
+                    <div>
+                      <p className="font-medium">{linkedinProfile?.name}</p>
+                      <p className="text-sm text-gray-500 flex items-center">
+                        <Linkedin className="h-3 w-3 mr-1 text-[#0A66C2]" />
+                        Connected
+                      </p>
                     </div>
-                    
-                    <FormField
-                      control={linkedinForm.control}
-                      name="company"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Company</FormLabel>
+                  </div>
+                  
+                  <FormField
+                    control={linkedinForm.control}
+                    name="company"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Company</FormLabel>
+                        <FormControl>
+                          <input 
+                            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                            placeholder="Your company" 
+                            {...field} 
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <FormField
+                    control={linkedinForm.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Investor Type</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
-                            <Input placeholder="Your company" {...field} />
+                            <SelectTrigger className="w-full bg-white">
+                              <SelectValue placeholder="Select your investor type" />
+                            </SelectTrigger>
                           </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={linkedinForm.control}
-                      name="role"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Investor Type</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="w-full bg-white">
-                                <SelectValue placeholder="Select your investor type" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="bg-white">
-                              {investorTypes.map((type) => (
-                                <SelectItem key={type} value={type} className="cursor-pointer">
-                                  {type}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <DialogFooter>
-                      <Button 
-                        type="submit" 
-                        className="w-full bg-teal-600 hover:bg-teal-700"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "Submitting..." : "Submit"}
-                      </Button>
-                    </DialogFooter>
-                  </form>
-                </Form>
-              )}
-            </TabsContent>
-          </Tabs>
+                          <SelectContent className="bg-white">
+                            {investorTypes.map((type) => (
+                              <SelectItem key={type} value={type} className="cursor-pointer">
+                                {type}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  
+                  <DialogFooter>
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-teal-600 hover:bg-teal-700"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? "Submitting..." : "Submit"}
+                    </Button>
+                  </DialogFooter>
+                </form>
+              </Form>
+            )}
+          </>
         )}
       </DialogContent>
     </Dialog>
