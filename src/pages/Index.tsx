@@ -41,8 +41,8 @@ const Index = () => {
       sourceUrl: "https://www.worldbank.org/en/topic/migrationremittancesdiasporaissues/brief/migration-remittances-data"
     },
     {
-      title: "$15",
-      description: "Moneco customers save on average $15.35 on a $200 transfer, paying just $9.25 in fees.",
+      title: "25¢",
+      description: "Moneco customers pay a maximum of just 25 cents per transfer regardless of the amount.",
       source: "Moneco Website - Pricing",
       animate: false,
       icon: <BadgeDollarSign className="h-6 w-6" />,
