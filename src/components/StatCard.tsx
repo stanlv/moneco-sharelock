@@ -2,7 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
+import { Link2 } from "lucide-react";
 
 interface StatCardProps {
   title: string;
@@ -13,6 +13,7 @@ interface StatCardProps {
   animationDuration?: number;
   finalValue?: number;
   icon?: React.ReactNode;
+  sourceUrl?: string;
 }
 
 const StatCard = ({ 
@@ -23,7 +24,8 @@ const StatCard = ({
   animate = false,
   animationDuration = 2000,
   finalValue,
-  icon
+  icon,
+  sourceUrl
 }: StatCardProps) => {
   const [displayValue, setDisplayValue] = useState(title);
   const animationRef = useRef<number | null>(null);
@@ -76,6 +78,24 @@ const StatCard = ({
     };
   }, [animate, title, finalValue, animationDuration]);
   
+  const renderSource = () => {
+    if (sourceUrl) {
+      return (
+        <a 
+          href={sourceUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-1 text-gray-500 text-sm hover:text-teal-600 transition-colors group mt-auto"
+        >
+          <span className="group-hover:underline">{source}</span>
+          <Link2 className="h-3 w-3" />
+        </a>
+      );
+    }
+    
+    return <div className="text-gray-500 text-sm text-center mt-auto">{source}</div>;
+  };
+  
   return (
     <Card className={cn("p-6 flex flex-col h-full", className)}>
       <div className="flex-1">
@@ -85,7 +105,7 @@ const StatCard = ({
         </div>
         <p className="text-gray-600 text-center mb-6">{description}</p>
       </div>
-      <div className="text-gray-500 text-sm text-center mt-auto">{source}</div>
+      {renderSource()}
     </Card>
   );
 };

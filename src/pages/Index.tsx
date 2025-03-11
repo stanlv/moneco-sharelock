@@ -37,14 +37,16 @@ const Index = () => {
       description: "Yearly financial transfers (Remittances) from Europe to Africa",
       source: "world bank",
       animate: false,
-      icon: <Banknote className="h-6 w-6" />
+      icon: <Banknote className="h-6 w-6" />,
+      sourceUrl: "https://www.worldbank.org/en/topic/migrationremittancesdiasporaissues/brief/migration-remittances-data"
     },
     {
       title: "$15",
       description: "Moneco customers save on average $15.35 on a $200 transfer, paying just $9.25 in fees.",
       source: "Moneco Website - Pricing",
       animate: false,
-      icon: <BadgeDollarSign className="h-6 w-6" />
+      icon: <BadgeDollarSign className="h-6 w-6" />,
+      sourceUrl: "https://moneco.app/pricing"
     },
     {
       title: "24'000",
@@ -53,7 +55,8 @@ const Index = () => {
       animate: true,
       finalValue: 24357,
       animationDuration: 20000,
-      icon: <UserPlus className="h-6 w-6" />
+      icon: <UserPlus className="h-6 w-6" />,
+      sourceUrl: "https://mixpanel.com"
     }
   ];
 
@@ -299,6 +302,7 @@ const Index = () => {
                 finalValue={stat.finalValue}
                 animationDuration={stat.animationDuration}
                 icon={stat.icon}
+                sourceUrl={stat.sourceUrl}
               />
             ))}
           </div>
@@ -629,7 +633,7 @@ const Index = () => {
         </section>
       </main>
 
-      <Footer lastUpdated="May 15, 2024" />
+      <Footer />
 
       <SubscriptionDialog
         open={showSubscribeDialog}
