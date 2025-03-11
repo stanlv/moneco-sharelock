@@ -37,17 +37,16 @@ const Index = () => {
       description: "Yearly financial transfers (Remittances) from Europe to Africa",
       source: "world bank",
       animate: false,
-      icon: <Banknote className="h-6 w-6" />,
+      icon: <Banknote className="h-5 w-5" />,
       sourceUrl: "https://www.worldbank.org/en/topic/migrationremittancesdiasporaissues/brief/migration-remittances-data",
-      variant: "default" as const,
-      gradient: "linear-gradient(90deg, hsla(221, 45%, 73%, 1) 0%, hsla(220, 78%, 29%, 1) 100%)"
+      variant: "default" as const
     },
     {
       title: "Save $15",
       description: "Moneco customers save on average $15 on a $200 transfer, paying only 25¢ in fees.",
       source: "Moneco Website - Pricing",
       animate: false,
-      icon: <BadgeDollarSign className="h-6 w-6" />,
+      icon: <BadgeDollarSign className="h-5 w-5" />,
       sourceUrl: "https://moneco.app/pricing",
       variant: "highlight" as const
     },
@@ -58,7 +57,7 @@ const Index = () => {
       animate: true,
       finalValue: 24357,
       animationDuration: 20000,
-      icon: <UserPlus className="h-6 w-6" />,
+      icon: <UserPlus className="h-5 w-5" />,
       sourceUrl: "https://mixpanel.com",
       variant: "outlined" as const
     }
@@ -287,15 +286,15 @@ const Index = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-white flex flex-col">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-8 max-w-6xl flex-grow">
-        <section className="mb-12">
-          <h1 className="text-3xl font-bold text-gray-800 mb-1">The financial application for the African diaspora</h1>
-          <p className="text-gray-600 mb-8">#technology #emergingmarkets #impact</p>
+      <main className="container mx-auto px-4 py-8 max-w-5xl flex-grow">
+        <section className="mb-10">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-1">The financial application for the African diaspora</h1>
+          <p className="text-gray-500 mb-6">#technology #emergingmarkets #impact</p>
           
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
+          <div className="grid md:grid-cols-3 gap-4 mb-10">
             {stats.map((stat, index) => (
               <StatCard 
                 key={index} 
@@ -313,17 +312,17 @@ const Index = () => {
             ))}
           </div>
           
-          <Card className="p-6 bg-gray-100">
-            <h2 className="font-semibold text-xl mb-2">In brief</h2>
-            <p className="text-gray-700">
+          <Card className="p-5 bg-gray-50 border-0 shadow-none">
+            <h2 className="font-medium text-lg mb-2">In brief</h2>
+            <p className="text-gray-600 text-sm">
               Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad.
             </p>
             <Button 
               variant="link" 
-              className="text-teal-600 p-0 mt-2 h-auto flex items-center"
+              className="text-gray-600 p-0 mt-2 h-auto flex items-center text-sm"
               onClick={() => setShowReadMoreDialog(true)}
             >
-              Read more <ChevronRight className="h-4 w-4 ml-1" />
+              Read more <ChevronRight className="h-3 w-3 ml-1" />
             </Button>
           </Card>
         </section>

@@ -89,59 +89,56 @@ const StatCard = ({
           href={sourceUrl} 
           target="_blank" 
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-1 text-gray-500 text-sm hover:text-teal-600 transition-colors group mt-auto"
+          className="flex items-center justify-center gap-1 text-gray-400 text-xs hover:text-gray-600 transition-colors mt-auto"
         >
-          <span className="group-hover:underline">{source}</span>
+          <span>{source}</span>
           <Link2 className="h-3 w-3" />
         </a>
       );
     }
     
-    return <div className="text-gray-500 text-sm text-center mt-auto">{source}</div>;
+    return <div className="text-gray-400 text-xs text-center mt-auto">{source}</div>;
   };
 
   const getCardClasses = () => {
-    const baseClasses = "p-6 flex flex-col h-full transition-all duration-300";
+    const baseClasses = "p-5 flex flex-col h-full transition-all duration-300 border-0 bg-white";
     
     if (gradient) {
-      return cn(baseClasses, "border-0 text-white shadow-md hover:shadow-lg", className);
+      return cn(baseClasses, "shadow-none", className);
     }
     
     switch (variant) {
       case "highlight":
-        return cn(baseClasses, "border-teal-500 border-2 bg-teal-50/50 shadow-md hover:shadow-lg", className);
+        return cn(baseClasses, "border-l-2 border-l-gray-800 bg-white shadow-none", className);
       case "outlined":
-        return cn(baseClasses, "border-2 border-gray-200 hover:border-gray-300 shadow-sm hover:shadow", className);
+        return cn(baseClasses, "border border-gray-100 bg-white shadow-none", className);
       default:
-        return cn(baseClasses, className);
+        return cn(baseClasses, "shadow-none", className);
     }
   };
 
   const getIconClass = () => {
-    if (gradient) return "text-white";
-    return variant === "highlight" ? "text-teal-600" : "text-teal-600";
+    return "text-gray-800";
   };
 
   const getTitleClass = () => {
-    if (gradient) return "text-white font-bold";
-    return "font-bold";
+    return "font-medium text-gray-900";
   };
 
   const getDescriptionClass = () => {
-    if (gradient) return "text-white/90";
-    return "text-gray-600";
+    return "text-gray-500";
   };
   
-  const cardStyle = gradient ? { background: gradient } : {};
+  const cardStyle = gradient ? { background: "white", borderLeft: "2px solid #e5e7eb" } : {};
   
   return (
     <Card className={getCardClasses()} style={cardStyle}>
       <div className="flex-1">
-        <div className="flex items-center justify-center mb-4">
-          {icon && <div className={cn("mr-2", getIconClass())}>{icon}</div>}
-          <h3 className={cn("text-2xl md:text-3xl text-center", getTitleClass())}>{displayValue}</h3>
+        <div className="flex items-center gap-3 mb-2">
+          {icon && <div className={cn(getIconClass())}>{icon}</div>}
+          <h3 className={cn("text-xl md:text-2xl", getTitleClass())}>{displayValue}</h3>
         </div>
-        <p className={cn("text-center mb-6", getDescriptionClass())}>{description}</p>
+        <p className={cn("mb-4 text-sm", getDescriptionClass())}>{description}</p>
       </div>
       {renderSource()}
     </Card>
