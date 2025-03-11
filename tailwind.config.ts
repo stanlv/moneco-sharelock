@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -84,11 +85,41 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+				'gradient-slow': {
+          '0%, 100%': { 
+            backgroundPosition: '0% 50%',
+            backgroundSize: '200% 200%'
+          },
+          '50%': { 
+            backgroundPosition: '100% 50%',
+            backgroundSize: '200% 200%'
+          }
+        },
+        'gradient-pulse': {
+          '0%, 100%': { 
+            opacity: '0.9',
+            backgroundPosition: '0% 0%' 
+          },
+          '50%': { 
+            opacity: '1',
+            backgroundPosition: '100% 100%' 
+          }
+        },
+        'gradient-shift': {
+          '0%': { backgroundPosition: '0% 50%' },
+          '25%': { backgroundPosition: '50% 100%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '75%': { backgroundPosition: '50% 0%' },
+          '100%': { backgroundPosition: '0% 50%' }
+        }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'gradient-slow': 'gradient-slow 8s ease infinite',
+        'gradient-pulse': 'gradient-pulse 10s ease infinite',
+        'gradient-shift': 'gradient-shift 12s ease infinite'
 			}
 		}
 	},

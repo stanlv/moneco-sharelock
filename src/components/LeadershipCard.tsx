@@ -11,6 +11,7 @@ interface LeadershipCardProps {
   isSelected?: boolean;
   onSelect?: () => void;
   onSubscribe?: () => void;
+  gradientVariant?: 'green' | 'blue' | 'purple';
 }
 
 const LeadershipCard = ({ 
@@ -19,8 +20,17 @@ const LeadershipCard = ({
   image, 
   isSelected = false,
   onSelect,
-  onSubscribe
+  onSubscribe,
+  gradientVariant = 'green'
 }: LeadershipCardProps) => {
+  
+  // Gradient background variants with animations
+  const gradients = {
+    green: "bg-gradient-to-br from-teal-500/95 to-emerald-600/95 animate-gradient-slow",
+    blue: "bg-gradient-to-br from-sky-500/95 to-indigo-600/95 animate-gradient-pulse",
+    purple: "bg-gradient-to-br from-purple-500/95 to-pink-600/95 animate-gradient-shift"
+  };
+  
   return (
     <Card 
       className={cn(
@@ -33,8 +43,11 @@ const LeadershipCard = ({
     >
       <div className="h-full">
         <div className="relative">
-          {/* Background gradient with soft transition */}
-          <div className="absolute inset-0 bg-gradient-to-br from-teal-500/95 to-emerald-600/95 opacity-90"></div>
+          {/* Background gradient with animation */}
+          <div className={cn(
+            "absolute inset-0 opacity-90",
+            gradients[gradientVariant]
+          )}></div>
           
           {/* Profile image */}
           <div className="relative pt-10 pb-6 px-6 flex justify-center">
