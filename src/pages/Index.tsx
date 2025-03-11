@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -127,36 +128,36 @@ const Index = () => {
         </section>
         
         <Dialog open={showReadMoreDialog} onOpenChange={setShowReadMoreDialog}>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
+          <DialogContent className="max-w-3xl p-8 max-h-[90vh] overflow-y-auto">
+            <DialogHeader className="mb-6">
               <DialogTitle className="text-2xl font-bold">About Moneco</DialogTitle>
             </DialogHeader>
             
-            <div className="space-y-6 py-4">
+            <div className="space-y-8 py-4">
               <div>
-                <h3 className="text-lg font-semibold mb-2">In Brief</h3>
-                <p className="text-gray-700">
+                <h3 className="text-xl font-semibold mb-4">In Brief</h3>
+                <p className="text-gray-700 leading-relaxed">
                   Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad. For more detailed information on their services and features.
                 </p>
               </div>
               
-              <Separator />
+              <Separator className="my-6" />
               
               <div>
-                <h3 className="text-lg font-semibold mb-2">How Moneco Started</h3>
-                <p className="text-gray-700">
+                <h3 className="text-xl font-semibold mb-4">How Moneco Started</h3>
+                <p className="text-gray-700 leading-relaxed">
                   Moneco was founded in 2022 by a team of African professionals with experience in fintech and banking who recognized the challenges faced by the African diaspora in accessing affordable financial services. The founders, having personally experienced the high costs and limitations of traditional banking systems for cross-border transactions, set out to create a solution that would specifically address these pain points. Starting with remittance services, Moneco has since expanded to offer a comprehensive suite of financial tools tailored to the unique needs of Africans living abroad.
                 </p>
               </div>
               
-              <Separator />
+              <Separator className="my-6" />
               
               <div>
-                <h3 className="text-lg font-semibold mb-2">Moneco Mission and Long-term Vision</h3>
-                <p className="text-gray-700">
+                <h3 className="text-xl font-semibold mb-4">Moneco Mission and Long-term Vision</h3>
+                <p className="text-gray-700 leading-relaxed">
                   Moneco's mission is to empower the African diaspora with accessible, affordable, and inclusive financial services that bridge the gap between their host countries and home countries. By leveraging technology, Moneco aims to reduce the cost of remittances, provide transparent banking services, and create economic opportunities for Africans worldwide.
                 </p>
-                <p className="text-gray-700 mt-2">
+                <p className="text-gray-700 leading-relaxed mt-4">
                   The long-term vision of Moneco is to become the leading financial platform for the global African community, facilitating not just money transfers but also investments, business financing, and wealth creation opportunities that contribute to the development of African economies while improving the financial well-being of the diaspora.
                 </p>
               </div>
