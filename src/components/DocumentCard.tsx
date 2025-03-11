@@ -1,7 +1,7 @@
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 import { ReactNode, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -38,7 +38,9 @@ const DocumentCard = ({ title, size, icon, type, onRequestAccess }: DocumentCard
     <Card className="p-4 border border-gray-200">
       <div className="flex justify-between items-center">
         <div className="flex items-center">
-          {icon}
+          <div className="h-9 w-9 rounded-lg bg-red-100 flex items-center justify-center text-red-600 mr-1">
+            {icon}
+          </div>
           <div className="ml-3">
             <h3 className="font-medium text-gray-800">{title}</h3>
             <p className="text-sm text-gray-500">{size}</p>

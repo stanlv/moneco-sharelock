@@ -151,19 +151,19 @@ const Index = () => {
     {
       title: "Pitch Deck",
       size: "1.5 MB",
-      icon: <FileText className="h-5 w-5 text-teal-500" />,
+      icon: <FileText className="h-5 w-5" />,
       type: "request" as const
     },
     {
       title: "Sales Pitch",
       size: "1.3 MB",
-      icon: <FileText className="h-5 w-5 text-teal-500" />,
+      icon: <FileText className="h-5 w-5" />,
       type: "download" as const
     },
     {
       title: "Regulator Licence",
       size: "1.3 MB",
-      icon: <FileText className="h-5 w-5 text-teal-500" />,
+      icon: <FileText className="h-5 w-5" />,
       type: "request" as const
     }
   ];
@@ -666,4 +666,3 @@ const Index = () => {
 };
 
 export default Index;
-
