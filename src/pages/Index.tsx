@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -154,7 +153,7 @@ const Index = () => {
     { 
       name: "Société Générale CIB", 
       url: "https://www.linkedin.com/company/societegenerale-corporate-and-investment-banking/",
-      logo: "/lovable-uploads/b55a3c94-1915-4a39-b13d-872a1c965018.png"
+      logo: "/lovable-uploads/a8b528ed-38de-4353-b04b-53546fac0d11.png"
     },
     { 
       name: "Proparco", 
