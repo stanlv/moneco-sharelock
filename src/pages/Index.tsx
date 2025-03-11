@@ -1,19 +1,19 @@
-import { useState, useEffect } from "react";
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase, GraduationCap, Banknote, BadgeDollarSign, UserPlus, Quote, Globe, Languages } from "lucide-react";
+
+import { useState } from "react";
+import { Banknote, BadgeDollarSign, UserPlus, FileText, Quote } from "lucide-react";
 import Navbar from "@/components/Navbar";
-import StatCard from "@/components/StatCard";
-import LeadershipCard from "@/components/LeadershipCard";
-import TestimonialCard from "@/components/TestimonialCard";
-import DocumentCard from "@/components/DocumentCard";
 import Footer from "@/components/Footer";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
-import CompanyCard from "@/components/CompanyCard";
 import { SubscriptionDialog } from "@/components/SubscriptionDialog";
-import LanguageSelector from "@/components/LanguageSelector";
+import { Language, translations } from "@/utils/translations";
+import PageHeader from "@/components/PageHeader";
+import StatsSection from "@/components/StatsSection";
+import BriefSection from "@/components/BriefSection";
+import CompaniesSection from "@/components/CompaniesSection";
+import LeadershipSection from "@/components/LeadershipSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import DocumentsSection from "@/components/DocumentsSection";
+import AboutDialog from "@/components/AboutDialog";
+import TestimonialsDialog from "@/components/TestimonialsDialog";
 
 const Index = () => {
   const [showSubscriptionMessage, setShowSubscriptionMessage] = useState(false);
@@ -31,138 +31,7 @@ const Index = () => {
   const [showRequestAccessDialog, setShowRequestAccessDialog] = useState(false);
   const [showFounderUpdatesDialog, setShowFounderUpdatesDialog] = useState(false);
   const [currentDocument, setCurrentDocument] = useState<string | null>(null);
-  const [currentLanguage, setCurrentLanguage] = useState<string>("en");
-
-  const translations = {
-    en: {
-      tagline: "The financial application for the African diaspora",
-      subtitle: "#technology #emergingmarkets #impact",
-      inBrief: "In brief",
-      inBriefText: "Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad.",
-      readMore: "Read more",
-      theyWorkWithUs: "They work with us",
-      leadershipTeam: "Leadership Team",
-      leadershipSubtitle: "Meet the brilliant minds behind Moneco",
-      education: "Education",
-      previousCompanies: "Previous Companies",
-      connectWithLeadership: "Connect with Moneco's Leadership",
-      subscribeForUpdates: "Subscribe for Direct Updates",
-      customerVerbatim: "Customer Verbatim",
-      readOtherTestimonials: "Read 10 other customer testimonials",
-      investorDocuments: "Investors Documents",
-      aboutMoneco: "About Moneco",
-      howMonecoStarted: "How Moneco Started",
-      mission: "Moneco Mission and Long-term Vision",
-      missionText: "Moneco's mission is to empower the African diaspora with accessible, affordable, and inclusive financial services that bridge the gap between their host countries and home countries. By leveraging technology, Moneco aims to reduce the cost of remittances, provide transparent banking services, and create economic opportunities for Africans worldwide.",
-      vision: "The long-term vision of Moneco is to become the leading financial platform for the global African community, facilitating not just money transfers but also investments, business financing, and wealth creation opportunities that contribute to the development of African economies while improving the financial well-being of the diaspora.",
-      startedText: "Moneco was founded in 2022 by a team of African professionals with experience in fintech and banking who recognized the challenges faced by the African diaspora in accessing affordable financial services. The founders, having personally experienced the high costs and limitations of traditional banking systems for cross-border transactions, set out to create a solution that would specifically address these pain points. Starting with remittance services, Moneco has since expanded to offer a comprehensive suite of financial tools tailored to the unique needs of Africans living abroad.",
-      inBriefFullText: "Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad. For more detailed information on their services and features.",
-      support: "Support",
-      insightful: "Insightful",
-      celebrate: "Celebrate",
-      customerTestimonials: "Customer Testimonials",
-      whatDoYouThink: "What do you think about our customers' feedback?",
-      download: "Download",
-      requestAccess: "Request access",
-      requested: "Requested"
-    },
-    fr: {
-      tagline: "L'application financière pour la diaspora africaine",
-      subtitle: "#technologie #marchésémergents #impact",
-      inBrief: "En bref",
-      inBriefText: "Moneco est une application financière conçue principalement pour la diaspora africaine, offrant une gamme de services financiers adaptés pour faciliter l'intégration et les opérations financières des Africains vivant à l'étranger, en particulier en Europe. Moneco vise à fournir un outil financier sécurisé et pratique pour les Africains à l'étranger, simplifiant la gestion de l'argent et permettant un accès facile aux services financiers dans leurs pays d'origine et à l'étranger.",
-      readMore: "Lire plus",
-      theyWorkWithUs: "Ils travaillent avec nous",
-      leadershipTeam: "Équipe de Direction",
-      leadershipSubtitle: "Rencontrez les brillants esprits derrière Moneco",
-      education: "Éducation",
-      previousCompanies: "Entreprises Précédentes",
-      connectWithLeadership: "Connectez-vous avec la Direction de Moneco",
-      subscribeForUpdates: "Abonnez-vous pour des Mises à Jour Directes",
-      customerVerbatim: "Témoignages Clients",
-      readOtherTestimonials: "Lire 10 autres témoignages clients",
-      investorDocuments: "Documents des Investisseurs",
-      aboutMoneco: "À propos de Moneco",
-      howMonecoStarted: "Comment Moneco a Commencé",
-      mission: "Mission de Moneco et Vision à Long Terme",
-      missionText: "La mission de Moneco est de donner à la diaspora africaine les moyens d'accéder à des services financiers accessibles, abordables et inclusifs qui comblent le fossé entre leurs pays d'accueil et leurs pays d'origine. En tirant parti de la technologie, Moneco vise à réduire le coût des envois de fonds, à fournir des services bancaires transparents et à créer des opportunités économiques pour les Africains du monde entier.",
-      vision: "La vision à long terme de Moneco est de devenir la principale plateforme financière pour la communauté africaine mondiale, facilitant non seulement les transferts d'argent mais aussi les investissements, le financement des entreprises et les opportunités de création de richesse qui contribuent au développement des économies africaines tout en améliorant le bien-être financier de la diaspora.",
-      startedText: "Moneco a été fondé en 2022 par une équipe de professionnels africains ayant une expérience dans la fintech et la banque qui ont reconnu les défis auxquels est confrontée la diaspora africaine pour accéder à des services financiers abordables. Les fondateurs, ayant personnellement expérimenté les coûts élevés et les limitations des systèmes bancaires traditionnels pour les transactions transfrontalières, se sont lancés dans la création d'une solution qui répondrait spécifiquement à ces points douloureux. En commençant par les services de transfert de fonds, Moneco s'est depuis élargi pour offrir une suite complète d'outils financiers adaptés aux besoins uniques des Africains vivant à l'étranger.",
-      inBriefFullText: "Moneco est une application financière conçue principalement pour la diaspora africaine, offrant une gamme de services financiers adaptés pour faciliter l'intégration et les opérations financières des Africains vivant à l'étranger, en particulier en Europe. Moneco vise à fournir un outil financier sécurisé et pratique pour les Africains à l'étranger, simplifiant la gestion de l'argent et permettant un accès facile aux services financiers dans leurs pays d'origine et à l'étranger. Pour plus d'informations détaillées sur leurs services et fonctionnalités.",
-      support: "Soutien",
-      insightful: "Perspicace",
-      celebrate: "Célébrer",
-      customerTestimonials: "Témoignages Clients",
-      whatDoYouThink: "Que pensez-vous des commentaires de nos clients ?",
-      download: "Télécharger",
-      requestAccess: "Demander l'accès",
-      requested: "Demandé"
-    },
-    it: {
-      tagline: "L'applicazione finanziaria per la diaspora africana",
-      subtitle: "#tecnologia #mercatiemergenti #impatto",
-      inBrief: "In breve",
-      inBriefText: "Moneco è un'applicazione finanziaria progettata principalmente per la diaspora africana, che offre una gamma di servizi finanziari su misura per facilitare l'integrazione finanziaria e le operazioni per gli africani che vivono all'estero, specialmente in Europa. Moneco mira a fornire uno strumento finanziario sicuro e conveniente per gli africani all'estero, semplificando la gestione del denaro e consentendo un facile accesso ai servizi finanziari sia nei loro paesi d'origine che all'estero.",
-      readMore: "Leggi di più",
-      theyWorkWithUs: "Lavorano con noi",
-      leadershipTeam: "Team di Leadership",
-      leadershipSubtitle: "Incontra le menti brillanti dietro Moneco",
-      education: "Istruzione",
-      previousCompanies: "Aziende Precedenti",
-      connectWithLeadership: "Connettiti con la Leadership di Moneco",
-      subscribeForUpdates: "Iscriviti per Aggiornamenti Diretti",
-      customerVerbatim: "Testimonianze dei Clienti",
-      readOtherTestimonials: "Leggi altre 10 testimonianze dei clienti",
-      investorDocuments: "Documenti degli Investitori",
-      aboutMoneco: "Riguardo Moneco",
-      howMonecoStarted: "Come è iniziato Moneco",
-      mission: "Missione di Moneco e Visione a Lungo Termine",
-      missionText: "La missione di Moneco è di dare potere alla diaspora africana con servizi finanziari accessibili, convenienti e inclusivi che colmino il divario tra i loro paesi ospitanti e i paesi d'origine. Sfruttando la tecnologia, Moneco mira a ridurre il costo delle rimesse, fornire servizi bancari trasparenti e creare opportunità economiche per gli africani in tutto il mondo.",
-      vision: "La visione a lungo termine di Moneco è di diventare la principale piattaforma finanziaria per la comunità africana globale, facilitando non solo i trasferimenti di denaro ma anche investimenti, finanziamenti aziendali e opportunità di creazione di ricchezza che contribuiscono allo sviluppo delle economie africane migliorando al contempo il benessere finanziario della diaspora.",
-      startedText: "Moneco è stata fondata nel 2022 da un team di professionisti africani con esperienza in fintech e banking che hanno riconosciuto le sfide affrontate dalla diaspora africana nell'accesso a servizi finanziari convenienti. I fondatori, avendo personalmente sperimentato gli alti costi e le limitazioni dei sistemi bancari tradizionali per le transazioni transfrontaliere, si sono proposti di creare una soluzione che affrontasse specificamente questi punti dolenti. Iniziando con i servizi di rimessa, Moneco si è da allora espansa per offrire una suite completa di strumenti finanziari su misura per le esigenze uniche degli africani che vivono all'estero.",
-      inBriefFullText: "Moneco è un'applicazione finanziaria progettata principalmente per la diaspora africana, che offre una gamma di servizi finanziari su misura per facilitare l'integrazione finanziaria e le operazioni per gli africani che vivono all'estero, specialmente in Europa. Moneco mira a fornire uno strumento finanziario sicuro e conveniente per gli africani all'estero, semplificando la gestione del denaro e consentendo un facile accesso ai servizi finanziari sia nei loro paesi d'origine che all'estero. Per informazioni più dettagliate sui loro servizi e funzionalità.",
-      support: "Supporto",
-      insightful: "Perspicace",
-      celebrate: "Celebrare",
-      customerTestimonials: "Testimonianze dei Clienti",
-      whatDoYouThink: "Cosa pensi del feedback dei nostri clienti?",
-      download: "Scarica",
-      requestAccess: "Richiedi accesso",
-      requested: "Richiesto"
-    },
-    de: {
-      tagline: "Die Finanzanwendung für die afrikanische Diaspora",
-      subtitle: "#technologie #schwellenmärkte #wirkung",
-      inBrief: "Kurz gesagt",
-      inBriefText: "Moneco ist eine Finanzanwendung, die hauptsächlich für die afrikanische Diaspora entwickelt wurde und eine Reihe von Finanzdienstleistungen anbietet, die auf die Erleichterung der finanziellen Integration und Operationen für Afrikaner im Ausland, insbesondere in Europa, zugeschnitten sind. Moneco zielt darauf ab, ein sicheres und bequemes Finanzinstrument für Afrikaner im Ausland anzubieten, das die Geldverwaltung vereinfacht und einen einfachen Zugang zu Finanzdienstleistungen sowohl in ihren Heimatländern als auch im Ausland ermöglicht.",
-      readMore: "Mehr lesen",
-      theyWorkWithUs: "Sie arbeiten mit uns",
-      leadershipTeam: "Führungsteam",
-      leadershipSubtitle: "Lernen Sie die brillanten Köpfe hinter Moneco kennen",
-      education: "Bildung",
-      previousCompanies: "Vorherige Unternehmen",
-      connectWithLeadership: "Verbinden Sie sich mit der Führung von Moneco",
-      subscribeForUpdates: "Abonnieren Sie für direkte Updates",
-      customerVerbatim: "Kundenaussagen",
-      readOtherTestimonials: "Lesen Sie 10 weitere Kundenbewertungen",
-      investorDocuments: "Investorendokumente",
-      aboutMoneco: "Über Moneco",
-      howMonecoStarted: "Wie Moneco begann",
-      mission: "Moneco Mission und langfristige Vision",
-      missionText: "Die Mission von Moneco ist es, die afrikanische Diaspora mit zugänglichen, erschwinglichen und inklusiven Finanzdienstleistungen zu stärken, die die Lücke zwischen ihren Gastländern und Heimatländern schließen. Durch den Einsatz von Technologie zielt Moneco darauf ab, die Kosten für Überweisungen zu senken, transparente Bankdienstleistungen anzubieten und wirtschaftliche Möglichkeiten für Afrikaner weltweit zu schaffen.",
-      vision: "Die langfristige Vision von Moneco ist es, die führende Finanzplattform für die globale afrikanische Gemeinschaft zu werden, die nicht nur Geldüberweisungen, sondern auch Investitionen, Unternehmensfinanzierungen und Möglichkeiten zur Schaffung von Wohlstand erleichtert, die zur Entwicklung afrikanischer Volkswirtschaften beitragen und gleichzeitig das finanzielle Wohlbefinden der Diaspora verbessern.",
-      startedText: "Moneco wurde 2022 von einem Team afrikanischer Fachleute mit Erfahrung in Fintech und Banking gegründet, die die Herausforderungen erkannten, mit denen die afrikanische Diaspora beim Zugang zu erschwinglichen Finanzdienstleistungen konfrontiert ist. Die Gründer, die persönlich die hohen Kosten und Einschränkungen traditioneller Bankensysteme für grenzüberschreitende Transaktionen erlebt hatten, machten sich daran, eine Lösung zu schaffen, die speziell diese Schmerzpunkte anspricht. Beginnend mit Überweisungsdiensten hat Moneco seitdem sein Angebot auf eine umfassende Suite von Finanztools erweitert, die auf die einzigartigen Bedürfnisse von Afrikanern im Ausland zugeschnitten sind.",
-      inBriefFullText: "Moneco ist eine Finanzanwendung, die hauptsächlich für die afrikanische Diaspora entwickelt wurde und eine Reihe von Finanzdienstleistungen anbietet, die auf die Erleichterung der finanziellen Integration und Operationen für Afrikaner im Ausland, insbesondere in Europa, zugeschnitten sind. Moneco zielt darauf ab, ein sicheres und bequemes Finanzinstrument für Afrikaner im Ausland anzubieten, das die Geldverwaltung vereinfacht und einen einfachen Zugang zu Finanzdienstleistungen sowohl in ihren Heimatländern als auch im Ausland ermöglicht. Für detailliertere Informationen zu ihren Dienstleistungen und Funktionen.",
-      support: "Unterstützung",
-      insightful: "Aufschlussreich",
-      celebrate: "Feiern",
-      customerTestimonials: "Kundenbewertungen",
-      whatDoYouThink: "Was denken Sie über das Feedback unserer Kunden?",
-      download: "Herunterladen",
-      requestAccess: "Zugang anfordern",
-      requested: "Angefordert"
-    }
-  };
+  const [currentLanguage, setCurrentLanguage] = useState<Language>("en");
 
   const stats = [
     {
@@ -395,37 +264,10 @@ const Index = () => {
   };
 
   const handleLanguageChange = (language: string) => {
-    setCurrentLanguage(language);
+    setCurrentLanguage(language as Language);
   };
 
-  const FeedbackButton = ({ 
-    type, 
-    label, 
-    icon, 
-    selected, 
-    onSelect 
-  }: { 
-    type: string, 
-    label: string, 
-    icon: React.ReactNode, 
-    selected: boolean, 
-    onSelect: () => void 
-  }) => (
-    <button
-      onClick={onSelect}
-      className={cn(
-        "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors",
-        selected 
-          ? "bg-teal-100 text-teal-800 border border-teal-300" 
-          : "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-transparent"
-      )}
-    >
-      {icon}
-      {label}
-    </button>
-  );
-
-  const t = translations[currentLanguage as keyof typeof translations];
+  const t = translations[currentLanguage];
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -433,79 +275,115 @@ const Index = () => {
       
       <main className="container mx-auto px-4 py-8 max-w-5xl flex-grow">
         <section className="mb-10">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-            <div>
-              <h1 className="text-2xl font-semibold text-gray-900 mb-1">{t.tagline}</h1>
-              <p className="text-gray-500">{t.subtitle}</p>
-            </div>
-            <LanguageSelector 
-              currentLanguage={currentLanguage} 
-              onLanguageChange={handleLanguageChange} 
-            />
-          </div>
+          <PageHeader 
+            tagline={t.tagline}
+            subtitle={t.subtitle}
+            currentLanguage={currentLanguage}
+            onLanguageChange={handleLanguageChange}
+          />
           
-          <div className="grid md:grid-cols-3 gap-6 mb-10">
-            {stats.map((stat, index) => (
-              <StatCard 
-                key={index} 
-                title={stat.title} 
-                description={stat.description} 
-                source={stat.source} 
-                animate={stat.animate}
-                finalValue={stat.finalValue}
-                animationDuration={stat.animationDuration}
-                icon={stat.icon}
-                sourceUrl={stat.sourceUrl}
-                variant={stat.variant}
-              />
-            ))}
-          </div>
+          <StatsSection stats={stats} />
           
-          <Card className="p-5 bg-gray-50 border-0 shadow-none">
-            <h2 className="font-medium text-lg mb-2">{t.inBrief}</h2>
-            <p className="text-gray-600 text-sm">
-              {t.inBriefText}
-            </p>
-            <Button 
-              variant="link" 
-              className="text-teal-600 p-0 mt-2 h-auto flex items-center text-sm"
-              onClick={() => setShowReadMoreDialog(true)}
-            >
-              {t.readMore} <ChevronRight className="h-3 w-3 ml-1" />
-            </Button>
-          </Card>
+          <BriefSection 
+            inBrief={t.inBrief}
+            inBriefText={t.inBriefText}
+            readMore={t.readMore}
+            onReadMoreClick={() => setShowReadMoreDialog(true)}
+          />
         </section>
         
-        <Dialog open={showReadMoreDialog} onOpenChange={setShowReadMoreDialog}>
-          <DialogContent className="max-w-3xl p-8 max-h-[90vh] overflow-y-auto">
-            <DialogHeader className="mb-6">
-              <DialogTitle className="text-2xl font-bold">{t.aboutMoneco}</DialogTitle>
-            </DialogHeader>
-            
-            <div className="space-y-8 py-4">
-              <div>
-                <h3 className="text-xl font-semibold mb-4">{t.inBrief}</h3>
-                <p className="text-gray-700 leading-relaxed">
-                  {t.inBriefFullText}
-                </p>
-                <div className="mt-4 flex gap-2">
-                  <FeedbackButton 
-                    type="support" 
-                    label={t.support} 
-                    icon={<Heart className="h-3 w-3" />} 
-                    selected={briefFeedback === "support"} 
-                    onSelect={() => setBriefFeedback("support")} 
-                  />
-                  <FeedbackButton 
-                    type="insightful" 
-                    label={t.insightful} 
-                    icon={<ThumbsUp className="h-3 w-3" />} 
-                    selected={briefFeedback === "insightful"} 
-                    onSelect={() => setBriefFeedback("insightful")} 
-                  />
-                  <FeedbackButton 
-                    type="celebrate" 
-                    label={t.celebrate} 
-                    icon={<Trophy className="h-3 w-3" />} 
-                    selected={briefFeedback === "celebrate"} 
-                    onSelect={() =>
+        <CompaniesSection 
+          title={t.theyWorkWithUs}
+          companies={companies}
+        />
+        
+        <LeadershipSection 
+          title={t.leadershipTeam}
+          subtitle={t.leadershipSubtitle}
+          leaders={leaders}
+          educationTitle={t.education}
+          educationInstitutions={educationInstitutions}
+          previousCompaniesTitle={t.previousCompanies}
+          previousCompanies={previousCompanies}
+          connectText={t.connectWithLeadership}
+          subscribeText={t.subscribeForUpdates}
+          onSubscribe={handleSubscribe}
+          onFounderUpdates={handleFounderUpdates}
+          selectedLeaderId={selectedLeaderId}
+          setSelectedLeaderId={setSelectedLeaderId}
+        />
+        
+        <TestimonialsSection 
+          title={t.customerVerbatim}
+          readOtherTestimonials={t.readOtherTestimonials}
+          testimonials={allTestimonials}
+          onReadMoreClick={() => setShowTestimonialsDialog(true)}
+        />
+        
+        <DocumentsSection 
+          title={t.investorDocuments}
+          documents={documents}
+          onRequestAccess={handleRequestAccess}
+        />
+      </main>
+      
+      <Footer />
+      
+      {/* Dialogs */}
+      <AboutDialog 
+        open={showReadMoreDialog}
+        onOpenChange={setShowReadMoreDialog}
+        aboutTitle={t.aboutMoneco}
+        inBriefTitle={t.inBrief}
+        inBriefFullText={t.inBriefFullText}
+        howStartedTitle={t.howMonecoStarted}
+        startedText={t.startedText}
+        missionTitle={t.mission}
+        missionText={t.missionText}
+        visionText={t.vision}
+        supportLabel={t.support}
+        insightfulLabel={t.insightful}
+        celebrateLabel={t.celebrate}
+        briefFeedback={briefFeedback}
+        startedFeedback={startedFeedback}
+        visionFeedback={visionFeedback}
+        onBriefFeedback={setBriefFeedback}
+        onStartedFeedback={setStartedFeedback}
+        onVisionFeedback={setVisionFeedback}
+      />
+      
+      <TestimonialsDialog 
+        open={showTestimonialsDialog}
+        onOpenChange={setShowTestimonialsDialog}
+        title={t.customerTestimonials}
+        whatDoYouThinkText={t.whatDoYouThink}
+        supportLabel={t.support}
+        insightfulLabel={t.insightful}
+        celebrateLabel={t.celebrate}
+        testimonials={allTestimonials}
+        testimonialsFeedback={testimonialsFeedback}
+        onTestimonialsFeedback={setTestimonialsFeedback}
+      />
+      
+      <SubscriptionDialog 
+        open={showSubscribeDialog} 
+        onOpenChange={setShowSubscribeDialog} 
+      />
+      
+      <SubscriptionDialog
+        open={showFounderUpdatesDialog}
+        onOpenChange={setShowFounderUpdatesDialog}
+        variant="founder"
+      />
+      
+      <SubscriptionDialog
+        open={showRequestAccessDialog}
+        onOpenChange={setShowRequestAccessDialog}
+        variant="request"
+        documentTitle={currentDocument}
+      />
+    </div>
+  );
+};
+
+export default Index;
