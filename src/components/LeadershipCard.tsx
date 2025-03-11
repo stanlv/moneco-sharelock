@@ -58,13 +58,11 @@ const LeadershipCard = ({
             </div>
             
             <div className="mt-4 pt-4 border-t w-full text-center">
-              {isSelected ? (
+              {isSelected && (
                 <div className="flex items-center justify-center text-green-600 font-medium">
                   <UserCheck className="h-4 w-4 mr-1" />
                   <span>Selected for contact</span>
                 </div>
-              ) : (
-                <p className="text-sm text-gray-500">Connect on LinkedIn</p>
               )}
             </div>
           </div>
