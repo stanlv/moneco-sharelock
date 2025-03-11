@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -110,7 +109,7 @@ const Index = () => {
   const educationInstitutions = [
     { 
       name: "ESSEC Business School", 
-      logo: "/lovable-uploads/695ce3db-86cd-45a3-bcae-de9befb351b4.png",
+      logo: "/lovable-uploads/18aa2c18-0c27-42f0-8d40-fe30cf8c9a9c.png",
       url: "https://www.linkedin.com/school/essec-business-school/" 
     },
     { 
