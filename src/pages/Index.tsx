@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -43,7 +44,7 @@ const Index = () => {
     {
       name: "Shams Badakaly",
       role: "Co-Founder",
-      image: "/lovable-uploads/410b7fba-9bdf-4c2e-8d8c-1b5eaa71c55a.png"
+      image: "/lovable-uploads/9f121106-7082-4599-8e55-b282061c34be.png"
     },
     {
       name: "Jimmy Kwasi KUMAKO",
