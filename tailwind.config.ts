@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -113,6 +112,11 @@ export default {
           '75%': { backgroundPosition: '50% 0%' },
           '100%': { backgroundPosition: '0% 50%' }
         },
+        'gradient-soft': {
+          '0%': { backgroundPosition: '0% 0%' },
+          '50%': { backgroundPosition: '100% 100%' },
+          '100%': { backgroundPosition: '0% 0%' }
+        },
         'float-slow': {
           '0%': { transform: 'translateY(0) translateX(0)' },
           '50%': { transform: 'translateY(-10px) translateX(5px)' },
@@ -131,6 +135,10 @@ export default {
         'pulse-soft': {
           '0%, 100%': { opacity: '0.6' },
           '50%': { opacity: '1' }
+        },
+        'pulse-xslow': {
+          '0%, 100%': { opacity: '0.3' },
+          '50%': { opacity: '0.7' }
         }
 			},
 			animation: {
@@ -139,10 +147,12 @@ export default {
 				'gradient-slow': 'gradient-slow 8s ease infinite',
         'gradient-pulse': 'gradient-pulse 10s ease infinite',
         'gradient-shift': 'gradient-shift 12s ease infinite',
+        'gradient-soft': 'gradient-soft 15s ease-in-out infinite',
         'float-slow': 'float-slow 14s ease-in-out infinite',
         'float-medium': 'float-medium 10s ease-in-out infinite',
         'float-fast': 'float-fast 8s ease-in-out infinite',
-        'pulse-soft': 'pulse-soft 2s ease-in-out infinite'
+        'pulse-soft': 'pulse-soft 2s ease-in-out infinite',
+        'pulse-xslow': 'pulse-xslow 7s ease-in-out infinite'
 			}
 		}
 	},

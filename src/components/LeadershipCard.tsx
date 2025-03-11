@@ -24,11 +24,11 @@ const LeadershipCard = ({
   gradientVariant = 'green'
 }: LeadershipCardProps) => {
   
-  // Gradient background variants with subtle variations and internal animations
+  // Soft gradient background variants inspired by sharelockapp.com
   const gradients = {
-    green: "bg-gradient-to-br from-teal-600/90 to-teal-700/90",
-    blue: "bg-gradient-to-br from-teal-600/90 to-teal-700/85",
-    purple: "bg-gradient-to-br from-teal-500/90 to-teal-600/90"
+    green: "bg-gradient-to-br from-teal-500/80 via-teal-600/75 to-teal-700/80",
+    blue: "bg-gradient-to-br from-teal-400/75 via-teal-500/75 to-teal-600/80",
+    purple: "bg-gradient-to-br from-teal-500/75 via-teal-600/80 to-teal-700/85"
   };
   
   return (
@@ -43,18 +43,23 @@ const LeadershipCard = ({
     >
       <div className="h-full">
         <div className="relative">
-          {/* Background gradient */}
+          {/* Background gradient with subtle animation */}
           <div className={cn(
-            "absolute inset-0 opacity-90",
+            "absolute inset-0 opacity-90 animate-gradient-soft",
             gradients[gradientVariant]
           )}></div>
           
-          {/* Animated elements inside the card */}
-          <div className="absolute inset-0 overflow-hidden">
-            {/* Subtle floating circles animation */}
-            <div className="absolute w-32 h-32 rounded-full bg-white/5 animate-float-slow top-0 -left-10"></div>
-            <div className="absolute w-24 h-24 rounded-full bg-white/5 animate-float-medium -top-6 right-10"></div>
-            <div className="absolute w-16 h-16 rounded-full bg-white/5 animate-float-fast bottom-6 -right-6"></div>
+          {/* Animated elements inside the card - inspired by sharelockapp.com */}
+          <div className="absolute inset-0 overflow-hidden mix-blend-soft-light">
+            {/* Subtle floating blobs animation */}
+            <div className="absolute w-48 h-48 rounded-full bg-white/10 blur-xl animate-float-slow -top-12 -left-12"></div>
+            <div className="absolute w-40 h-40 rounded-full bg-white/15 blur-xl animate-float-medium -bottom-10 -right-10"></div>
+            
+            {/* Mesh-like pattern - subtle overlay */}
+            <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.2)_0%,_transparent_15%)] bg-[length:10px_10px]"></div>
+            
+            {/* Light beams */}
+            <div className="absolute w-full h-full origin-top-right -rotate-45 bg-gradient-to-b from-white/5 to-transparent animate-pulse-xslow opacity-30"></div>
           </div>
           
           {/* Profile image */}
