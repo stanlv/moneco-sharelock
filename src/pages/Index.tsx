@@ -101,22 +101,9 @@ const Index = () => {
       { name: "Bpifrance", logo: "/lovable-uploads/c937a99f-56e5-44b0-8b6a-81c7e5cccd23.png", type: "Investor" },
       { name: "Digital Africa", logo: "/lovable-uploads/1b190ff0-6e3e-43d2-8171-b71db395b4a4.png", type: "Investor" },
     ],
-    partners: [
-      { name: "Banking Tech", logo: "https://via.placeholder.com/150?text=BT", type: "Partner" },
-      { name: "Financial Services", logo: "https://via.placeholder.com/150?text=FS", type: "Partner" },
-      { name: "Payment Systems", logo: "https://via.placeholder.com/150?text=PS", type: "Partner" },
-      { name: "Tech Solutions", logo: "https://via.placeholder.com/150?text=TS", type: "Partner" },
-    ],
-    customers: [
-      { name: "Diaspora Communities", logo: "https://via.placeholder.com/150?text=DC", type: "Customer" },
-      { name: "Small Businesses", logo: "https://via.placeholder.com/150?text=SB", type: "Customer" },
-      { name: "Individuals", logo: "https://via.placeholder.com/150?text=ID", type: "Customer" },
-    ],
     regulators: [
       { name: "ACPR", logo: "/lovable-uploads/06e65e90-337c-414d-a709-379d102e3861.png", type: "Regulator" },
-      { name: "Financial Authority", logo: "https://via.placeholder.com/150?text=FA", type: "Regulator" },
-      { name: "Banking Commission", logo: "https://via.placeholder.com/150?text=BC", type: "Regulator" },
-    ],
+    ]
   };
 
   const handleSubscribe = () => {
@@ -420,3 +407,4 @@ const Index = () => {
 };
 
 export default Index;
+
