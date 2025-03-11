@@ -1,7 +1,8 @@
 
 import { Card } from "@/components/ui/card";
-import { BriefcaseIcon, UserCheck } from "lucide-react";
+import { BriefcaseIcon, LinkedinIcon, MailIcon, MessageCircleIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface LeadershipCardProps {
   name: string;
@@ -21,51 +22,69 @@ const LeadershipCard = ({
   return (
     <Card 
       className={cn(
-        "overflow-hidden transition-all hover:shadow-md cursor-pointer",
-        isSelected && "ring-2 ring-teal-500"
+        "overflow-hidden transition-all duration-300 hover:shadow-lg cursor-pointer group",
+        isSelected ? "ring-2 ring-teal-500 shadow-md" : "hover:translate-y-[-4px]"
       )}
       onClick={onSelect}
     >
-      <div className={cn(
-        "p-1",
-        isSelected 
-          ? "bg-gradient-to-r from-teal-500 to-green-500" 
-          : "bg-gradient-to-r from-teal-400 to-emerald-400"
-      )}>
-        <div className="p-4 bg-white rounded-sm">
-          <div className="flex flex-col items-center">
+      <div className="h-full">
+        <div className="relative">
+          {/* Background gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-teal-500/90 to-emerald-600/90 opacity-85"></div>
+          
+          {/* Profile image */}
+          <div className="relative pt-8 pb-4 px-6 flex justify-center">
             <div className={cn(
-              "w-28 h-28 overflow-hidden rounded-full mb-4",
+              "w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden transition-all duration-300",
               isSelected 
-                ? "border-4 border-green-100" 
-                : "border-4 border-teal-50"
+                ? "ring-4 ring-white shadow-lg scale-105" 
+                : "ring-2 ring-white/70 group-hover:ring-4 group-hover:ring-white"
             )}>
               <img 
                 src={image} 
                 alt={name} 
                 className="w-full h-full object-cover"
                 onError={(e) => {
-                  // Fallback image if the provided image fails to load
                   const target = e.target as HTMLImageElement;
                   target.src = "https://via.placeholder.com/150?text=Leader";
                 }}
               />
             </div>
-            <h3 className="font-bold text-lg text-gray-800">{name}</h3>
-            <div className="flex items-center mt-1 text-teal-600">
-              <BriefcaseIcon className="h-4 w-4 mr-1" />
-              <p className="font-medium">{role}</p>
-            </div>
-            
-            <div className="mt-4 pt-4 border-t w-full text-center">
-              {isSelected && (
-                <div className="flex items-center justify-center text-green-600 font-medium">
-                  <UserCheck className="h-4 w-4 mr-1" />
-                  <span>Selected for contact</span>
-                </div>
-              )}
+          </div>
+        </div>
+        
+        {/* Content area */}
+        <div className="p-6 pt-4 bg-white">
+          <div className="text-center mb-3">
+            <h3 className="font-bold text-xl text-gray-800 mb-1 line-clamp-1">{name}</h3>
+            <div className="flex items-center justify-center text-teal-600">
+              <BriefcaseIcon className="h-4 w-4 mr-1.5" />
+              <p className="font-medium text-sm">{role}</p>
             </div>
           </div>
+          
+          {/* Social links */}
+          <div className="flex justify-center gap-2 mt-4">
+            <Button size="icon" variant="ghost" className="rounded-full h-8 w-8 bg-gray-100 hover:bg-teal-100 hover:text-teal-600">
+              <MailIcon className="h-4 w-4" />
+            </Button>
+            <Button size="icon" variant="ghost" className="rounded-full h-8 w-8 bg-gray-100 hover:bg-teal-100 hover:text-teal-600">
+              <LinkedinIcon className="h-4 w-4" />
+            </Button>
+            <Button size="icon" variant="ghost" className="rounded-full h-8 w-8 bg-gray-100 hover:bg-teal-100 hover:text-teal-600">
+              <MessageCircleIcon className="h-4 w-4" />
+            </Button>
+          </div>
+          
+          {/* Selected indicator */}
+          {isSelected && (
+            <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-center text-green-600 font-medium">
+              <div className="px-3 py-1 bg-green-50 rounded-full text-xs flex items-center">
+                <span className="h-1.5 w-1.5 bg-green-500 rounded-full mr-1.5"></span>
+                Selected for contact
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </Card>

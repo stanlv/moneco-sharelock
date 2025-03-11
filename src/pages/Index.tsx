@@ -267,24 +267,12 @@ const Index = () => {
           </DialogContent>
         </Dialog>
         
-        <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-6 text-gray-800">They work with us</h2>
-          <div className="flex flex-wrap justify-center gap-6 mb-8">
-            {[...Array(7)].map((_, i) => (
-              <div key={i} className="flex flex-col items-center">
-                <div className="h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center mb-2">
-                  <Users className="h-10 w-10 text-gray-400" />
-                </div>
-                <span className="bg-gray-200 text-gray-600 px-3 py-1 rounded-full text-sm">Investor</span>
-              </div>
-            ))}
-          </div>
-        </section>
-        
-        <section className="mb-12 rounded-lg overflow-hidden">
-          <div className="bg-teal-50 p-8 rounded-t-lg">
-            <h2 className="text-2xl font-bold mb-8 text-gray-800 text-center">Our Leadership Team</h2>
-            <div className="grid md:grid-cols-3 gap-8">
+        <section className="mb-12 overflow-hidden rounded-xl shadow-sm">
+          <div className="bg-gradient-to-br from-teal-50 to-green-50 py-12 px-6">
+            <h2 className="text-2xl font-bold mb-2 text-gray-800 text-center">Leadership Team</h2>
+            <p className="text-center text-gray-600 mb-10">Meet the brilliant minds behind Moneco</p>
+            
+            <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
               {leaders.map((leader, index) => (
                 <LeadershipCard 
                   key={index} 
@@ -298,7 +286,7 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="bg-teal-100/50 p-8">
+          <div className="bg-white p-8">
             <h2 className="text-xl font-bold mb-6 text-gray-800">Education</h2>
             <div className="flex flex-wrap gap-4 justify-center">
               {[...Array(6)].map((_, i) => (
@@ -312,7 +300,7 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="bg-teal-50 p-8 rounded-b-lg">
+          <div className="bg-gray-50 p-8">
             <h2 className="text-xl font-bold mb-6 text-gray-800">Previous Companies</h2>
             <div className="flex flex-wrap gap-4 justify-center">
               {[...Array(8)].map((_, i) => (
@@ -326,18 +314,19 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="bg-gray-100 p-6 rounded-b-lg">
-            <div className="flex justify-between items-center">
-              <h3 className="text-xl font-semibold">Do you want access to founders updates?</h3>
+          <div className="bg-gradient-to-r from-teal-500/10 to-emerald-500/10 p-6 rounded-b-xl">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
+              <h3 className="text-xl font-semibold text-gray-800">Want access to founders updates?</h3>
               <Button 
                 onClick={handleSubscribe}
-                className="bg-teal-600 hover:bg-teal-700"
+                className="bg-teal-600 hover:bg-teal-700 shadow-sm"
               >
-                Yes
+                Subscribe
               </Button>
             </div>
             {showSubscriptionMessage && (
-              <div className="mt-4 p-2 bg-green-100 text-green-800 rounded">
+              <div className="mt-4 p-3 bg-green-100 text-green-800 rounded-lg flex items-center">
+                <span className="h-2 w-2 bg-green-500 rounded-full mr-2"></span>
                 Thank you for subscribing to our updates!
               </div>
             )}
