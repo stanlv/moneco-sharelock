@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -385,61 +384,57 @@ const Index = () => {
             </div>
           </div>
           
-          <div className="bg-white p-8">
-            <h2 className="text-xl font-bold mb-6 text-gray-800">Education</h2>
-            <div className="flex flex-wrap gap-4 justify-center">
+          <div className="bg-gray-100/70 p-6">
+            <h2 className="text-lg font-medium mb-4 text-gray-700">Education</h2>
+            <div className="flex flex-wrap gap-3 justify-center">
               {educationInstitutions.map((institution, i) => (
                 <a 
                   key={i} 
                   href={institution.url} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-2 hover:bg-gray-50 transition-colors"
+                  className="bg-white/70 p-2 rounded-lg shadow-sm flex items-center space-x-2 hover:bg-gray-50 transition-colors border border-gray-200/50"
                 >
-                  <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                  <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
                     {institution.logo ? (
                       <img 
                         src={institution.logo} 
                         alt={institution.name} 
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover opacity-80"
                       />
                     ) : (
-                      <GraduationCap className="h-5 w-5 text-teal-500" />
+                      <GraduationCap className="h-4 w-4 text-gray-500" />
                     )}
                   </div>
-                  <span className="font-medium text-gray-700">{institution.name}</span>
+                  <span className="font-medium text-gray-600 text-xs">{institution.name}</span>
                 </a>
               ))}
             </div>
           </div>
           
-          <div className="bg-gray-50 p-8">
-            <h2 className="text-xl font-bold mb-6 text-gray-800">Previous Companies</h2>
-            <div className="flex flex-wrap gap-4 justify-center">
+          <div className="bg-gray-100/40 p-6">
+            <h2 className="text-lg font-medium mb-4 text-gray-700">Previous Companies</h2>
+            <div className="flex flex-wrap gap-3 justify-center">
               {previousCompanies.map((company, i) => (
                 <a 
                   key={i} 
                   href={company.url} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="bg-white p-3 rounded-lg shadow-sm flex items-center space-x-2 hover:bg-gray-50 transition-colors"
+                  className="bg-white/70 p-2 rounded-lg shadow-sm flex items-center space-x-2 hover:bg-gray-50 transition-colors border border-gray-200/50"
                 >
-                  <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                  <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden">
                     {company.logo ? (
                       <img 
                         src={company.logo} 
                         alt={company.name} 
-                        className="h-full w-full object-cover"
-                        onError={(e) => {
-                          const target = e.target as HTMLImageElement;
-                          target.src = "https://via.placeholder.com/150?text=Logo";
-                        }}
+                        className="h-full w-full object-cover opacity-80"
                       />
                     ) : (
-                      <Briefcase className="h-5 w-5 text-teal-500" />
+                      <Briefcase className="h-4 w-4 text-gray-500" />
                     )}
                   </div>
-                  <span className="font-medium text-gray-700">{company.name}</span>
+                  <span className="font-medium text-gray-600 text-xs">{company.name}</span>
                 </a>
               ))}
             </div>
