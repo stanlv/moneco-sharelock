@@ -19,16 +19,15 @@ const emailFormSchema = z.object({
   role: z.string().optional(),
 });
 
+// Updated schema without linkedinUrl field - we'll get this from the OAuth flow
 const linkedinFormSchema = z.object({
   name: z.string().min(2, { message: "Name is required" }),
-  linkedinUrl: z
-    .string()
-    .url({ message: "Please enter a valid URL" })
-    .refine((url) => url.includes("linkedin.com"), {
-      message: "Please enter a valid LinkedIn URL",
-    }),
   company: z.string().optional(),
   role: z.string().optional(),
+  // We'll add these fields after LinkedIn auth
+  profileId: z.string().optional(),
+  profileUrl: z.string().optional(),
+  profilePicture: z.string().optional(),
 });
 
 type EmailFormData = z.infer<typeof emailFormSchema>;
@@ -58,6 +57,15 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [activeTab, setActiveTab] = useState<"email" | "linkedin">("email");
+  const [linkedinAuthState, setLinkedinAuthState] = useState<"initial" | "authenticating" | "authenticated">("initial");
+  const [linkedinProfile, setLinkedinProfile] = useState<{
+    id?: string;
+    name?: string;
+    profileUrl?: string;
+    pictureUrl?: string;
+    company?: string;
+    position?: string;
+  } | null>(null);
   const { toast } = useToast();
 
   // Force LinkedIn authentication for document access requests
@@ -81,11 +89,34 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
     resolver: zodResolver(linkedinFormSchema),
     defaultValues: {
       name: "",
-      linkedinUrl: "",
       company: "",
       role: "",
+      profileId: "",
+      profileUrl: "",
+      profilePicture: "",
     },
   });
+
+  // Update LinkedIn form with profile data when authenticated
+  useEffect(() => {
+    if (linkedinProfile && linkedinAuthState === "authenticated") {
+      linkedinForm.setValue("name", linkedinProfile.name || "");
+      linkedinForm.setValue("company", linkedinProfile.company || "");
+      linkedinForm.setValue("profileId", linkedinProfile.id || "");
+      linkedinForm.setValue("profileUrl", linkedinProfile.profileUrl || "");
+      linkedinForm.setValue("profilePicture", linkedinProfile.pictureUrl || "");
+      
+      // If the profile includes a position, try to match it with our investor types
+      if (linkedinProfile.position) {
+        const matchedRole = investorTypes.find(type => 
+          linkedinProfile.position?.toLowerCase().includes(type.toLowerCase())
+        );
+        if (matchedRole) {
+          linkedinForm.setValue("role", matchedRole);
+        }
+      }
+    }
+  }, [linkedinProfile, linkedinAuthState, linkedinForm]);
 
   const onSubmitEmail = async (data: EmailFormData) => {
     setIsSubmitting(true);
@@ -114,10 +145,18 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
   const onSubmitLinkedin = async (data: LinkedinFormData) => {
     setIsSubmitting(true);
     
+    // Add LinkedIn profile data to the submission
+    const enrichedData = {
+      ...data,
+      linkedinProfileId: linkedinProfile?.id,
+      linkedinProfileUrl: linkedinProfile?.profileUrl,
+      linkedinPictureUrl: linkedinProfile?.pictureUrl,
+    };
+    
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    console.log("LinkedIn form submitted:", data);
+    console.log("LinkedIn form submitted with profile:", enrichedData);
     
     setIsSubmitting(false);
     setIsSuccess(true);
@@ -131,8 +170,35 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
     setTimeout(() => {
       setIsSuccess(false);
       linkedinForm.reset();
+      setLinkedinAuthState("initial");
+      setLinkedinProfile(null);
       onOpenChange(false);
     }, 2000);
+  };
+
+  const handleLinkedinAuth = () => {
+    setLinkedinAuthState("authenticating");
+    
+    // Simulate LinkedIn OAuth authentication flow
+    setTimeout(() => {
+      // Simulate successful authentication with mock profile data
+      const mockProfile = {
+        id: "linkedin-" + Math.random().toString(36).substring(2, 10),
+        name: "John Investment",
+        profileUrl: "https://linkedin.com/in/john-investment",
+        pictureUrl: "https://randomuser.me/api/portraits/men/" + Math.floor(Math.random() * 100) + ".jpg",
+        company: "Venture Partners",
+        position: "Venture Capitalist at Venture Partners",
+      };
+      
+      setLinkedinProfile(mockProfile);
+      setLinkedinAuthState("authenticated");
+      
+      toast({
+        title: "LinkedIn Authentication Successful",
+        description: "Your LinkedIn profile has been connected.",
+      });
+    }, 1500);
   };
 
   const getTitle = () => {
@@ -182,8 +248,8 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
           <DialogTitle>{getTitle()}</DialogTitle>
           <DialogDescription>
             {type === "requestAccess" 
-              ? "Please authenticate with your LinkedIn profile to request access."
-              : "Connect with us using your email or LinkedIn profile."}
+              ? "Please authenticate with your LinkedIn account to request access."
+              : "Connect with us using your email or LinkedIn account."}
           </DialogDescription>
         </DialogHeader>
         
@@ -296,97 +362,98 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
             )}
             
             <TabsContent value="linkedin" className={type === "requestAccess" ? "pt-2" : ""}>
-              <Form {...linkedinForm}>
-                <form onSubmit={linkedinForm.handleSubmit(onSubmitLinkedin)} className="space-y-4">
-                  <FormField
-                    control={linkedinForm.control}
-                    name="name"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Full Name</FormLabel>
-                        <FormControl>
-                          <Input placeholder="John Doe" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={linkedinForm.control}
-                    name="linkedinUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>LinkedIn Profile URL</FormLabel>
-                        <FormControl>
-                          <div className="flex items-center space-x-2">
-                            <div className="relative w-full">
-                              <div className="absolute left-2 top-1/2 transform -translate-y-1/2">
-                                <Linkedin className="h-4 w-4 text-gray-500" />
-                              </div>
-                              <Input 
-                                placeholder="https://linkedin.com/in/yourprofile" 
-                                className="pl-8" 
-                                {...field} 
-                              />
-                            </div>
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={linkedinForm.control}
-                    name="company"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Company</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Your company" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={linkedinForm.control}
-                    name="role"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Investor Type</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+              {linkedinAuthState === "initial" ? (
+                <div className="flex flex-col items-center py-6 space-y-4">
+                  <p className="text-center text-gray-600 mb-2">
+                    {type === "requestAccess" 
+                      ? "Please sign in with LinkedIn to request access to this document."
+                      : "Connect your LinkedIn profile to continue."}
+                  </p>
+                  <Button 
+                    onClick={handleLinkedinAuth} 
+                    className="bg-[#0A66C2] hover:bg-[#084482] w-full max-w-xs"
+                    disabled={isSubmitting}
+                  >
+                    <Linkedin className="mr-2 h-5 w-5" />
+                    Sign in with LinkedIn
+                  </Button>
+                </div>
+              ) : linkedinAuthState === "authenticating" ? (
+                <div className="flex flex-col items-center justify-center py-8 space-y-4">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0A66C2]"></div>
+                  <p className="text-center text-gray-600">Connecting to LinkedIn...</p>
+                </div>
+              ) : (
+                <Form {...linkedinForm}>
+                  <form onSubmit={linkedinForm.handleSubmit(onSubmitLinkedin)} className="space-y-4">
+                    <div className="flex items-center space-x-4 py-2 mb-2 border-b">
+                      {linkedinProfile?.pictureUrl && (
+                        <img 
+                          src={linkedinProfile.pictureUrl} 
+                          alt="LinkedIn profile" 
+                          className="h-12 w-12 rounded-full border border-gray-200" 
+                        />
+                      )}
+                      <div>
+                        <p className="font-medium">{linkedinProfile?.name}</p>
+                        <p className="text-sm text-gray-500 flex items-center">
+                          <Linkedin className="h-3 w-3 mr-1 text-[#0A66C2]" />
+                          Connected
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <FormField
+                      control={linkedinForm.control}
+                      name="company"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Company</FormLabel>
                           <FormControl>
-                            <SelectTrigger className="w-full bg-white">
-                              <SelectValue placeholder="Select your investor type" />
-                            </SelectTrigger>
+                            <Input placeholder="Your company" {...field} />
                           </FormControl>
-                          <SelectContent className="bg-white">
-                            {investorTypes.map((type) => (
-                              <SelectItem key={type} value={type} className="cursor-pointer">
-                                {type}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <DialogFooter>
-                    <Button 
-                      type="submit" 
-                      className="w-full bg-teal-600 hover:bg-teal-700"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? "Submitting..." : "Submit"}
-                    </Button>
-                  </DialogFooter>
-                </form>
-              </Form>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={linkedinForm.control}
+                      name="role"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Investor Type</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger className="w-full bg-white">
+                                <SelectValue placeholder="Select your investor type" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent className="bg-white">
+                              {investorTypes.map((type) => (
+                                <SelectItem key={type} value={type} className="cursor-pointer">
+                                  {type}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <DialogFooter>
+                      <Button 
+                        type="submit" 
+                        className="w-full bg-teal-600 hover:bg-teal-700"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? "Submitting..." : "Submit"}
+                      </Button>
+                    </DialogFooter>
+                  </form>
+                </Form>
+              )}
             </TabsContent>
           </Tabs>
         )}
