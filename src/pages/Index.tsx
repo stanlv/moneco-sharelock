@@ -113,7 +113,7 @@ const Index = () => {
       { name: "Individuals", logo: "https://via.placeholder.com/150?text=ID", type: "Customer" },
     ],
     regulators: [
-      { name: "ACPR", logo: "https://via.placeholder.com/150?text=ACPR", type: "Regulator" },
+      { name: "ACPR", logo: "/lovable-uploads/06e65e90-337c-414d-a709-379d102e3861.png", type: "Regulator" },
       { name: "Financial Authority", logo: "https://via.placeholder.com/150?text=FA", type: "Regulator" },
       { name: "Banking Commission", logo: "https://via.placeholder.com/150?text=BC", type: "Regulator" },
     ],
