@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -143,7 +144,7 @@ const Index = () => {
     { 
       name: "CoinAfrique", 
       url: "https://www.linkedin.com/company/coinafrique/",
-      logo: "/lovable-uploads/97a0def4-cf1f-45bc-a2c0-93003dffebab.png"
+      logo: "/lovable-uploads/205ace63-228b-45bb-a619-2ff7d56df767.png"
     },
     { 
       name: "Boston Consulting Group", 
