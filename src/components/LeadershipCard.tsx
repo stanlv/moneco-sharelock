@@ -11,7 +11,7 @@ interface LeadershipCardProps {
   isSelected?: boolean;
   onSelect?: () => void;
   onSubscribe?: () => void;
-  gradientVariant?: 'green' | 'blue' | 'purple';
+  gradientVariant?: 'primary' | 'secondary' | 'tertiary';
 }
 
 const LeadershipCard = ({ 
@@ -21,14 +21,14 @@ const LeadershipCard = ({
   isSelected = false,
   onSelect,
   onSubscribe,
-  gradientVariant = 'green'
+  gradientVariant = 'primary'
 }: LeadershipCardProps) => {
   
-  // Soft gradient background variants inspired by sharelockapp.com
+  // Moneco-inspired gradient background variants
   const gradients = {
-    green: "bg-gradient-to-br from-teal-500/80 via-teal-600/75 to-teal-700/80",
-    blue: "bg-gradient-to-br from-teal-400/75 via-teal-500/75 to-teal-600/80",
-    purple: "bg-gradient-to-br from-teal-500/75 via-teal-600/80 to-teal-700/85"
+    primary: "bg-gradient-to-br from-teal-500/90 via-teal-600/85 to-teal-700/90",
+    secondary: "bg-gradient-to-br from-emerald-500/90 via-teal-600/85 to-teal-700/90",
+    tertiary: "bg-gradient-to-br from-teal-600/90 via-teal-700/85 to-emerald-800/90"
   };
   
   return (

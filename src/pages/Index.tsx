@@ -68,19 +68,19 @@ const Index = () => {
       name: "Shams Badakaly",
       role: "Co-Founder",
       image: "/lovable-uploads/9f121106-7082-4599-8e55-b282061c34be.png",
-      gradientVariant: "green" as const
+      gradientVariant: "primary" as const
     },
     {
       name: "Jimmy Kwasi KUMAKO",
       role: "Co-Founder",
       image: "/lovable-uploads/8511c5d7-9c93-4ca5-95ed-ebcf7be428b4.png",
-      gradientVariant: "blue" as const
+      gradientVariant: "secondary" as const
     },
     {
       name: "Bilal Dahlab",
       role: "Co-Founder",
       image: "/lovable-uploads/dafeaeae-e1af-4bfe-90d0-728fa23ae389.png",
-      gradientVariant: "purple" as const
+      gradientVariant: "tertiary" as const
     }
   ];
 
