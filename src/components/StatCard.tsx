@@ -1,4 +1,3 @@
-
 import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -89,7 +88,7 @@ const StatCard = ({
           href={sourceUrl} 
           target="_blank" 
           rel="noopener noreferrer"
-          className="flex items-center justify-center gap-1 text-gray-400 text-xs hover:text-gray-600 transition-colors mt-auto"
+          className="flex items-center gap-1 text-gray-400 text-xs hover:text-gray-500 transition-colors"
         >
           <span>{source}</span>
           <Link2 className="h-3 w-3" />
@@ -97,48 +96,28 @@ const StatCard = ({
       );
     }
     
-    return <div className="text-gray-400 text-xs text-center mt-auto">{source}</div>;
+    return <div className="text-gray-400 text-xs">{source}</div>;
   };
 
   const getCardClasses = () => {
-    const baseClasses = "p-5 flex flex-col h-full transition-all duration-300 border-0 bg-white";
-    
-    if (gradient) {
-      return cn(baseClasses, "shadow-none", className);
-    }
+    const baseClasses = "p-6 flex flex-col h-full transition-all duration-300 border";
     
     switch (variant) {
       case "highlight":
-        return cn(baseClasses, "border-l-2 border-l-gray-800 bg-white shadow-none", className);
+        return cn(baseClasses, "border-gray-200 bg-white", className);
       case "outlined":
-        return cn(baseClasses, "border border-gray-100 bg-white shadow-none", className);
+        return cn(baseClasses, "border-gray-200 bg-white", className);
       default:
-        return cn(baseClasses, "shadow-none", className);
+        return cn(baseClasses, "border-gray-200 bg-white", className);
     }
   };
-
-  const getIconClass = () => {
-    return "text-gray-800";
-  };
-
-  const getTitleClass = () => {
-    return "font-medium text-gray-900";
-  };
-
-  const getDescriptionClass = () => {
-    return "text-gray-500";
-  };
-  
-  const cardStyle = gradient ? { background: "white", borderLeft: "2px solid #e5e7eb" } : {};
   
   return (
-    <Card className={getCardClasses()} style={cardStyle}>
+    <Card className={getCardClasses()}>
       <div className="flex-1">
-        <div className="flex items-center gap-3 mb-2">
-          {icon && <div className={cn(getIconClass())}>{icon}</div>}
-          <h3 className={cn("text-xl md:text-2xl", getTitleClass())}>{displayValue}</h3>
-        </div>
-        <p className={cn("mb-4 text-sm", getDescriptionClass())}>{description}</p>
+        {icon && <div className="text-gray-600 mb-3">{icon}</div>}
+        <h3 className="text-xl font-normal text-gray-800 mb-2">{displayValue}</h3>
+        <p className="text-sm text-gray-500 mb-4">{description}</p>
       </div>
       {renderSource()}
     </Card>

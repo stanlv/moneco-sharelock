@@ -48,7 +48,7 @@ const Index = () => {
       animate: false,
       icon: <BadgeDollarSign className="h-5 w-5" />,
       sourceUrl: "https://moneco.app/pricing",
-      variant: "highlight" as const
+      variant: "default" as const
     },
     {
       title: "24'000",
@@ -59,7 +59,7 @@ const Index = () => {
       animationDuration: 20000,
       icon: <UserPlus className="h-5 w-5" />,
       sourceUrl: "https://mixpanel.com",
-      variant: "outlined" as const
+      variant: "default" as const
     }
   ];
 
@@ -294,7 +294,7 @@ const Index = () => {
           <h1 className="text-2xl font-semibold text-gray-900 mb-1">The financial application for the African diaspora</h1>
           <p className="text-gray-500 mb-6">#technology #emergingmarkets #impact</p>
           
-          <div className="grid md:grid-cols-3 gap-4 mb-10">
+          <div className="grid md:grid-cols-3 gap-6 mb-10">
             {stats.map((stat, index) => (
               <StatCard 
                 key={index} 
@@ -307,7 +307,6 @@ const Index = () => {
                 icon={stat.icon}
                 sourceUrl={stat.sourceUrl}
                 variant={stat.variant}
-                gradient={stat.gradient}
               />
             ))}
           </div>
@@ -663,3 +662,4 @@ const Index = () => {
 };
 
 export default Index;
+
