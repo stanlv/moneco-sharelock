@@ -3,7 +3,6 @@ import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Link2 } from "lucide-react";
-import { Area, AreaChart, ResponsiveContainer } from "recharts";
 
 interface StatCardProps {
   title: string;
@@ -17,8 +16,6 @@ interface StatCardProps {
   sourceUrl?: string;
   variant?: "default" | "highlight" | "outlined";
   gradient?: string;
-  showBackgroundChart?: boolean;
-  chartData?: Array<{ value: number }>;
 }
 
 const StatCard = ({ 
@@ -32,11 +29,7 @@ const StatCard = ({
   icon,
   sourceUrl,
   variant = "default",
-  gradient,
-  showBackgroundChart = false,
-  chartData = Array.from({ length: 20 }, (_, i) => ({ 
-    value: Math.floor(Math.random() * 50) + 50
-  }))
+  gradient
 }: StatCardProps) => {
   const [displayValue, setDisplayValue] = useState(title);
   const animationRef = useRef<number | null>(null);
@@ -108,7 +101,7 @@ const StatCard = ({
   };
 
   const getCardClasses = () => {
-    const baseClasses = "p-6 flex flex-col h-full transition-all duration-300 border relative overflow-hidden";
+    const baseClasses = "p-6 flex flex-col h-full transition-all duration-300 border";
     
     switch (variant) {
       case "highlight":
@@ -122,37 +115,12 @@ const StatCard = ({
   
   return (
     <Card className={getCardClasses()}>
-      {showBackgroundChart && (
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={chartData} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
-              <defs>
-                <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.8}/>
-                  <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-              <Area 
-                type="monotone" 
-                dataKey="value" 
-                stroke="#0ea5e9" 
-                fillOpacity={1} 
-                fill="url(#chartGradient)" 
-                strokeWidth={2}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-      )}
-      
-      <div className="flex-1 relative z-10">
+      <div className="flex-1">
         {icon && <div className="text-teal-600 mb-3">{icon}</div>}
         <h3 className="text-xl font-normal text-gray-800 mb-2">{displayValue}</h3>
         <p className="text-sm text-gray-500 mb-4">{description}</p>
       </div>
-      <div className="relative z-10">
-        {renderSource()}
-      </div>
+      {renderSource()}
     </Card>
   );
 };
