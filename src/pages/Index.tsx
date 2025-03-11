@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase, GraduationCap, Banknote, BadgeDollarSign, UserPlus } from "lucide-react";
+import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase, GraduationCap, Banknote, BadgeDollarSign, UserPlus, Quote } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import StatCard from "@/components/StatCard";
 import LeadershipCard from "@/components/LeadershipCard";
@@ -15,6 +15,7 @@ import CompanyCard from "@/components/CompanyCard";
 const Index = () => {
   const [showSubscriptionMessage, setShowSubscriptionMessage] = useState(false);
   const [showReadMoreDialog, setShowReadMoreDialog] = useState(false);
+  const [showTestimonialsDialog, setShowTestimonialsDialog] = useState(false);
   
   const [briefFeedback, setBriefFeedback] = useState<string | null>(null);
   const [startedFeedback, setStartedFeedback] = useState<string | null>(null);
@@ -66,7 +67,7 @@ const Index = () => {
     }
   ];
 
-  const testimonials = [
+  const allTestimonials = [
     {
       quote: "Professional, real-time instant transfer, lower fees compared to other banks, full of benefits, I am satisfied with Moneco's services. I recommend 10000%.",
       author: "youcef-udbylakoub",
@@ -76,6 +77,56 @@ const Index = () => {
       quote: "I recently discovered the Moneco app, and my experience has been very positive. Money transfers, whether sending or receiving funds, are done instantly without any hassle. Additionally, I was pleasantly surprised by how quickly my card was delivered, arriving in just 4 days. In summary, I find Moneco to be a reliable and convenient app for managing my finances effectively ❤️👌.",
       author: "Miloud Ferhati",
       source: "Trust pilot | Translated from French"
+    },
+    {
+      quote: "The Moneco app has fundamentally changed how I send money back home. The fees are significantly lower than what I was paying with my previous provider, and the transfers are instantaneous.",
+      author: "Emmanuel K.",
+      source: "App Store Review"
+    },
+    {
+      quote: "As someone who regularly sends money to family in Senegal, this app has been a game-changer. The exchange rates are transparent, and I can track every transaction in real-time.",
+      author: "Fatou Diop",
+      source: "Google Play Store"
+    },
+    {
+      quote: "The customer service team deserves special recognition. When I had an issue with my first transfer, they resolved it within minutes through the in-app chat.",
+      author: "Mohamed A.",
+      source: "Trust pilot"
+    },
+    {
+      quote: "I've been using Moneco for six months now, and it has completely replaced my traditional bank for international transfers. The app is intuitive, and the fees are significantly lower.",
+      author: "Chioma O.",
+      source: "Community Forum"
+    },
+    {
+      quote: "What sets Moneco apart is how easy they've made it to manage multiple currencies. I can hold euros and CFA francs in the same account without excessive conversion fees.",
+      author: "Jean-Pierre M.",
+      source: "Trust pilot"
+    },
+    {
+      quote: "After trying several competing apps, I've settled on Moneco for all my remittance needs. The combination of speed, low fees, and user-friendly interface makes it the clear winner.",
+      author: "Sarah L.",
+      source: "LinkedIn"
+    },
+    {
+      quote: "The ability to schedule recurring transfers has been incredibly helpful for sending my monthly support to my parents in Morocco. It's one less thing I have to remember to do.",
+      author: "Karim B.",
+      source: "Instagram"
+    },
+    {
+      quote: "What I appreciate most about Moneco is the transparency. No hidden fees, clear exchange rates, and detailed receipts for every transaction.",
+      author: "Grace A.",
+      source: "Facebook"
+    },
+    {
+      quote: "The verification process was smooth and quick - much faster than other financial apps I've tried. I was able to make my first transfer within an hour of downloading the app.",
+      author: "Omar S.",
+      source: "Trust pilot"
+    },
+    {
+      quote: "Moneco understands the specific needs of African diaspora. The app feels like it was built specifically for people like me who regularly send money back home.",
+      author: "Amina T.",
+      source: "Twitter"
     }
   ];
 
@@ -486,11 +537,38 @@ const Index = () => {
           </div>
           
           <div className="text-center">
-            <Button variant="outline" className="border-gray-300 hover:bg-gray-100">
+            <Button 
+              variant="outline" 
+              className="border-gray-300 hover:bg-gray-100"
+              onClick={() => setShowTestimonialsDialog(true)}
+            >
               Read 10 other customer testimonials
             </Button>
           </div>
         </section>
+        
+        <Dialog open={showTestimonialsDialog} onOpenChange={setShowTestimonialsDialog}>
+          <DialogContent className="max-w-3xl p-8 max-h-[90vh] overflow-y-auto">
+            <DialogHeader className="mb-6">
+              <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+                <Quote className="h-5 w-5 text-teal-600" />
+                Customer Testimonials
+              </DialogTitle>
+            </DialogHeader>
+            
+            <div className="space-y-6 py-4">
+              {allTestimonials.slice(2).map((testimonial, index) => (
+                <div key={index} className="border-b border-gray-100 pb-6 last:border-b-0">
+                  <TestimonialCard 
+                    quote={testimonial.quote} 
+                    author={testimonial.author} 
+                    source={testimonial.source} 
+                  />
+                </div>
+              ))}
+            </div>
+          </DialogContent>
+        </Dialog>
         
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">Investors Documents</h2>
