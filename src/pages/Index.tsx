@@ -120,7 +120,7 @@ const Index = () => {
     },
     { 
       name: "Université Cheikh Anta Diop de Dakar", 
-      logo: "/lovable-uploads/b8b691e3-1cf2-49bd-ad98-97ca0397cbfe.png",
+      logo: "/lovable-uploads/b54b1bf5-3ac6-484c-9a68-443036c99fd4.png",
       url: "https://www.linkedin.com/school/universit%C3%A9-cheikh-anta-diop-de-dakar/" 
     },
     { 
