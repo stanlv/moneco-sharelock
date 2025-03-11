@@ -1,6 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Share2 } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -23,7 +24,11 @@ const Navbar = () => {
             Shareholders Relations Page
           </a>
           
-          <Button className="bg-yellow-400 hover:bg-yellow-500 text-black">
+          <Button 
+            variant="moneco" 
+            className="shadow-sm group transition-all duration-300"
+          >
+            <Share2 className="w-4 h-4 mr-1 transition-transform group-hover:rotate-12" />
             Share Investor Page
           </Button>
         </div>
