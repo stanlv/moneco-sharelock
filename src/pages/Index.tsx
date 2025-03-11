@@ -20,6 +20,7 @@ const Index = () => {
   const [briefFeedback, setBriefFeedback] = useState<string | null>(null);
   const [startedFeedback, setStartedFeedback] = useState<string | null>(null);
   const [visionFeedback, setVisionFeedback] = useState<string | null>(null);
+  const [testimonialsFeedback, setTestimonialsFeedback] = useState<string | null>(null);
   
   const [selectedLeaderId, setSelectedLeaderId] = useState<number | null>(null);
 
@@ -556,7 +557,7 @@ const Index = () => {
               </DialogTitle>
             </DialogHeader>
             
-            <div className="space-y-6 py-4">
+            <div className="space-y-8 py-4">
               {allTestimonials.slice(2).map((testimonial, index) => (
                 <div key={index} className="border-b border-gray-100 pb-6 last:border-b-0">
                   <TestimonialCard 
@@ -566,6 +567,33 @@ const Index = () => {
                   />
                 </div>
               ))}
+              
+              <div className="mt-8 pt-4 border-t border-gray-100">
+                <h3 className="text-lg font-medium mb-3">What do you think about our customers' feedback?</h3>
+                <div className="flex gap-2">
+                  <FeedbackButton 
+                    type="support" 
+                    label="Support" 
+                    icon={<Heart className="h-3 w-3" />} 
+                    selected={testimonialsFeedback === "support"} 
+                    onSelect={() => setTestimonialsFeedback("support")} 
+                  />
+                  <FeedbackButton 
+                    type="insightful" 
+                    label="Insightful" 
+                    icon={<ThumbsUp className="h-3 w-3" />} 
+                    selected={testimonialsFeedback === "insightful"} 
+                    onSelect={() => setTestimonialsFeedback("insightful")} 
+                  />
+                  <FeedbackButton 
+                    type="celebrate" 
+                    label="Celebrate" 
+                    icon={<Trophy className="h-3 w-3" />} 
+                    selected={testimonialsFeedback === "celebrate"} 
+                    onSelect={() => setTestimonialsFeedback("celebrate")} 
+                  />
+                </div>
+              </div>
             </div>
           </DialogContent>
         </Dialog>
