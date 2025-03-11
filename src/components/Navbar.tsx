@@ -8,9 +8,13 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center max-w-6xl">
         <div className="flex items-center space-x-2">
           <img 
-            src="https://moneco.app/wp-content/uploads/2023/02/Logo_Moneco_400px.png" 
+            src="/placeholder.svg"
             alt="Moneco Logo" 
             className="h-8 w-auto"
+            onError={(e) => {
+              e.currentTarget.src = "/placeholder.svg";
+              e.currentTarget.onerror = null;
+            }}
           />
         </div>
         
