@@ -46,7 +46,13 @@ const StatCard = ({
       const elapsed = timestamp - startTimeRef.current;
       const progress = Math.min(elapsed / animationDuration, 1);
       
-      const currentValue = Math.floor(initialNumericValue + progress * (numericFinalValue - initialNumericValue));
+      // Apply easing function to create slow start and fast finish effect
+      // Using cubic easing: progress^3 accelerates more dramatically toward the end
+      const easedProgress = progress < 0.5 
+        ? 4 * Math.pow(progress, 3) 
+        : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+      
+      const currentValue = Math.floor(initialNumericValue + easedProgress * (numericFinalValue - initialNumericValue));
       
       // Format the current value with commas for thousands
       const formattedValue = currentValue.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
