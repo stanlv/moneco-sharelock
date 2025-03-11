@@ -6,7 +6,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Check, Linkedin, UserCheck } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -291,20 +290,24 @@ export function SubscriptionDialog({ open, onOpenChange, type, documentTitle }: 
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel className="text-gray-700">Investor Type</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="w-full bg-white">
-                                <SelectValue placeholder="Select your investor type" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="bg-white max-h-60">
+                          <FormControl>
+                            <div className="flex flex-wrap gap-2 mt-1">
                               {investorTypes.map((type) => (
-                                <SelectItem key={type} value={type} className="cursor-pointer hover:bg-teal-50">
+                                <button
+                                  key={type}
+                                  type="button"
+                                  onClick={() => linkedinForm.setValue("role", type)}
+                                  className={`px-3 py-1.5 rounded-full text-sm transition-all ${
+                                    field.value === type 
+                                      ? 'bg-teal-600 text-white font-medium shadow-sm' 
+                                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                  }`}
+                                >
                                   {type}
-                                </SelectItem>
+                                </button>
                               ))}
-                            </SelectContent>
-                          </Select>
+                            </div>
+                          </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
