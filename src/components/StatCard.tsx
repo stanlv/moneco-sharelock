@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { Link2, LineChart } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 interface StatCardProps {
   title: string;
@@ -153,13 +153,13 @@ const StatCard = ({
     
     // Chart dimensions
     const height = 300;
-    const width = 600;
-    const padding = 40;
+    const width = 800;
+    const padding = { top: 20, right: 30, bottom: 40, left: 50 };
     
     // Calculate positions for points
     const points = months.map((month, i) => {
-      const x = padding + (i / (months.length - 1)) * (width - 2 * padding);
-      const y = height - padding - ((values[i] / maxValue) * (height - 2 * padding));
+      const x = padding.left + (i / (months.length - 1)) * (width - padding.left - padding.right);
+      const y = height - padding.bottom - ((values[i] / maxValue) * (height - padding.top - padding.bottom));
       return { x, y, value: values[i], label: month };
     });
     
@@ -168,33 +168,83 @@ const StatCard = ({
       (i === 0 ? `M ${point.x},${point.y}` : `L ${point.x},${point.y}`)
     ).join(' ');
     
+    // Create the area fill below the line
+    const areaPathData = `
+      ${pathData} 
+      L ${points[points.length - 1].x},${height - padding.bottom} 
+      L ${points[0].x},${height - padding.bottom} 
+      Z
+    `;
+    
+    // Choose a subset of months to display as labels to avoid crowding
+    const xAxisLabels = points.filter((_, i) => i % 3 === 0);
+    
+    // Generate nice round numbers for y-axis labels
+    const yAxisValues = [0, maxValue * 0.25, maxValue * 0.5, maxValue * 0.75, maxValue];
+    const yAxisLabels = yAxisValues.map(value => {
+      const y = height - padding.bottom - ((value / maxValue) * (height - padding.top - padding.bottom));
+      // Format with apostrophes for thousands
+      const formattedValue = Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+      return { y, value: formattedValue };
+    });
+    
     return (
-      <div className="w-full overflow-x-auto">
-        <div className="min-w-[600px]">
-          <h3 className="text-center text-gray-700 mb-6">Account Growth Since January 2023</h3>
+      <div className="w-full overflow-x-hidden">
+        <div className="mx-auto">
           <svg
             viewBox={`0 0 ${width} ${height}`}
-            width={width} 
+            width="100%" 
             height={height}
             className="mx-auto"
+            style={{ maxWidth: "100%" }}
           >
-            {/* X and Y axes */}
+            {/* Grid lines */}
+            {yAxisLabels.map((label, i) => (
+              <line 
+                key={`grid-${i}`}
+                x1={padding.left} 
+                y1={label.y} 
+                x2={width - padding.right} 
+                y2={label.y} 
+                stroke="#f1f1f4" 
+                strokeWidth="1"
+              />
+            ))}
+            
+            {/* X-axis */}
             <line 
-              x1={padding} 
-              y1={height - padding} 
-              x2={width - padding} 
-              y2={height - padding} 
-              stroke="#ccc" 
+              x1={padding.left} 
+              y1={height - padding.bottom} 
+              x2={width - padding.right} 
+              y2={height - padding.bottom} 
+              stroke="#e2e2e7" 
               strokeWidth="1"
             />
+            
+            {/* Y-axis */}
             <line 
-              x1={padding} 
-              y1={padding} 
-              x2={padding} 
-              y2={height - padding} 
-              stroke="#ccc" 
+              x1={padding.left} 
+              y1={padding.top} 
+              x2={padding.left} 
+              y2={height - padding.bottom} 
+              stroke="#e2e2e7" 
               strokeWidth="1"
             />
+            
+            {/* Area fill below the line */}
+            <path 
+              d={areaPathData} 
+              fill="url(#teal-gradient)" 
+              opacity="0.2"
+            />
+            
+            {/* Define the gradient for area fill */}
+            <defs>
+              <linearGradient id="teal-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="#0d9488" stopOpacity="0.5" />
+                <stop offset="100%" stopColor="#0d9488" stopOpacity="0.1" />
+              </linearGradient>
+            </defs>
             
             {/* Growth curve */}
             <path 
@@ -214,40 +264,38 @@ const StatCard = ({
                 cy={point.y} 
                 r="4" 
                 fill="#0d9488"
+                stroke="white"
+                strokeWidth="2"
               />
             ))}
             
-            {/* X-axis labels (months) - show every 3rd month to avoid crowding */}
-            {points.filter((_, i) => i % 3 === 0).map((point, i) => (
+            {/* X-axis labels (months) */}
+            {xAxisLabels.map((point, i) => (
               <text 
                 key={i}
                 x={point.x} 
-                y={height - padding + 20} 
+                y={height - padding.bottom + 20} 
                 textAnchor="middle" 
                 fontSize="12"
-                fill="#666"
+                fill="#6b7280"
               >
                 {point.label}
               </text>
             ))}
             
             {/* Y-axis labels */}
-            {[0, 0.25, 0.5, 0.75, 1].map((ratio, i) => {
-              const value = Math.round(maxValue * ratio);
-              const y = height - padding - (ratio * (height - 2 * padding));
-              return (
-                <text 
-                  key={i}
-                  x={padding - 10} 
-                  y={y + 5} 
-                  textAnchor="end" 
-                  fontSize="12"
-                  fill="#666"
-                >
-                  {value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "'")}
-                </text>
-              );
-            })}
+            {yAxisLabels.map((label, i) => (
+              <text 
+                key={i}
+                x={padding.left - 10} 
+                y={label.y + 5} 
+                textAnchor="end" 
+                fontSize="12"
+                fill="#6b7280"
+              >
+                {label.value}
+              </text>
+            ))}
           </svg>
         </div>
       </div>
@@ -280,15 +328,16 @@ const StatCard = ({
       
       {hasGraph && (
         <Dialog open={showGraphDialog} onOpenChange={setShowGraphDialog}>
-          <DialogContent className="max-w-3xl p-6">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-semibold flex items-center gap-2">
+          <DialogContent className="max-w-4xl p-6">
+            <DialogHeader className="mb-2">
+              <DialogTitle className="text-xl font-medium flex items-center gap-2">
                 <LineChart className="h-5 w-5 text-teal-600" />
                 {title} - Growth Chart
               </DialogTitle>
             </DialogHeader>
             
-            <div className="py-4">
+            <div className="py-2">
+              <h3 className="text-center text-gray-700 text-lg font-medium mb-6">Account Growth Since January 2023</h3>
               {renderGrowthChart()}
             </div>
           </DialogContent>
