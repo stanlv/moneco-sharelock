@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy } from "lucide-react";
+import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import StatCard from "@/components/StatCard";
 import LeadershipCard from "@/components/LeadershipCard";
@@ -10,6 +10,7 @@ import TestimonialCard from "@/components/TestimonialCard";
 import DocumentCard from "@/components/DocumentCard";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
+import CompanyCard from "@/components/CompanyCard";
 
 const Index = () => {
   const [showSubscriptionMessage, setShowSubscriptionMessage] = useState(false);
@@ -90,6 +91,29 @@ const Index = () => {
       type: "request" as const
     }
   ];
+
+  const companies = {
+    investors: [
+      { name: "VC Capital Fund", logo: "https://via.placeholder.com/150?text=VC" },
+      { name: "Seed Investors", logo: "https://via.placeholder.com/150?text=SI" },
+      { name: "Angel Group", logo: "https://via.placeholder.com/150?text=AG" },
+    ],
+    partners: [
+      { name: "Banking Tech", logo: "https://via.placeholder.com/150?text=BT" },
+      { name: "Financial Services", logo: "https://via.placeholder.com/150?text=FS" },
+      { name: "Payment Systems", logo: "https://via.placeholder.com/150?text=PS" },
+      { name: "Tech Solutions", logo: "https://via.placeholder.com/150?text=TS" },
+    ],
+    customers: [
+      { name: "Diaspora Communities", logo: "https://via.placeholder.com/150?text=DC" },
+      { name: "Small Businesses", logo: "https://via.placeholder.com/150?text=SB" },
+      { name: "Individuals", logo: "https://via.placeholder.com/150?text=ID" },
+    ],
+    regulators: [
+      { name: "Financial Authority", logo: "https://via.placeholder.com/150?text=FA" },
+      { name: "Banking Commission", logo: "https://via.placeholder.com/150?text=BC" },
+    ],
+  };
 
   const handleSubscribe = () => {
     setShowSubscriptionMessage(true);
@@ -331,6 +355,63 @@ const Index = () => {
                 Thank you for subscribing to our updates!
               </div>
             )}
+          </div>
+        </section>
+        
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">Our Ecosystem</h2>
+          <p className="text-center text-gray-600 mb-10 max-w-3xl mx-auto">
+            Moneco works with a network of trusted organizations across the financial ecosystem to provide the best services to the African diaspora.
+          </p>
+          
+          <div className="space-y-8">
+            <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-6 rounded-xl">
+              <div className="flex items-center mb-4 gap-2">
+                <Coins className="h-6 w-6 text-purple-600" />
+                <h3 className="text-xl font-semibold text-gray-800">Investors</h3>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {companies.investors.map((company, idx) => (
+                  <CompanyCard key={`investor-${idx}`} name={company.name} logo={company.logo} />
+                ))}
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-teal-50 to-green-50 p-6 rounded-xl">
+              <div className="flex items-center mb-4 gap-2">
+                <Link className="h-6 w-6 text-teal-600" />
+                <h3 className="text-xl font-semibold text-gray-800">Partners</h3>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {companies.partners.map((company, idx) => (
+                  <CompanyCard key={`partner-${idx}`} name={company.name} logo={company.logo} />
+                ))}
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-amber-50 to-yellow-50 p-6 rounded-xl">
+              <div className="flex items-center mb-4 gap-2">
+                <Star className="h-6 w-6 text-amber-600" />
+                <h3 className="text-xl font-semibold text-gray-800">Customers</h3>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                {companies.customers.map((company, idx) => (
+                  <CompanyCard key={`customer-${idx}`} name={company.name} logo={company.logo} />
+                ))}
+              </div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-blue-50 to-sky-50 p-6 rounded-xl">
+              <div className="flex items-center mb-4 gap-2">
+                <Shield className="h-6 w-6 text-blue-600" />
+                <h3 className="text-xl font-semibold text-gray-800">Regulators</h3>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {companies.regulators.map((company, idx) => (
+                  <CompanyCard key={`regulator-${idx}`} name={company.name} logo={company.logo} />
+                ))}
+              </div>
+            </div>
           </div>
         </section>
         
