@@ -2,6 +2,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { LucideIcon } from "lucide-react";
 
 interface StatCardProps {
   title: string;
@@ -11,6 +12,7 @@ interface StatCardProps {
   animate?: boolean;
   animationDuration?: number;
   finalValue?: number;
+  icon?: React.ReactNode;
 }
 
 const StatCard = ({ 
@@ -20,7 +22,8 @@ const StatCard = ({
   className,
   animate = false,
   animationDuration = 2000,
-  finalValue
+  finalValue,
+  icon
 }: StatCardProps) => {
   const [displayValue, setDisplayValue] = useState(title);
   const animationRef = useRef<number | null>(null);
@@ -76,7 +79,10 @@ const StatCard = ({
   return (
     <Card className={cn("p-6 flex flex-col h-full", className)}>
       <div className="flex-1">
-        <h3 className="text-2xl md:text-3xl font-bold text-center mb-2">{displayValue}</h3>
+        <div className="flex items-center justify-center mb-4">
+          {icon && <div className="text-teal-600 mr-2">{icon}</div>}
+          <h3 className="text-2xl md:text-3xl font-bold text-center">{displayValue}</h3>
+        </div>
         <p className="text-gray-600 text-center mb-6">{description}</p>
       </div>
       <div className="text-gray-500 text-sm text-center mt-auto">{source}</div>

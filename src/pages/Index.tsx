@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase, GraduationCap } from "lucide-react";
+import { Download, FileText, Users, Award, ChevronRight, Heart, ThumbsUp, Trophy, Coins, Link, Star, Shield, Briefcase, GraduationCap, Banknote, BadgeDollarSign, UserPlus } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import StatCard from "@/components/StatCard";
 import LeadershipCard from "@/components/LeadershipCard";
@@ -27,13 +27,15 @@ const Index = () => {
       title: "$ 83 Billions",
       description: "Yearly financial transfers (Remittances) from Europe to Africa",
       source: "world bank",
-      animate: false
+      animate: false,
+      icon: <Banknote className="h-6 w-6" />
     },
     {
       title: "$15",
       description: "Moneco customers save on average $15.35 on a $200 transfer, paying just $9.25 in fees.",
       source: "Moneco Website - Pricing",
-      animate: false
+      animate: false,
+      icon: <BadgeDollarSign className="h-6 w-6" />
     },
     {
       title: "24'000",
@@ -41,7 +43,8 @@ const Index = () => {
       source: "Mixpanel",
       animate: true,
       finalValue: 24357,
-      animationDuration: 20000 // 20 seconds
+      animationDuration: 20000, // 20 seconds
+      icon: <UserPlus className="h-6 w-6" />
     }
   ];
 
@@ -230,6 +233,7 @@ const Index = () => {
                 animate={stat.animate}
                 finalValue={stat.finalValue}
                 animationDuration={stat.animationDuration}
+                icon={stat.icon}
               />
             ))}
           </div>
