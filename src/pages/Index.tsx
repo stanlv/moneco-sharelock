@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -124,7 +125,7 @@ const Index = () => {
     },
     { 
       name: "ESCP Business School", 
-      logo: "/lovable-uploads/410b7fba-9bdf-4c2e-8d8c-1b5eaa71c55a.png",
+      logo: "/lovable-uploads/d32ea322-8c49-406e-8039-5a1999b02889.png",
       url: "https://www.linkedin.com/school/escp-business-school/" 
     },
     { 
