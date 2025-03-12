@@ -15,7 +15,12 @@ import CompanyCard from "@/components/CompanyCard";
 import { SubscriptionDialog } from "@/components/SubscriptionDialog";
 import LanguageSelector from "@/components/LanguageSelector";
 
-const Index = () => {
+interface IndexProps {
+  onLanguageChangeStart?: () => void;
+  onLanguageChangeEnd?: () => void;
+}
+
+const Index = ({ onLanguageChangeStart, onLanguageChangeEnd }: IndexProps) => {
   const [showSubscriptionMessage, setShowSubscriptionMessage] = useState(false);
   const [showReadMoreDialog, setShowReadMoreDialog] = useState(false);
   const [showTestimonialsDialog, setShowTestimonialsDialog] = useState(false);
@@ -331,7 +336,15 @@ const Index = () => {
   };
 
   const handleLanguageChange = (language: string) => {
+    if (onLanguageChangeStart) {
+      onLanguageChangeStart();
+    }
+    
     setCurrentLanguage(language);
+    
+    if (onLanguageChangeEnd) {
+      onLanguageChangeEnd();
+    }
   };
 
   const FeedbackButton = ({ 
@@ -555,7 +568,6 @@ const Index = () => {
             </div>
           </div>
           
-          {/* New investor message from Shams */}
           <div className="bg-gradient-to-r from-emerald-50 to-teal-50 p-8 border-t border-teal-100">
             <div className="max-w-3xl mx-auto">
               <div className="flex items-start gap-4">
