@@ -688,5 +688,4 @@ const Index = () => {
                     count={testimonialsFeedbackCounts.support}
                   />
                   <FeedbackButton 
-                    type="insightful" 
-                    label
+                    type="insight
