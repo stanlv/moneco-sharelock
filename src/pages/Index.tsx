@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -507,6 +508,47 @@ const Index = () => {
                   onSubscribe={handleFounderUpdates}
                 />
               ))}
+            </div>
+          </div>
+          
+          {/* New investor message from Shams */}
+          <div className="bg-gradient-to-r from-emerald-50 to-teal-50 p-8 border-t border-teal-100">
+            <div className="max-w-3xl mx-auto">
+              <div className="flex items-start gap-4">
+                <div className="h-12 w-12 rounded-full overflow-hidden flex-shrink-0 border-2 border-teal-200">
+                  <img 
+                    src="/lovable-uploads/9f121106-7082-4599-8e55-b282061c34be.png" 
+                    alt="Shams Badakaly" 
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-800 mb-1 flex items-center">
+                    Message from Shams to Investors
+                    <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-teal-100 text-teal-800">
+                      Co-Founder
+                    </span>
+                  </h3>
+                  <div className="prose text-gray-700">
+                    <p className="italic text-gray-600 mb-4">
+                      "At Moneco, we're not just building a financial application – we're creating a bridge between continents and communities. Our mission is deeply personal to us, as members of the African diaspora ourselves. We understand the challenges of sending money home, managing finances across borders, and creating wealth for our families."
+                    </p>
+                    <p className="text-gray-700 mb-4">
+                      We've designed Moneco to address real pain points with innovative solutions. Our growth metrics demonstrate the powerful market need we're filling, and we're just getting started. With your support, we can accelerate our expansion across Europe and Africa, bringing financial inclusion and opportunity to millions.
+                    </p>
+                    <p className="text-gray-700">
+                      I invite you to join us on this journey. Together, we can transform how the African diaspora manages money while building a profitable and impactful business.
+                    </p>
+                  </div>
+                  <Button 
+                    onClick={handleSubscribe}
+                    variant="outline" 
+                    className="mt-4 bg-white hover:bg-gray-50 border-teal-200"
+                  >
+                    Connect with Shams
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
           
