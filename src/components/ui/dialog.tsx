@@ -107,6 +107,46 @@ const DialogDescription = React.forwardRef<
 ))
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
+// New component for feedback buttons with counters
+interface FeedbackButtonProps {
+  type: string;
+  label: string;
+  icon: React.ReactNode;
+  selected: boolean;
+  count: number;
+  onSelect: () => void;
+}
+
+const FeedbackButton = ({ 
+  type, 
+  label, 
+  icon, 
+  selected, 
+  count,
+  onSelect 
+}: FeedbackButtonProps) => (
+  <button
+    onClick={onSelect}
+    className={cn(
+      "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors relative",
+      selected 
+        ? "bg-teal-100 text-teal-800 border border-teal-300" 
+        : "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-transparent"
+    )}
+  >
+    {icon}
+    {label}
+    {count > 0 && (
+      <span className={cn(
+        "ml-1 text-[0.65rem] font-semibold rounded-full px-1.5 py-0.5 min-w-[1.25rem] text-center",
+        selected ? "bg-teal-200 text-teal-800" : "bg-gray-200 text-gray-700"
+      )}>
+        {count}
+      </span>
+    )}
+  </button>
+);
+
 export {
   Dialog,
   DialogPortal,
@@ -118,4 +158,5 @@ export {
   DialogFooter,
   DialogTitle,
   DialogDescription,
+  FeedbackButton,
 }
