@@ -5,8 +5,8 @@ import { Share2 } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <header className="border-b border-gray-200 bg-white">
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center max-w-6xl">
+    <header className="border-b border-gray-100 bg-white shadow-sm">
+      <div className="container mx-auto px-4 py-3 flex justify-between items-center max-w-6xl">
         <div className="flex items-center space-x-3">
           <img 
             src="/lovable-uploads/b8b691e3-1cf2-49bd-ad98-97ca0397cbfe.png"
@@ -18,7 +18,7 @@ const Navbar = () => {
         
         <div className="flex items-center space-x-4">
           <a href="#" className={cn(
-            "text-gray-700 hover:text-gray-900",
+            "text-gray-600 hover:text-gray-900 text-sm font-medium",
             "hidden md:inline-block" // Hide on mobile
           )}>
             Shareholders Relations Page
@@ -26,7 +26,7 @@ const Navbar = () => {
           
           <Button 
             variant="moneco" 
-            className="shadow-sm group transition-all duration-300"
+            className="shadow-sm group transition-all duration-300 text-sm"
           >
             <Share2 className="w-4 h-4 mr-1 transition-transform group-hover:rotate-12" />
             Share Investor Page
