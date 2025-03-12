@@ -25,8 +25,8 @@ const Navbar = () => {
           </a>
           
           <Button 
-            variant="moneco" 
-            className="shadow-sm group transition-all duration-300 text-sm"
+            variant="outline" 
+            className="border-teal-200 bg-teal-50 text-teal-700 hover:bg-teal-100 hover:text-teal-800 shadow-sm group transition-all duration-300 text-sm"
           >
             <Share2 className="w-4 h-4 mr-1 transition-transform group-hover:rotate-12" />
             Share Investor Page
