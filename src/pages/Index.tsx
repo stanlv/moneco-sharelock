@@ -9,17 +9,11 @@ import LeadershipCard from "@/components/LeadershipCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import DocumentCard from "@/components/DocumentCard";
 import Footer from "@/components/Footer";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, FeedbackButton } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import CompanyCard from "@/components/CompanyCard";
 import { SubscriptionDialog } from "@/components/SubscriptionDialog";
 import LanguageSelector from "@/components/LanguageSelector";
-
-interface FeedbackCounts {
-  support: number;
-  insightful: number;
-  celebrate: number;
-}
 
 const Index = () => {
   const [showSubscriptionMessage, setShowSubscriptionMessage] = useState(false);
@@ -30,31 +24,6 @@ const Index = () => {
   const [startedFeedback, setStartedFeedback] = useState<string | null>(null);
   const [visionFeedback, setVisionFeedback] = useState<string | null>(null);
   const [testimonialsFeedback, setTestimonialsFeedback] = useState<string | null>(null);
-  
-  // New state for feedback counts
-  const [briefFeedbackCounts, setBriefFeedbackCounts] = useState<FeedbackCounts>({
-    support: 12,
-    insightful: 8,
-    celebrate: 5
-  });
-  
-  const [startedFeedbackCounts, setStartedFeedbackCounts] = useState<FeedbackCounts>({
-    support: 7,
-    insightful: 15,
-    celebrate: 9
-  });
-  
-  const [visionFeedbackCounts, setVisionFeedbackCounts] = useState<FeedbackCounts>({
-    support: 18,
-    insightful: 22,
-    celebrate: 14
-  });
-  
-  const [testimonialsFeedbackCounts, setTestimonialsFeedbackCounts] = useState<FeedbackCounts>({
-    support: 5,
-    insightful: 10,
-    celebrate: 7
-  });
   
   const [selectedLeaderId, setSelectedLeaderId] = useState<number | null>(null);
   
@@ -320,38 +289,32 @@ const Index = () => {
     setCurrentLanguage(language);
   };
 
-  // New handlers for feedback clicks with counter increment
-  const handleBriefFeedback = (type: keyof FeedbackCounts) => {
-    setBriefFeedback(type);
-    setBriefFeedbackCounts(prev => ({
-      ...prev,
-      [type]: prev[type] + 1
-    }));
-  };
-
-  const handleStartedFeedback = (type: keyof FeedbackCounts) => {
-    setStartedFeedback(type);
-    setStartedFeedbackCounts(prev => ({
-      ...prev,
-      [type]: prev[type] + 1
-    }));
-  };
-
-  const handleVisionFeedback = (type: keyof FeedbackCounts) => {
-    setVisionFeedback(type);
-    setVisionFeedbackCounts(prev => ({
-      ...prev,
-      [type]: prev[type] + 1
-    }));
-  };
-
-  const handleTestimonialsFeedback = (type: keyof FeedbackCounts) => {
-    setTestimonialsFeedback(type);
-    setTestimonialsFeedbackCounts(prev => ({
-      ...prev,
-      [type]: prev[type] + 1
-    }));
-  };
+  const FeedbackButton = ({ 
+    type, 
+    label, 
+    icon, 
+    selected, 
+    onSelect 
+  }: { 
+    type: string, 
+    label: string, 
+    icon: React.ReactNode, 
+    selected: boolean, 
+    onSelect: () => void 
+  }) => (
+    <button
+      onClick={onSelect}
+      className={cn(
+        "inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium transition-colors",
+        selected 
+          ? "bg-teal-100 text-teal-800 border border-teal-300" 
+          : "bg-gray-100 text-gray-600 hover:bg-gray-200 border border-transparent"
+      )}
+    >
+      {icon}
+      {label}
+    </button>
+  );
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -421,24 +384,21 @@ const Index = () => {
                     label="Support" 
                     icon={<Heart className="h-3 w-3" />} 
                     selected={briefFeedback === "support"} 
-                    onSelect={() => handleBriefFeedback("support")}
-                    count={briefFeedbackCounts.support}
+                    onSelect={() => setBriefFeedback("support")} 
                   />
                   <FeedbackButton 
                     type="insightful" 
                     label="Insightful" 
                     icon={<ThumbsUp className="h-3 w-3" />} 
                     selected={briefFeedback === "insightful"} 
-                    onSelect={() => handleBriefFeedback("insightful")}
-                    count={briefFeedbackCounts.insightful}
+                    onSelect={() => setBriefFeedback("insightful")} 
                   />
                   <FeedbackButton 
                     type="celebrate" 
                     label="Celebrate" 
                     icon={<Trophy className="h-3 w-3" />} 
                     selected={briefFeedback === "celebrate"} 
-                    onSelect={() => handleBriefFeedback("celebrate")}
-                    count={briefFeedbackCounts.celebrate}
+                    onSelect={() => setBriefFeedback("celebrate")} 
                   />
                 </div>
               </div>
@@ -456,24 +416,21 @@ const Index = () => {
                     label="Support" 
                     icon={<Heart className="h-3 w-3" />} 
                     selected={startedFeedback === "support"} 
-                    onSelect={() => handleStartedFeedback("support")}
-                    count={startedFeedbackCounts.support}
+                    onSelect={() => setStartedFeedback("support")} 
                   />
                   <FeedbackButton 
                     type="insightful" 
                     label="Insightful" 
                     icon={<ThumbsUp className="h-3 w-3" />} 
                     selected={startedFeedback === "insightful"} 
-                    onSelect={() => handleStartedFeedback("insightful")}
-                    count={startedFeedbackCounts.insightful}
+                    onSelect={() => setStartedFeedback("insightful")} 
                   />
                   <FeedbackButton 
                     type="celebrate" 
                     label="Celebrate" 
                     icon={<Trophy className="h-3 w-3" />} 
                     selected={startedFeedback === "celebrate"} 
-                    onSelect={() => handleStartedFeedback("celebrate")}
-                    count={startedFeedbackCounts.celebrate}
+                    onSelect={() => setStartedFeedback("celebrate")} 
                   />
                 </div>
               </div>
@@ -494,24 +451,21 @@ const Index = () => {
                     label="Support" 
                     icon={<Heart className="h-3 w-3" />} 
                     selected={visionFeedback === "support"} 
-                    onSelect={() => handleVisionFeedback("support")}
-                    count={visionFeedbackCounts.support}
+                    onSelect={() => setVisionFeedback("support")} 
                   />
                   <FeedbackButton 
                     type="insightful" 
                     label="Insightful" 
                     icon={<ThumbsUp className="h-3 w-3" />} 
                     selected={visionFeedback === "insightful"} 
-                    onSelect={() => handleVisionFeedback("insightful")}
-                    count={visionFeedbackCounts.insightful}
+                    onSelect={() => setVisionFeedback("insightful")} 
                   />
                   <FeedbackButton 
                     type="celebrate" 
                     label="Celebrate" 
                     icon={<Trophy className="h-3 w-3" />} 
                     selected={visionFeedback === "celebrate"} 
-                    onSelect={() => handleVisionFeedback("celebrate")}
-                    count={visionFeedbackCounts.celebrate}
+                    onSelect={() => setVisionFeedback("celebrate")} 
                   />
                 </div>
               </div>
@@ -684,8 +638,68 @@ const Index = () => {
                     label="Support" 
                     icon={<Heart className="h-3 w-3" />} 
                     selected={testimonialsFeedback === "support"} 
-                    onSelect={() => handleTestimonialsFeedback("support")}
-                    count={testimonialsFeedbackCounts.support}
+                    onSelect={() => setTestimonialsFeedback("support")} 
                   />
                   <FeedbackButton 
-                    type="insight
+                    type="insightful" 
+                    label="Insightful" 
+                    icon={<ThumbsUp className="h-3 w-3" />} 
+                    selected={testimonialsFeedback === "insightful"} 
+                    onSelect={() => setTestimonialsFeedback("insightful")} 
+                  />
+                  <FeedbackButton 
+                    type="celebrate" 
+                    label="Celebrate" 
+                    icon={<Trophy className="h-3 w-3" />} 
+                    selected={testimonialsFeedback === "celebrate"} 
+                    onSelect={() => setTestimonialsFeedback("celebrate")} 
+                  />
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
+        
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">Investors Documents</h2>
+          
+          <div className="grid md:grid-cols-2 gap-6">
+            {documents.map((doc, index) => (
+              <DocumentCard 
+                key={index} 
+                title={doc.title} 
+                size={doc.size} 
+                icon={doc.icon} 
+                type={doc.type}
+                onRequestAccess={() => handleRequestAccess(doc.title)}
+              />
+            ))}
+          </div>
+        </section>
+      </main>
+
+      <Footer />
+
+      <SubscriptionDialog
+        open={showSubscribeDialog}
+        onOpenChange={setShowSubscribeDialog}
+        type="subscribe"
+      />
+
+      <SubscriptionDialog
+        open={showRequestAccessDialog}
+        onOpenChange={setShowRequestAccessDialog}
+        type="requestAccess"
+        documentTitle={currentDocument || undefined}
+      />
+
+      <SubscriptionDialog
+        open={showFounderUpdatesDialog}
+        onOpenChange={setShowFounderUpdatesDialog}
+        type="founderUpdates"
+      />
+    </div>
+  );
+};
+
+export default Index;
