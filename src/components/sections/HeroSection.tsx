@@ -109,7 +109,7 @@ const HeroSection = ({
       <Card className="p-5 bg-gray-50 border-0 shadow-none">
         <h2 className="font-medium text-lg mb-2">In brief</h2>
         <p className="text-gray-600 text-sm">
-          Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad.
+          Moneco is the financial app for Africans in Europe. We go through the same difficulties as you, that's why we've developed a solution. Opening an account, dealing with the prefecture, finding a place to live without a guarantor, sending money back home - your challenges are also ours. Moneco enables users to open an account in just 5 minutes with only a passport (French IBAN), access an international Visa payment card, and process wire transfers at lower costs.
         </p>
         <Button 
           variant="link" 

@@ -53,7 +53,7 @@ const AboutDialog = ({ open, onOpenChange }: AboutDialogProps) => {
           <div>
             <h3 className="text-xl font-semibold mb-4">In Brief</h3>
             <p className="text-gray-700 leading-relaxed">
-              Moneco is a financial application designed primarily for the African diaspora, offering a range of financial services tailored to ease the financial integration and operations for Africans living abroad, especially in Europe. Moneco aims to provide a secure and convenient financial tool for Africans abroad, simplifying money management and enabling easy access to financial services both in their home countries and abroad. For more detailed information on their services and features.
+              Moneco is the financial app for Africans in Europe. We go through the same difficulties as you, that's why we've developed a solution. Opening an account, dealing with the prefecture, finding a place to live without a guarantor, sending money back home - your challenges are also ours. Moneco enables users to open an account in just 5 minutes with only a passport (French IBAN), access an international Visa payment card, and process wire transfers at lower costs. In addition, Moneco eases the settlement of Africans in France with its free tool, Destination France, which maps all the migration procedures. We've also developed partnerships to answer basic settlement needs (garant, housing insurance, sim card, etc).
             </p>
             <div className="mt-4 flex gap-2">
               <FeedbackButton 
@@ -85,7 +85,7 @@ const AboutDialog = ({ open, onOpenChange }: AboutDialogProps) => {
           <div>
             <h3 className="text-xl font-semibold mb-4">How Moneco Started</h3>
             <p className="text-gray-700 leading-relaxed">
-              Moneco was founded in 2022 by a team of African professionals with experience in fintech and banking who recognized the challenges faced by the African diaspora in accessing affordable financial services. The founders, having personally experienced the high costs and limitations of traditional banking systems for cross-border transactions, set out to create a solution that would specifically address these pain points. Starting with remittance services, Moneco has since expanded to offer a comprehensive suite of financial tools tailored to the unique needs of Africans living abroad.
+              Through our personal and professional backgrounds, we are particularly familiar with the challenges of French-speaking Africa and the difficulties associated with migration. Some of us have spent our entire lives on the continent, others have migrated to Europe, and others were born in Europe from families of the diaspora - the Moneco team represents all the specificities of the diaspora. This diversity of experiences gives us unique insights into the challenges faced by Africans in Europe and has driven us to create solutions that address these specific needs.
             </p>
             <div className="mt-4 flex gap-2">
               <FeedbackButton 
@@ -117,10 +117,10 @@ const AboutDialog = ({ open, onOpenChange }: AboutDialogProps) => {
           <div>
             <h3 className="text-xl font-semibold mb-4">Moneco Mission and Long-term Vision</h3>
             <p className="text-gray-700 leading-relaxed">
-              Moneco's mission is to empower the African diaspora with accessible, affordable, and inclusive financial services that bridge the gap between their host countries and home countries. By leveraging technology, Moneco aims to reduce the cost of remittances, provide transparent banking services, and create economic opportunities for Africans worldwide.
+              Moneco's mission is to empower the African diaspora in Europe with accessible, affordable, and inclusive financial services that address their unique challenges. By leveraging technology, Moneco aims to reduce the cost of remittances, provide transparent banking services, and create economic opportunities for Africans in Europe while maintaining their connection to home.
             </p>
             <p className="text-gray-700 leading-relaxed mt-4">
-              The long-term vision of Moneco is to become the leading financial platform for the global African community, facilitating not just money transfers but also investments, business financing, and wealth creation opportunities that contribute to the development of African economies while improving the financial well-being of the diaspora.
+              The long-term vision of Moneco extends beyond just financial services. We aim to become a comprehensive platform that supports the entire journey of Africans in Europe - from the initial settlement process to building financial stability and creating wealth for future generations. Through tools like Destination France and partnerships focused on essential needs, we're working to remove barriers and create pathways to success for the African diaspora.
             </p>
             <div className="mt-4 flex gap-2">
               <FeedbackButton 
