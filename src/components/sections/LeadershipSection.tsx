@@ -1,8 +1,8 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { GraduationCap, Briefcase } from "lucide-react";
 import LeadershipCard from "@/components/LeadershipCard";
+import { format, subDays } from "date-fns";
 
 interface LeadershipSectionProps {
   onSubscribe: () => void;
@@ -12,6 +12,9 @@ interface LeadershipSectionProps {
 const LeadershipSection = ({ onSubscribe, onFounderUpdates }: LeadershipSectionProps) => {
   const [selectedLeaderId, setSelectedLeaderId] = useState<number | null>(null);
   const [showSubscriptionMessage, setShowSubscriptionMessage] = useState(false);
+
+  const messageDate = subDays(new Date(), 27);
+  const formattedDate = format(messageDate, "MMMM d, yyyy");
 
   const leaders = [
     {
@@ -139,6 +142,7 @@ const LeadershipSection = ({ onSubscribe, onFounderUpdates }: LeadershipSectionP
                   Co-Founder
                 </span>
               </h3>
+              <div className="text-xs text-gray-500 mb-2">{formattedDate}</div>
               <div className="prose text-gray-700">
                 <p className="italic text-gray-600 mb-4">
                   "At Moneco, we're not just building a financial application – we're creating a bridge between continents and communities. Our mission is deeply personal to us, as members of the African diaspora ourselves. We understand the challenges of sending money home, managing finances across borders, and creating wealth for our families."
