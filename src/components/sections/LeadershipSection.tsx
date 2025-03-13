@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { GraduationCap, Briefcase } from "lucide-react";
@@ -145,13 +146,13 @@ const LeadershipSection = ({ onSubscribe, onFounderUpdates }: LeadershipSectionP
               <div className="text-xs text-gray-500 mb-2">{formattedDate}</div>
               <div className="prose text-gray-700">
                 <p className="italic text-gray-600 mb-4">
-                  "At Moneco, we're not just building a financial application – we're creating a bridge between continents and communities. Our mission is deeply personal to us, as members of the African diaspora ourselves. We understand the challenges of sending money home, managing finances across borders, and creating wealth for our families."
+                  "Having lived the challenges of cross-border finance firsthand, we founded Moneco with a clear vision: to transform how the African diaspora manages money across continents. This isn't merely a business opportunity – it's a mission deeply rooted in our lived experiences and commitment to financial inclusion."
                 </p>
                 <p className="text-gray-700 mb-4">
-                  We've designed Moneco to address real pain points with innovative solutions. Our growth metrics demonstrate the powerful market need we're filling, and we're just getting started. With your support, we can accelerate our expansion across Europe and Africa, bringing financial inclusion and opportunity to millions.
+                  Our metrics demonstrate exceptional product-market fit with 24,000+ accounts opened since 2023 and industry-leading customer retention rates. We've built a scalable infrastructure that generates revenue from day one through interchange fees, transfer commissions, and premium services, creating a sustainable growth model with strong unit economics.
                 </p>
                 <p className="text-gray-700">
-                  I invite you to join us on this journey. Together, we can transform how the African diaspora manages money while building a profitable and impactful business.
+                  With the €83 billion annual remittance market from Europe to Africa as our foundation, we're executing a clear strategy to expand across key European markets. Our team combines deep financial expertise with authentic cultural understanding – a unique advantage in this specialized market. For investors seeking both substantial returns and meaningful impact, Moneco represents that rare opportunity to achieve both simultaneously.
                 </p>
               </div>
               <Button 
