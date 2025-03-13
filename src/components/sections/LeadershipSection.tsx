@@ -146,13 +146,13 @@ const LeadershipSection = ({ onSubscribe, onFounderUpdates }: LeadershipSectionP
               <div className="text-xs text-gray-500 mb-2">{formattedDate}</div>
               <div className="prose text-gray-700">
                 <p className="italic text-gray-600 mb-4">
-                  "Having lived the challenges of cross-border finance firsthand, we founded Moneco with a clear vision: to transform how the African diaspora manages money across continents. This isn't merely a business opportunity – it's a mission deeply rooted in our lived experiences and commitment to financial inclusion."
+                  "Having lived the challenges of cross-border finance firsthand, we founded Moneco with a clear vision: to transform how the African diaspora manages money across continents. This isn't merely a business opportunity, it's a mission deeply rooted in our lived experiences and commitment to financial inclusion."
                 </p>
                 <p className="text-gray-700 mb-4">
-                  Our metrics demonstrate exceptional product-market fit with 24,000+ accounts opened since 2023 and industry-leading customer retention rates. We've built a scalable infrastructure that generates revenue from day one through interchange fees, transfer commissions, and premium services, creating a sustainable growth model with strong unit economics.
+                  Our metrics demonstrate exceptional product-market fit for our ICP. We've built a scalable infrastructure that generates revenue from day one creating a sustainable growth model with strong unit economics.
                 </p>
                 <p className="text-gray-700">
-                  With the €83 billion annual remittance market from Europe to Africa as our foundation, we're executing a clear strategy to expand across key European markets. Our team combines deep financial expertise with authentic cultural understanding – a unique advantage in this specialized market. For investors seeking both substantial returns and meaningful impact, Moneco represents that rare opportunity to achieve both simultaneously.
+                  With the €83 billion annual remittance market from Europe to Africa as our foundation, we're executing a clear strategy to expand. Our team combines deep financial expertise with authentic cultural understanding, a unique advantage in this specialized market. We recognize that our progress is not just a result of our internal team's hard work, but also the confidence and resources that you, as our investors and partners, have invested in us. Thank you once again for your trust and commitment. We are excited to keep you updated on our progress and to continue this journey together, achieving new heights and creating lasting value. 
                 </p>
               </div>
               <Button 
