@@ -3,7 +3,6 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
-import StatCard from "@/components/StatCard";
 import LanguageSelector from "@/components/LanguageSelector";
 
 interface HeroSectionProps {
@@ -36,41 +35,6 @@ const HeroSection = ({
     }
   };
 
-  const stats = [
-    {
-      title: "$ 83 Billions",
-      description: "Yearly financial transfers (Remittances) from Europe to Africa",
-      source: "world bank",
-      animate: false,
-      icon: <div className="h-5 w-5 flex items-center justify-center">💵</div>,
-      sourceUrl: "https://www.worldbank.org/en/topic/migrationremittancesdiasporaissues/brief/migration-remittances-data",
-      variant: "highlight" as const,
-      hasGraph: false
-    },
-    {
-      title: "Save $15",
-      description: "Moneco customers save on average $15 on a $200 transfer, paying only 25¢ in fees.",
-      source: "Moneco Website - Pricing",
-      animate: false,
-      icon: <div className="h-5 w-5 flex items-center justify-center">💰</div>,
-      sourceUrl: "https://moneco.app/pricing",
-      variant: "default" as const,
-      hasGraph: false
-    },
-    {
-      title: "24'000",
-      description: "Accounts opened since 2023",
-      source: "Mixpanel",
-      animate: true,
-      finalValue: 24357,
-      animationDuration: 20000,
-      icon: <div className="h-5 w-5 flex items-center justify-center">👤</div>,
-      sourceUrl: "https://mixpanel.com",
-      variant: "outlined" as const,
-      hasGraph: true
-    }
-  ];
-
   return (
     <section className="mb-10">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
@@ -86,24 +50,6 @@ const HeroSection = ({
           currentLanguage={currentLanguage} 
           onLanguageChange={onLanguageChange} 
         />
-      </div>
-      
-      <div className="grid md:grid-cols-3 gap-6 mb-10">
-        {stats.map((stat, index) => (
-          <StatCard 
-            key={index} 
-            title={stat.title} 
-            description={stat.description} 
-            source={stat.source} 
-            animate={stat.animate}
-            finalValue={stat.finalValue}
-            animationDuration={stat.animationDuration}
-            icon={stat.icon}
-            sourceUrl={stat.sourceUrl}
-            variant={stat.variant}
-            hasGraph={stat.hasGraph}
-          />
-        ))}
       </div>
       
       <Card className="p-5 bg-gray-50 border-0 shadow-none">
